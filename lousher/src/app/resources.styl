@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap')
+
+// variables
+
+theme-color = #F26676
+dark-color = #333333
+gray-color = #868686
+lighter-gray-color = #F5F5F5
+text-color = dark-color
+font-family = 'Montserrat', sans-serif
+
+// mixins
+
+one-line-text()
+  text-overflow ellipsis
+  overflow hidden
+  white-space nowrap
+
+box-shadow(value)
+  -webkit-box-shadow value
+  -moz-box-shadow value
+  box-shadow value
+
+box-sizing()
+  box-sizing border-box
+  -moz-box-sizing border-box
+  -webkit-box-sizing border-box
+
+border-radius(n)
+  -webkit-border-radius n
+  -moz-border-radius n
+  border-radius n
+
+z-index(n)
+  -webkit-z-index n
+  -moz-z-index n
+  -ms-z-index n
+  -o-z-index n
+  z-index n
+
+transition(n)
+  @supports (transition initial)
+    transition n
+
+flex()
+  display -webkit-box
+  display -moz-box
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+
+flex-parent(fl-direction, fl-wrap, justify-cont)
+  flex()
+  flex-direction fl-direction
+  flex-wrap fl-wrap
+  justify-content justify-cont
+
+select(val)
+  -webkit-touch-callout val
+  -webkit-user-select val
+  -khtml-user-select val
+  -moz-user-select val
+  -ms-user-select val
+  user-select val
+
+transform(val)
+  -ms-transform val
+  -moz-transform val
+  -webkit-transform val
+  -o-transform val
+  transform val
+
+animation(val)
+  -webkit-animation val /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation val /* Firefox < 16 */
+  -ms-animation val /* Internet Explorer */
+  -o-animation val /* Opera < 12.1 */
+  animation val
+
+fadeIn(time)
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Firefox < 16 */
+  @-moz-keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Safari, Chrome and Opera > 12.1 */
+  @-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Internet Explorer */
+  @-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Opera < 12.1 */
+  @-o-keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  animation(fadein time)
+
+filter(val)
+  -webkit-filter val
+  -moz-filter val
+  -o-filter val
+  -ms-filter val
+  filter val
+
+selection-color(selected-color, background-color)
+  ::-moz-selection
+    color selected-color
+    background background-color
+  ::selection
+    color selected-color
+    background background-color

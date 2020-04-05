@@ -1,0 +1,27 @@
+<!-- CART -->
+
+<div class="cart" *ngIf="cartService.toggleState$ | async">
+
+  <div class="cart-head">
+    <p class="cart-title">Lista de compras</p>
+    <p class="total-price">R$ {{ cartService.totalPrice || 0 }}</p>
+  </div>
+
+  <p class="no-items" *ngIf="!cartService.items.length">Ainda não há ítens em seu carrinho</p>
+
+  <div class="cart-list" *ngFor="let item of cartService.items">
+    <div class="cart-item">
+
+      <div class="item-img-box">
+          <img src="assets/img/wine-bottle.png" alt="{{ item.name }}" class="item-img">
+        </div>
+        <div class="item-text-box">
+          <p class="cart-item-title">{{ item.name }}</p>
+          <p class="cart-item-price-and-quantity">{{ item.price }} x {{ item.quantity || 0 }}</p>
+          <a class="cart-item-link" routerLink="/produto">Ver produto</a>
+        </div>
+      </div>
+
+  </div>
+
+</div>

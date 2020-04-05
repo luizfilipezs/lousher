@@ -1,0 +1,86 @@
+@import '../resources.styl'
+
+.cart
+  position fixed
+  z-index 2
+  right 0
+  bottom 0
+  width 30.15em
+  height calc(100vh - 10.9em)
+  padding 5em 3em 0 3em
+  fadeIn(.2s)
+  box-shadow(-3px 10px 30px 0px rgba(0,0,0,0.11))
+  background-color #fff
+
+  .cart-head
+    width 100%
+    height auto
+    flex-parent(row, wrap, space-between)
+
+    .cart-title
+      align-self center
+      font-size 1.8em
+      font-weight 600
+
+    .total-price
+      padding .4em 1em .35em 1em
+      font-size 1.6em
+      font-weight 500
+      color theme-color
+      border-radius(.8em)
+      background-color lighter-gray-color
+
+  .no-items
+    width 100%
+    margin-top 2.5em
+    font-size 1.3em
+    font-weight 500
+    color #BABABA
+    text-align left
+
+  .cart-list
+    width 100%
+    height auto
+    margin-top 3em
+    flex-parent(row, nowrap, center)
+
+    .cart-item
+      flex-basis 100%
+      height auto
+      flex-parent(row, nowrap, space-between)
+      
+      .item-img-box
+        flex-basis 10em
+        height 10em
+        border-radius(50%)
+        flex-parent(row, nowrap, center)
+        background-color lighter-gray-color
+
+        .item-img
+          flex-basis auto
+          align-self center
+          height 82.5%
+      
+      .item-text-box
+        min-width 0
+        flex-basis calc(100% - 11.5em)
+        align-self center
+        height auto
+
+        .cart-item-title
+          font-size 1.6em
+          font-weight 500
+          one-line-text()
+        
+        .cart-item-price-and-quantity
+          margin-top .35em
+          font-size 1.5em
+          color gray-color
+
+        .cart-item-link
+          margin-top .6em
+          font-size 1.3em
+          color theme-color
+
+          &:hover
+            text-decoration underline

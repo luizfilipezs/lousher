@@ -1,0 +1,103 @@
+@import '../resources.styl'
+
+.main-header
+  position fixed
+  z-index 3
+  top 0
+  left 0
+  width 100%
+  height 5.8em
+  padding-bottom .1em
+  background-color lighter-gray-color
+  flex-parent(row, nowrap, flex-start)
+  transition(.2s)
+
+  &.shaded-header
+    box-shadow(0px 2px 20px 0px rgba(0,0,0,0.11))
+
+  // LOGO
+
+  .site-title-box
+    flex-basis 24em
+    height 100%
+    flex-parent(row, nowrap, center)
+
+    .logo-img
+      flex-basis 3em
+      height 3em
+      align-self center
+      margin-left -.5em
+      cursor pointer
+
+    .site-title
+      flex-basis auto
+      align-self center
+      margin-top .15em
+      margin-left 1em
+      // text
+      font-size 1.6em
+      font-style italic
+      font-weight 800
+      color theme-color
+      text-transform uppercase
+
+  // WHITE BLOCKS
+
+  .white-block
+    flex-basis 1
+    height 100%
+    border-left 1px solid lighter-gray-color
+    background-color #fff
+
+    &.home-block
+      width 5.8em
+      flex-parent(row, nowrap, center)
+      cursor pointer
+
+      .home-icon
+        flex-basis 2.25em
+        height 2.25em
+        align-self center
+
+    &.access-button
+      padding 0 3em 0 3em
+      flex-parent(row, nowrap, center)
+      cursor pointer
+
+      .search-icon
+        flex-basis 2.5em
+        height 2.5em
+        align-self center
+        cursor pointer
+
+      .cart-icon
+        flex-basis 2em
+        height 2em
+        align-self center
+
+      .account-icon
+        flex-basis 1.8em
+        height 1.8em
+        align-self center
+
+      .access-name
+        align-self center
+        margin-left 1.4em
+        font-size 1.6em
+        font-weight normal
+
+      .search-input
+        flex-grow 1
+        align-self center
+        padding .35em 0 .25em 0
+        margin-right 1.5em
+        font-size 1.6em
+        border-bottom 1px solid transparent
+        box-sizing()
+        transition(.2s)
+
+        &:focus
+          border-color #CCC
+
+    &.grow-block
+      flex-grow 1
