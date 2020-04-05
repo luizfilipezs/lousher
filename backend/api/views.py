@@ -1,19 +1,30 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from rest_framework import viewsets, mixins
+from rest_framework import permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import User, Produto
+from .serializers import UserSerializer, ProdutoSerializer
 
-from .utils import gerar_json
-from .debug import terminal, DecoratorTools as decorators
 
-from .models import ItemCarrinho
+class UserViewSet(viewsets.ModelViewSet):
+	queryset = User.objects.all().order_by('-date_joined')
+	serializer_class = UserSerializer
+	permission_classes = [permissions.IsAuthenticated]
 
+class ProdutoReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
+	queryset = Produto.objects.all().order_by('id')
+	serializer_class = ProdutoSerializer
+	permission_classes = [permissions.AllowAny]
 
-def testing(request):
-    return HttpResponse('ok', status=200)
+class ProdutoViewSet(viewsets.ModelViewSet):
+	queryset = Produto.objects.all().order_by('id')
+	serializer_class = ProdutoSerializer
+	permission_classes = [permissions.IsAdminUser]
 
-def getItensCarrinho(request):
-	if request.user.is_authenticated:
-		itens = ItemCarrinho.objects.filter(usuario=request.user)
-		itens = [{'id': item.produto.id, 'quantidade': item.quantidade} for item in itens]
-		return JsonResponse(itens)
-	else:
-		return HttpResponse(content='É preciso iniciar sessão para ver esta página.', status=403)
+"""
+class ProdutoViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin):
+	queryset = Produto.objects.all().order_by('id')
+	serializer_class = ProdutoSerializer
+	permission_classes = [permissions.AllowAny]
+"""

@@ -24,4 +24,4 @@ class Produto(models.Model):
 class ItemCarrinho(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    quantidade = models.PositiveIntegerField(default=1)
+    quantidade = models.PositiveIntegerField(default=1) 
