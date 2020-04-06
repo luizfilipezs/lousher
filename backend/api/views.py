@@ -1,30 +1,48 @@
 from django.shortcuts import render
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets
 from rest_framework import permissions
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from .models import User, Produto
-from .serializers import UserSerializer, ProdutoSerializer
+from django.shortcuts import get_object_or_404
 
+from .models import User, Produto, Endereco
+from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer
+
+from api.permission_classes import IsAdminOrReadOnly
+
+
+# USER
 
 class UserViewSet(viewsets.ModelViewSet):
 	queryset = User.objects.all().order_by('-date_joined')
 	serializer_class = UserSerializer
 	permission_classes = [permissions.IsAuthenticated]
 
-class ProdutoReadOnlyViewSet(viewsets.ReadOnlyModelViewSet):
-	queryset = Produto.objects.all().order_by('id')
-	serializer_class = ProdutoSerializer
-	permission_classes = [permissions.AllowAny]
+# PRODUTO
 
 class ProdutoViewSet(viewsets.ModelViewSet):
-	queryset = Produto.objects.all().order_by('id')
+	queryset = Produto.objects.all().order_by('-id')
 	serializer_class = ProdutoSerializer
+	permission_classes = [IsAdminOrReadOnly]
+
+# ENDEREÇO
+
+class EnderecoViewSet(viewsets.ModelViewSet):
+	queryset = Endereco.objects.all().order_by('id')
+	serializer_class = EnderecoSerializer
 	permission_classes = [permissions.IsAdminUser]
 
-"""
-class ProdutoViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin):
-	queryset = Produto.objects.all().order_by('id')
-	serializer_class = ProdutoSerializer
-	permission_classes = [permissions.AllowAny]
-"""
+class EnderecosUsuarioViewSet(viewsets.ViewSet):
+	permission_classes = [permissions.IsAuthenticated]
+	
+	def list(self, request):
+		queryset = Endereco.objects.filter(usuario=request.user)
+		serializer = EnderecoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
+	def retrieve(self, request, pk=None):
+		queryset = Endereco.objects.all()
+		endereco = get_object_or_404(queryset, pk=pk)
+		serializer = EnderecoSerializer(endereco)
+		return Response(serializer.data)
