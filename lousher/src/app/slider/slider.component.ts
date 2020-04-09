@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild, HostListener } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  HostListener
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -6,13 +12,13 @@ import { RouterLink } from '@angular/router';
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.styl']
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent implements AfterViewInit {
 
   @ViewChild('slider') slider: ElementRef;
 
   constructor() { }
-
-  ngOnInit() {
+  
+  ngAfterViewInit() {
     this.slider.nativeElement.scrollLeft = 0;
     this.adjustButtons(true);
   }

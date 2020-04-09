@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../cart.service';
+//import { ImageService } from '../image.service';
 
 @Component({
   selector: 'app-cart',

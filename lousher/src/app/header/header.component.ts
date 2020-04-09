@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 
 import { CartService } from '../cart.service';
 
+let header;
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,6 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(private cartService: CartService) { }
 
   ngOnInit() {
+    header = document.querySelector('.main-header');
   }
 
   search(input: HTMLInputElement): void {
@@ -29,8 +32,6 @@ export class HeaderComponent implements OnInit {
 
   @HostListener('window:scroll')
   toggleShadow(): void {
-    const header = document.querySelector('.main-header');
-    
     if (window.scrollY > 58) {
       if (!header.classList.contains('shaded-header'))
         header.classList.add('shaded-header');
