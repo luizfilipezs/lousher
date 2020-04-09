@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
-from .models import User, Produto, Endereco
+from .models import User, Produto, Endereco, ItemCarrinho
 from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer
 
 from api.permission_classes import IsAdminOrReadOnly
@@ -26,6 +26,9 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	serializer_class = ProdutoSerializer
 	permission_classes = [IsAdminOrReadOnly]
 
+
+
+"""
 # ENDEREÇO
 
 class EnderecoViewSet(viewsets.ModelViewSet):
@@ -46,3 +49,4 @@ class EnderecosUsuarioViewSet(viewsets.ViewSet):
 		endereco = get_object_or_404(queryset, pk=pk)
 		serializer = EnderecoSerializer(endereco)
 		return Response(serializer.data)
+"""

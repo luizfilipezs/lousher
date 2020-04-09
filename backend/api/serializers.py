@@ -1,4 +1,4 @@
-from .models import User, Produto, Endereco
+from .models import User, Produto, Endereco, ItemCarrinho
 from rest_framework import serializers
 
 
