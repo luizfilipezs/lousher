@@ -26,27 +26,30 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	serializer_class = ProdutoSerializer
 	permission_classes = [IsAdminOrReadOnly]
 
-
-
-"""
-# ENDEREÇO
-
-class EnderecoViewSet(viewsets.ModelViewSet):
-	queryset = Endereco.objects.all().order_by('id')
-	serializer_class = EnderecoSerializer
-	permission_classes = [permissions.IsAdminUser]
-
-class EnderecosUsuarioViewSet(viewsets.ViewSet):
+class EnderecoViewSet(viewsets.ViewSet):
 	permission_classes = [permissions.IsAuthenticated]
 	
 	def list(self, request):
-		queryset = Endereco.objects.filter(usuario=request.user)
+		queryset = request.user.enderecos
 		serializer = EnderecoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
 	def retrieve(self, request, pk=None):
-		queryset = Endereco.objects.all()
+		queryset = request.user.enderecos
 		endereco = get_object_or_404(queryset, pk=pk)
 		serializer = EnderecoSerializer(endereco)
 		return Response(serializer.data)
-"""
+
+	def create(self, request):
+		novo_endereco = Endereco.objects.create(request.data)
+		request.user.enderecos.add(EnderecoSerializer(novo_endereco))
+		return Response(status=201)
+
+	def update(self, request, pk=None):
+		endereco = EnderecoSerializer(request.data)
+		Endereco.objects.filter(pk=pk).update(endereco)
+		return Response(endereco.data)
+
+	def destroy(self, request, pk=None):
+		Endereco.objects.filter(pk=pk).delete()
+		return Response(status=200)

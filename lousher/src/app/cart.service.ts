@@ -19,6 +19,11 @@ export class CartService {
 
   constructor() { }
 
+  toggleCart(): void {
+    this.toggleVal = !this.toggleVal;
+    this.toggleState.next(this.toggleVal);
+  }
+
   get items() {
     return this._items;
   }
@@ -30,7 +35,6 @@ export class CartService {
   }
 
   getItems(): void {
-    /* api/cart */
     of(cartItems).subscribe((items) => this.items = items);
   }
 
@@ -44,10 +48,5 @@ export class CartService {
     /*         method   id  qntd
       api/cart/remove/314134/1
     */
-  }
-
-  toggleCart(): void {
-    this.toggleVal = !this.toggleVal;
-    this.toggleState.next(this.toggleVal);
   }
 }
