@@ -1,3 +1,28 @@
 <div class="login-box">
-  
+  <div class="inner-box login-or-register" *ngIf="authService.isLoggedOut()">
+
+    <p class="section-title theme-color">Entrar</p>
+
+    <form class="form theme-form" #loginForm>
+      <input #usernameLogin type="text" placeholder="Nome de usuário" class="text-input" required>
+      <input #passwordLogin type="password" placeholder="Senha" class="text-input" required>
+      <div class="button-wrapper bottom-distance">
+        <input type="button" value="Continuar" class="submit-btn" (click)="login(usernameLogin.value, passwordLogin.value)"><br>
+      </div>
+    </form>
+
+    <p class="section-title">Cadastrar</p>
+
+    <form class="form" #registerForm>
+      <input #username type="text" placeholder="Nome de usuário" class="text-input" required>
+      <input #email type="email" placeholder="Email" class="text-input" required>
+      <input #passwordOne type="password" placeholder="Senha" class="text-input" required>
+      <input #passwordTwo type="password" placeholder="Repetir senha" class="text-input" required>
+      <div class="button-wrapper">
+        <input type="button" value="Continuar" class="submit-btn dark-color" (click)="signup(username.value, email.value, passwordOne.value, passwordTwo.value)"><br>
+      </div>
+    </form>
+
+  </div>
+  <div class="inner-box my-account" *ngIf="authService.isLoggedIn()">Você está logado. <span style="text-transform: underline; color: deepskyblue" (click)="logout()">Clique aqui para sair.</span></div>
 </div>

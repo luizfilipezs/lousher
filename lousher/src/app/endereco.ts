@@ -7,5 +7,5 @@ export interface Endereco {
   complemento: string;
   telefone: string;
   email: string;
-  nomeDestinatario: string;
+  nome_destinatario: string;
 }

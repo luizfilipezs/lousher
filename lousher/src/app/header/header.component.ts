@@ -2,8 +2,9 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../cart.service';
+import { AuthService } from '../auth.service';
 
-let header;
+let header: HTMLElement;
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,9 @@ let header;
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private cartService: CartService) { }
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     header = document.querySelector('.main-header');
@@ -27,7 +30,7 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleCart(): void {
-    this.cartService.toggleCart();
+    this.cartService.toggleView();
   }
 
   @HostListener('window:scroll')

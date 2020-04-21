@@ -1,15 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.styl']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements AfterViewInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+  }
+
+  login(username: string, password: string): void {
+    this.authService.login(username, password).subscribe();
+  }
+
+  signup(username: string, email: string, password1: string, password2: string): void {
+    this.authService.signup(username, email, password1, password2).subscribe();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 
 }

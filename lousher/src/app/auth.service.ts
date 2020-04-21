@@ -30,9 +30,13 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  get user(): JWTPayload {
+    return this.token ? jwtDecode(this.token) : null;
+  }
+
   login(username: string, password: string) {
     return this.http.post(
-      this.apiRoot.concat('login/'),
+      `${this.apiRoot}login/`,
       { username, password }
     ).pipe(
       tap(response => this.setSession(response)),
@@ -120,7 +124,7 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-interface JWTPayload {
+export interface JWTPayload {
   user_id: number;
   username: string;
   email: string;

@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService, AuthInterceptor, AuthGuard } from './auth.service';
 import { CartService } from './cart.service';
 import { ImageService } from './image.service';
+import { EnderecoService } from './endereco.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,11 +30,13 @@ import { LoginComponent } from './login/login.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
   ],
   providers: [
     CartService,
     ImageService,
+    EnderecoService,
     AuthService,
     AuthGuard,
     {

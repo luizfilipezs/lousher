@@ -1,27 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CartProduct } from './cart.product';
 import { cartItems } from './test';
+import { ToggleView } from './toggle.view';
+
 
 @Injectable()
-export class CartService {
-
-  // open/close component
-  private toggleState = new Subject();
-  public toggleState$ = this.toggleState.asObservable();
-  private toggleVal = false;
-
-  // items
+export class CartService extends ToggleView {
 
   private _items: Array<CartProduct> = [];
   public totalPrice = 0;
 
-  constructor() { }
-
-  toggleCart(): void {
-    this.toggleVal = !this.toggleVal;
-    this.toggleState.next(this.toggleVal);
+  constructor() {
+    super();
   }
 
   get items() {
