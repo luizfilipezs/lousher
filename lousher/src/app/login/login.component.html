@@ -1,4 +1,4 @@
-<div class="login-box">
+<div class="login-box" *ngIf="authService.toggleState$ | async">
   <div class="inner-box login-or-register" *ngIf="authService.isLoggedOut()">
 
     <p class="section-title theme-color">Entrar</p>
@@ -6,6 +6,7 @@
     <form class="form theme-form" #loginForm>
       <input #usernameLogin type="text" placeholder="Nome de usuário" class="text-input" required>
       <input #passwordLogin type="password" placeholder="Senha" class="text-input" required>
+      <p *ngIf="errorWhenLoggingIn" class="form-error">Algo está incorreto &#9888;</p>
       <div class="button-wrapper bottom-distance">
         <input type="button" value="Continuar" class="submit-btn" (click)="login(usernameLogin.value, passwordLogin.value)"><br>
       </div>
@@ -18,6 +19,7 @@
       <input #email type="email" placeholder="Email" class="text-input" required>
       <input #passwordOne type="password" placeholder="Senha" class="text-input" required>
       <input #passwordTwo type="password" placeholder="Repetir senha" class="text-input" required>
+      <p *ngIf="errorWhenRegistering" class="form-error">Alguma informação está incorreta ou em branco &#9888;</p>
       <div class="button-wrapper">
         <input type="button" value="Continuar" class="submit-btn dark-color" (click)="signup(username.value, email.value, passwordOne.value, passwordTwo.value)"><br>
       </div>

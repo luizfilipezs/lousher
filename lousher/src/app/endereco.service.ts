@@ -17,8 +17,8 @@ export class EnderecoService {
 
   constructor(private http: HttpClient) { }
 
-  getEnderecos(): Observable<Array<Endereco>> {
-    return this.http.get<Array<Endereco>>(this.apiRoot, httpOptions);
+  getEnderecos(): Observable<Endereco[]> {
+    return this.http.get<Endereco[]>(this.apiRoot, httpOptions);
   }
 
   getEnderecoById(id: number): Observable<Endereco> {

@@ -92,6 +92,8 @@ export class SliderComponent implements AfterViewInit {
       seconds--;
       await new Promise(r => setTimeout(r, 1000));
     }
-    element.textContent = 'Tempo esgotado!';
+
+    const parent = (element.parentElement || element.parentNode) as HTMLElement;
+    parent.remove();
   }
 }

@@ -9,7 +9,7 @@ import { ToggleView } from './toggle.view';
 @Injectable()
 export class CartService extends ToggleView {
 
-  private _items: Array<CartProduct> = [];
+  private _items: CartProduct[] = [];
   public totalPrice = 0;
 
   constructor() {

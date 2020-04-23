@@ -18,7 +18,7 @@
     <p class="access-name">Carrinho</p>
   </div>
   <!-- CONTA -->
-  <div class="white-block access-button">
+  <div class="white-block access-button" (click)="toggleAccount()">
     <img src="assets/icons/account.png" alt="Minha conta" class="account-icon">
     <p class="access-name" *ngIf="authService.isLoggedOut()">Fazer login</p>
     <p class="access-name" *ngIf="authService.isLoggedIn()">{{ authService.user.username }}</p>

@@ -33,6 +33,10 @@ export class HeaderComponent implements OnInit {
     this.cartService.toggleView();
   }
 
+  toggleAccount(): void {
+    this.authService.toggleView();
+  }
+
   @HostListener('window:scroll')
   toggleShadow(): void {
     if (window.scrollY > 58) {

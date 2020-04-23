@@ -9,13 +9,16 @@ import * as jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
 import { environment } from '../environments/environment';
+import { ToggleView } from './toggle.view';
 
 @Injectable()
-export class AuthService {
+export class AuthService extends ToggleView {
 
   private apiRoot = 'http://localhost:8000/auth/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   private setSession(authResult) {
     const token = authResult.token;
@@ -124,7 +127,7 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-export interface JWTPayload {
+interface JWTPayload {
   user_id: number;
   username: string;
   email: string;
