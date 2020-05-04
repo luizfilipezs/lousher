@@ -1,0 +1,125 @@
+@import '../resources.styl'
+
+.product-image-box
+  width 40%
+  height calc(100vh - 5.9em)
+  float left
+  background-color lighter-gray-color
+  flex-parent(row, wrap, center)
+  align-items center
+
+  .product-img
+    flex-basis auto
+    height 75%
+    filter(drop-shadow(6px 5px 30px rgba(#000, .2)))
+
+.product-info-box
+  width calc(60% - 20em)
+  height calc(100vh - 25.9em)
+  overflow-y auto
+  float left
+  padding 10em
+  background-color #fff
+  flex-parent(row, wrap, flex-start)
+  align-items center
+
+  .info-texts
+    width 100%
+    height auto
+
+    .pdct-name
+      width 30%
+      height auto
+      font-size 3.4em
+      font-weight 700
+      margin-bottom 1.2em
+    
+    .pdct-description
+      width 85%
+      height auto
+      font-size 1.65em
+      font-weight 500
+      color gray-color
+      line-height 1.7em
+
+    .price-and-quantity
+      width 35em
+      height 4em
+      margin 5em 0 3em 0
+      flex-parent(row, nowrap, flex-start)
+      align-items center
+
+      .price
+        font-size 2.5em
+        font-weight 600
+        margin-right 1em
+
+      .liquid-content
+        margin-top .3em
+        font-size 1.6em
+        font-weight 500
+        color gray-color
+
+      .define-quantity
+        flex-basis 10em
+        height 100%
+        margin-left auto
+        background-color lighter-gray-color
+        flex-parent(row, nowrap, space-between)
+        align-items center
+
+        span
+          font-weight 700
+
+        .quantity-to-add
+          font-size 1.9em
+          cursor default
+
+        .add-or-remove
+          padding 0 1em 0 1em
+          font-size 1.6em
+          cursor pointer
+
+          &.disabled-btn
+            color gray-color
+            cursor default
+
+    .add-to-cart-btn
+      width 22em
+      padding 1.3em 0 1.3em 0
+      font-size 1.6em
+      font-weight 600
+      text-align center
+      color #fff
+      box-shadow(0px 3px 20px 0px rgba(0,0,0,0.16))
+      background-color theme-color
+      cursor pointer
+      transition(.4s)
+
+      &:hover
+        background-color lighter-gray-color
+        color dark-color
+        box-shadow(0px 3px 10px 1px rgba(0,0,0,0.11))
+    
+    .details-box
+      width 70%
+      height auto
+      margin-top 6em
+
+      .detail
+        width 14em
+        height auto
+        margin-bottom 3em
+        float left
+
+        .detail-name
+        .detail-content
+          font-size 1.5em
+          font-weight 600
+
+        .detail-name
+          color gray-color
+          margin-bottom .5em
+
+        .detail-content
+          font-size 1.5em

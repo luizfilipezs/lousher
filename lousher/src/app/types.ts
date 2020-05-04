@@ -1,0 +1,1 @@
+export type callbackFunction = (...args: any[]) => void;

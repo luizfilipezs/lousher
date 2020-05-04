@@ -20,8 +20,8 @@
   <!-- CONTA -->
   <div class="white-block access-button" (click)="toggleAccount()">
     <img src="assets/icons/account.png" alt="Minha conta" class="account-icon">
-    <p class="access-name" *ngIf="authService.isLoggedOut()">Fazer login</p>
-    <p class="access-name" *ngIf="authService.isLoggedIn()">{{ authService.user.username }}</p>
+    <p class="access-name" *ngIf="!authService.user">Fazer login</p>
+    <p class="access-name" *ngIf="authService.user">{{ authService.user.username }}</p>
   </div>
 </header>
 

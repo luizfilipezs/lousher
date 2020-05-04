@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Unsplash, { toJson } from 'unsplash-js';
+import { callbackFunction } from './types';
 
 
 @Injectable()
@@ -10,7 +11,7 @@ export class ImageService {
   
   constructor() { }
   
-  public getPhoto(id: string, callback: () => void): void {
+  public getPhoto(id: string, callback: callbackFunction): void {
     this.unsplash.photos.getPhoto(id)
       .then(toJson)
       .then(callback);

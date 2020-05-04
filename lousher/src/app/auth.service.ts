@@ -8,7 +8,6 @@ import { tap, shareReplay } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
-import { environment } from '../environments/environment';
 import { ToggleView } from './toggle.view';
 
 @Injectable()
@@ -38,23 +37,19 @@ export class AuthService extends ToggleView {
   }
 
   login(username: string, password: string) {
-    return this.http.post(
-      `${this.apiRoot}login/`,
-      { username, password }
-    ).pipe(
-      tap(response => this.setSession(response)),
-      shareReplay(),
-    );
+    return this.http.post(this.apiRoot.concat('login/'), { username, password })
+      .pipe(
+        tap(response => this.setSession(response)),
+        shareReplay(),
+      );
   }
 
   signup(username: string, email: string, password1: string, password2: string) {
-    return this.http.post(
-      this.apiRoot.concat('signup/'),
-      { username, email, password1, password2 }
-    ).pipe(
-      tap(response => this.setSession(response)),
-      shareReplay(),
-    );
+    return this.http.post(this.apiRoot.concat('signup/'), { username, email, password1, password2 })
+      .pipe(
+        tap(response => this.setSession(response)),
+        shareReplay(),
+      );
   }
 
   logout() {

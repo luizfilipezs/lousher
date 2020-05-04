@@ -4,7 +4,14 @@ import { Observable, of } from 'rxjs';
 import { CartProduct } from './cart.product';
 import { cartItems } from './test';
 import { ToggleView } from './toggle.view';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    //code
+  })
+}
 
 @Injectable()
 export class CartService extends ToggleView {
@@ -12,7 +19,9 @@ export class CartService extends ToggleView {
   private _items: CartProduct[] = [];
   public totalPrice = 0;
 
-  constructor() {
+  private apiRoot = 'http://localhost:8000/api/';
+
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -30,15 +39,15 @@ export class CartService extends ToggleView {
     of(cartItems).subscribe((items) => this.items = items);
   }
 
-  addItem(id: number, quantity: number): void {
+  addItem(id: number, quantity: number): Observable<CartProduct> {
+    return;
     /*        method id  qntd
       api/cart/add/314134/1
     */
   }
 
   removeItem(id: number, quantity: number): void {
-    /*         method   id  qntd
-      api/cart/remove/314134/1
-    */
+    this.http.delete(this.apiRoot.concat(`cart/${id}`), httpOptions)
+      .subscribe(this.getItems);
   }
 }

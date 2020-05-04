@@ -17,4 +17,6 @@ export class CartComponent implements OnInit {
     this.cartService.getItems();
   }
 
+  removeUnity = (productId: number) => this.cartService.removeItem(productId, 1);
+
 }
