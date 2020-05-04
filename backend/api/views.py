@@ -41,13 +41,31 @@ class EnderecoViewSet(viewsets.ViewSet):
 		return Response(serializer.data)
 
 	def create(self, request):
+		endereco = EnderecoSerializer(request.data)
+		if endereco.is_valid():
+			endereco.save()
+			request.user.enderecos.add(endereco)
+			return Response(endereco.data)
+		
+		return Response(status=400)
+		"""
 		novo_endereco = Endereco(**request.data)
 		novo_endereco.save()
 		request.user.enderecos.add(novo_endereco)
 		serializer = EnderecoSerializer(novo_endereco)
 		return Response(serializer.data)
+		"""
 
 	def update(self, request, pk=None):
+		endereco = get_object_or_404(request.user.enderecos, pk=pk)
+		endereco = EnderecoSerializer(endereco, request.data)
+		if endereco.is_valid():
+			endereco.save()
+			return Response(endereco.data)
+		
+		return Response(status=400)
+
+		"""
 		queryset = request.user.enderecos
 		endereco = get_object_or_404(queryset, pk=pk)
 
@@ -63,6 +81,7 @@ class EnderecoViewSet(viewsets.ViewSet):
 		
 		serializer = EnderecoSerializer(endereco)
 		return Response(serializer.data)
+		"""
 
 	def destroy(self, request, pk=None):
 		Endereco.objects.filter(pk=pk).delete()
