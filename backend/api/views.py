@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
 from .models import User, Produto, Endereco, ItemCarrinho
-from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer
+from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer
 
 from api.permission_classes import IsAdminOrReadOnly
 
@@ -22,9 +22,48 @@ class UserViewSet(viewsets.ModelViewSet):
 # PRODUTO
 
 class ProdutoViewSet(viewsets.ModelViewSet):
-	queryset = Produto.objects.all().order_by('-id')
-	serializer_class = ProdutoSerializer
-	permission_classes = [IsAdminOrReadOnly]
+    queryset = Produto.objects.all().order_by('-id')
+    serializer_class = ProdutoSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+# CARRINHO
+
+class CarrinhoViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        queryset = ItemCarrinho.objects.filter(usuario=request.user)
+        serializer = ItemCarrinhoSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, produto_id=None):
+        queryset = ItemCarrinho.objects.filter(usuario=request.user, produto_id=produto_id)
+        serializer = ItemCarrinhoSerializer(queryset)
+        return Response(serializer.data)
+
+    def create(self, request):
+        item_carrinho = ItemCarrinhoSerializer(request.data)
+        if item_carrinho.is_valid():
+            item_carrinho.save()
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        queryset = ItemCarrinho.objects.filter(usuario=request.user)
+        item_carrinho = get_object_or_404(queryset, pk=pk)
+        obj_atualizado = ItemCarrinhoSerializer(item_carrinho, request.data)
+        if obj_atualizado.is_valid():
+            obj_atualizado.save()
+            return Response(endereco.data)
+		
+        return Response(status=400)
+
+    def destroy(self, request, pk=None):
+        ItemCarrinho.objects.filter(pk=pk).delete()
+        return Response(status=200)
+
+
+# ENDERECO
 
 class EnderecoViewSet(viewsets.ViewSet):
 	permission_classes = [permissions.IsAuthenticated]

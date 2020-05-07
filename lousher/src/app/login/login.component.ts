@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Order } from '../order';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +9,17 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements AfterViewInit {
 
-  public errorWhenLoggingIn = false;
-  public errorWhenRegistering = false;
+  errorWhenLoggingIn = false;
+  errorWhenRegistering = false;
+
+  orders: Order[] = [];
 
   constructor(private authService: AuthService) { }
 
   ngAfterViewInit() {
   }
+
+  //getOrders(): void { }
 
   login(username: string, password: string): void {
     if (username && password) {
@@ -40,8 +45,6 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
+  logout = () => this.authService.logout();
 
 }

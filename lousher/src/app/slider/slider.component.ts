@@ -6,6 +6,7 @@ import {
   HostListener
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Product } from '../product';
 
 @Component({
   selector: 'app-slider',
@@ -13,6 +14,8 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./slider.component.styl']
 })
 export class SliderComponent implements AfterViewInit {
+
+  products: Product[] = [];
 
   @ViewChild('slider') slider: ElementRef;
 
@@ -23,6 +26,19 @@ export class SliderComponent implements AfterViewInit {
     this.adjustButtons(true);
   }
 
+  /* ORDER BY */
+
+  orderBy(arg: 'price-' | 'price+') {
+    this.products.sort((a, b) => {
+      if (arg == 'price-')
+        return (a.preco > b.preco) ? 1 : -1;
+      else if (arg == 'price+')
+        return (a.preco < b.preco) ? 1 : -1;
+    });
+  };
+
+  /* Elements */
+
   getSliderDimentions() {
     return {
       width: this.slider.nativeElement.clientWidth,
@@ -31,7 +47,7 @@ export class SliderComponent implements AfterViewInit {
     };
   }
 
-  navigate(isForward: boolean): void {
+  navigate(isForward: boolean) {
     const { width, scrollWidth, scrollPosition } = this.getSliderDimentions();
     const pos = scrollPosition + width;
 
@@ -54,7 +70,7 @@ export class SliderComponent implements AfterViewInit {
   }
 
   @HostListener('window:resize', ['true'])
-  adjustButtons(firstTime?: true): void {
+  adjustButtons(firstTime?: true) {
     let { scrollLeft, scrollLeftMax } = this.slider.nativeElement;
     
     const previousBtn = document.querySelector('.left-box'),

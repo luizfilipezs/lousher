@@ -1,5 +1,5 @@
 <div class="login-box" *ngIf="authService.toggleState$ | async">
-  <div class="inner-box login-or-register" *ngIf="authService.isLoggedOut()">
+  <div class="inner-box login-or-register" *ngIf="!authService.user">
 
     <p class="section-title theme-color">Entrar</p>
 
@@ -26,5 +26,27 @@
     </form>
 
   </div>
-  <div class="inner-box my-account" *ngIf="authService.isLoggedIn()">Você está logado. <span style="text-transform: underline; color: deepskyblue" (click)="logout()">Clique aqui para sair.</span></div>
+  <div class="inner-box my-account" *ngIf="authService.user">
+
+    <p class="section-title theme-color">Minha conta <span class="italic-text as-link" (click)="logout()"> Sair</span></p>
+
+    <p class="sub-section-title">Informações de login</p>
+
+    <p class="read-only-input">{{ authService.user.username }}</p>
+    <p class="read-only-input">{{ authService.user.email }}</p>
+
+    <p class="sub-section-title with-margin-top">Pedidos</p>
+
+    <div class="order-box">
+      <div class="order-info">
+        <p class="title">Malbec lousher 2020 <i>(2 unidades)</i></p>
+        <p class="simple-text">Luiz Filipe da Silva</p>
+        <p class="simple-text">R. Exemplo de Souza, 70, Centro | São Souzento, 89793-000</p>
+      </div>
+      <p class="order-status"><span class="bolder">ID: </span>1212 | <span class="bolder">Status: </span>despachado</p>
+    </div>
+
+    <p class="informative-text">Em caso de dúvidas, envie-nos um email (lousher@gmail.com) com o ID do seu pedido no assunto. Se for necessário trocar o endereço, informe-nos imediatamente, antes que o pedido seja despachado.</p>
+  
+  </div>
 </div>
