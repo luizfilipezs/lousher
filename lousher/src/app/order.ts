@@ -2,15 +2,16 @@ import { Endereco } from './endereco';
 import { Product } from './product';
 import { OrderStatus } from './types';
 
-interface OrderItem {
+export interface OrderItem {
+  pedido: Order;
   product: Product;
   qntd: number;
 };
 
 export interface Order {
   id: number;
-  description: string;
-  address: Endereco;
-  items: OrderItem[];
+  usuario: number;
+  endereco: Endereco;
   status: OrderStatus;
+  observacoes: string;
 };

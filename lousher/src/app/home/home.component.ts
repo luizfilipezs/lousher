@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import simpleParallax from 'simple-parallax-js';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit {
     this.applyParallaxEffect();
   }
 
-  applyParallaxEffect(): void {
+  applyParallaxEffect() {
     const image = document.querySelector('.parallax-image');
     
     this.parallaxEffect = new simpleParallax(image, {
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  removeParallaxEffect(): void {
+  removeParallaxEffect() {
     if (this.parallaxEffect) this.parallaxEffect.destroy();
   }
   

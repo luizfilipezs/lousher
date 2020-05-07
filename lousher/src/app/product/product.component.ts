@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { CartService } from '../cart.service';
 import { Product } from '../product';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-product',
@@ -12,28 +13,29 @@ import { Product } from '../product';
 export class ProductComponent implements OnInit {
 
   product: Product;
+
   @Input('quantityInCart') quantityInCart: number;
 
   constructor(
+    private productService: ProductService,
     private cartService: CartService,
     private route: ActivatedRoute,
     private router: Router
     ) { }
 
-  ngOnInit() {/*
+  ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.productService.getProductById(id)
+    this.productService.getById(id)
       .subscribe(
         (product) => this.product = product,
         (error) => this.router.navigate(['/notFound'])
-      );*/
+      );
   }
 
-  addToCart(): void {
-    if (this.product) {
+  setCart() {
+    if (this.product)
       this.cartService.addItem(this.product.id, this.quantityInCart)
         .subscribe();
-    }
   }
 
 }
