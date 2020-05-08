@@ -71,12 +71,18 @@ class Produto(models.Model):
     qntd_estoque = models.PositiveIntegerField(default=0)
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
     regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
+    oferta = models.ForeignKey('Oferta', null=True, on_delete=models.SET_NULL)
     # informações para vinhos
     tipo = models.CharField(max_length=30, choices=TIPOS, blank=True)
     cor = models.CharField(max_length=10, choices=CORES, blank=True)
     docura = models.CharField(max_length=10, choices=DOCURA, blank=True)
     classe = models.CharField(max_length=30, choices=CLASSE, blank=True)
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
+
+class Oferta(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    preco_oferta = models.PositiveIntegerField()
+    vencimento = models.DateField()
 
 class ItemCarrinho(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

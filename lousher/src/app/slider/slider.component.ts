@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-slider',
@@ -15,21 +16,25 @@ import { Product } from '../product';
 })
 export class SliderComponent implements AfterViewInit {
 
-  products: Product[] = [];
+  offers: Product[] = [];
 
   @ViewChild('slider') slider: ElementRef;
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
   
   ngAfterViewInit() {
+    // Adjust slider
     this.slider.nativeElement.scrollLeft = 0;
     this.adjustButtons(true);
+
+    // Get offers
+    this.productService.getOffers().subscribe((offers) => this.offers = offers)
   }
 
   /* ORDER BY */
 
   orderBy(arg: 'price-' | 'price+') {
-    this.products.sort((a, b) => {
+    this.offers.sort((a, b) => {
       if (arg == 'price-')
         return (a.preco > b.preco) ? 1 : -1;
       else if (arg == 'price+')

@@ -5,12 +5,12 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from datetime import datetime
 
-from .models import User, Produto, Endereco, ItemCarrinho
-from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer
+from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
+from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer, PedidoSerializer, ItemPedidoSerializer
 
 from api.permission_classes import IsAdminOrReadOnly
-
 
 # USER
 
@@ -22,9 +22,16 @@ class UserViewSet(viewsets.ModelViewSet):
 # PRODUTO
 
 class ProdutoViewSet(viewsets.ModelViewSet):
-    queryset = Produto.objects.all().order_by('-id')
-    serializer_class = ProdutoSerializer
-    permission_classes = [IsAdminOrReadOnly]
+	queryset = Produto.objects.all().order_by('-id')
+	serializer_class = ProdutoSerializer
+	permission_classes = [IsAdminOrReadOnly]
+
+	@action(methods=['get'], detail=False)
+	def get_offers(self, request):
+		# pega objetos com oferta e filtra para receber apenas os que têm o vencimento acima da data atual
+		queryset = Produto.objects.all().exclude(oferta=None).filter(oferta__vencimento__gt=datetime.date.today())
+		serializer = ProdutoSerializer(quersyset, many=True)
+		return Response(serializer.data)
 
 
 # CARRINHO
@@ -87,13 +94,6 @@ class EnderecoViewSet(viewsets.ViewSet):
 			return Response(endereco.data)
 		
 		return Response(status=400)
-		"""
-		novo_endereco = Endereco(**request.data)
-		novo_endereco.save()
-		request.user.enderecos.add(novo_endereco)
-		serializer = EnderecoSerializer(novo_endereco)
-		return Response(serializer.data)
-		"""
 
 	def update(self, request, pk=None):
 		endereco = get_object_or_404(request.user.enderecos, pk=pk)
@@ -104,24 +104,18 @@ class EnderecoViewSet(viewsets.ViewSet):
 		
 		return Response(status=400)
 
-		"""
-		queryset = request.user.enderecos
-		endereco = get_object_or_404(queryset, pk=pk)
-
-		endereco.cep = request.data['cep']
-		endereco.bairro = request.data['bairro']
-		endereco.rua = request.data['rua']
-		endereco.numero = request.data['numero']
-		endereco.complemento = request.data['complemento']
-		endereco.telefone = request.data['telefone']
-		endereco.email = request.data['email']
-		endereco.nome_destinatario = request.data['nome_destinatario']
-		endereco.save()
-		
-		serializer = EnderecoSerializer(endereco)
-		return Response(serializer.data)
-		"""
-
 	def destroy(self, request, pk=None):
 		Endereco.objects.filter(pk=pk).delete()
 		return Response(status=200)
+
+# PEDIDO
+
+class PedidoViewSet(viewsets.ModelViewSet):
+	queryset = Pedido.objects.all().order_by('-id')
+	serializer_class = PedidoSerializer
+	permission_classes = [permissions.IsAuthenticated]
+
+class ItemPedidoViewSet(viewsets.ModelViewSet):
+	queryset = ItemPedido.objects.all()
+	serializer_class = ItemPedidoSerializer
+	permission_classes = [permissions.IsAuthenticated]

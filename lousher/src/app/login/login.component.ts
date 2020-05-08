@@ -32,11 +32,12 @@ export class LoginComponent implements AfterViewInit {
       );
   }
 
-  login(username: string, password: string): void {
+  login(username: string, password: string) {
     if (username && password) {
       this.authService.login(username, password)
         .subscribe(
           (sucess) => {
+            console.log(sucess);
             // Clear error message (if there's one)
             this.errorWhenLoggingIn = false;
             // Get orders
@@ -49,7 +50,7 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
-  signup(username: string, email: string, password1: string, password2: string): void {
+  signup(username: string, email: string, password1: string, password2: string) {
     if (username && email && password1 && password2) {
       this.authService.signup(username, email, password1, password2)
         .subscribe(

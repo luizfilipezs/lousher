@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from './product';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProductService {
@@ -16,6 +15,10 @@ export class ProductService {
 
   getById(id: number) {
     return this.http.get<Product>(`${this.apiRoot}/${id}`);
+  }
+
+  getOffers() {
+    return this.http.get<Product[]>(this.apiRoot.concat('/ofertas'));
   }
 
 }
