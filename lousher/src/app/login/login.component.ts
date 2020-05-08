@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Order } from '../order';
+import { OrderService, OrderInfo } from '../order.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,21 +12,36 @@ export class LoginComponent implements AfterViewInit {
 
   errorWhenLoggingIn = false;
   errorWhenRegistering = false;
+  errorGettingOrders = false;
 
-  orders: Order[] = [];
+  orders: OrderInfo[] = [];
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private orderService: OrderService
+    ) { }
 
   ngAfterViewInit() {
   }
 
-  //getOrders(): void { }
+  getOrders() {
+    forkJoin(this.orderService.get, this.orderService.getOrderItems)
+      .subscribe(
+        ([orders, orderItems]) => this.orders = this.orderService.formatOrders(orders, orderItems),
+        (error) => this.errorGettingOrders = true
+      );
+  }
 
   login(username: string, password: string): void {
     if (username && password) {
       this.authService.login(username, password)
         .subscribe(
-          (sucess) => this.errorWhenLoggingIn = false,
+          (sucess) => {
+            // Clear error message (if there's one)
+            this.errorWhenLoggingIn = false;
+            // Get orders
+            this.getOrders();
+          },
           (error) => this.errorWhenLoggingIn = true
         );
     } else {
