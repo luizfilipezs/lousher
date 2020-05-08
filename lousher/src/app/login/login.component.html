@@ -35,18 +35,26 @@
     <p class="read-only-input">{{ authService.user.username }}</p>
     <p class="read-only-input">{{ authService.user.email }}</p>
 
-    <p class="sub-section-title with-margin-top">Pedidos</p>
+    <p class="sub-section-title with-margin-top">Pedidos ({{ orders.length }})</p>
 
-    <div class="order-box">
+    <!-- MENSAGEM DE ERRO -->
+    <p class="informative-text" *ngIf="errorGettingOrders">Não foi possível verificar se você realizou pedidos recentemente. Se tiver feito e não conseguir visualizá-los aqui, entre em contato conosco pelo email lousher@gmail.com. Se puder informar o ID do seu pedido no assunto será mais fácil ajudar você ;)</p>
+
+    <!-- LISTA DE PEDIDOS -->
+    <div class="order-box" *ngFor="let order of orders">
       <div class="order-info">
-        <p class="title">Malbec lousher 2020 <i>(2 unidades)</i></p>
-        <p class="simple-text">Luiz Filipe da Silva</p>
-        <p class="simple-text">R. Exemplo de Souza, 70, Centro | São Souzento, 89793-000</p>
+        <p class="title">{{ order.description }}</i></p>
+        <p class="simple-text">{{ order.receiverName }}</p>
+        <p class="simple-text">{{ order.receiverAddress }}</p>
       </div>
-      <p class="order-status"><span class="bolder">ID: </span>1212 | <span class="bolder">Status: </span>despachado</p>
+      <p class="order-status"><span class="bolder">ID: </span>{{ order.id }} | <span class="bolder">Status: </span>{{ order.status }}</p>
     </div>
 
-    <p class="informative-text">Em caso de dúvidas, envie-nos um email (lousher@gmail.com) com o ID do seu pedido no assunto. Se for necessário trocar o endereço, informe-nos imediatamente, antes que o pedido seja despachado.</p>
+    <!-- NOTA INFORMATIVA (CASO HAJA PEDIDOS) -->
+    <p class="informative-text" *ngIf="orders.length">Em caso de dúvidas, envie-nos um email (lousher@gmail.com) com o ID do seu pedido no assunto. Se for necessário trocar o endereço, informe-nos imediatamente, antes que o pedido seja despachado.</p>
+
+    <!-- NOTA INFORMATIVA (SEM PEDIDOS) -->
+    <p class="informative-text" *ngIf="!orders.length && !errorGettingOrders">Quando você fizer um pedido ele aparecerá aqui ;)</p>
   
   </div>
 </div>
