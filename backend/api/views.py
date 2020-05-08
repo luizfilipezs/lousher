@@ -115,6 +115,16 @@ class PedidoViewSet(viewsets.ModelViewSet):
 	serializer_class = PedidoSerializer
 	permission_classes = [permissions.IsAuthenticated]
 
+	def list(self, request):
+		queryset = Pedido.objects.filter(usuario=request.user)
+		serializer = PedidoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
+	def retrieve(self, request, pk=None):
+		pedido = get_object_or_404(Pedido, pk=pk)
+		serializer = PedidoSerializer(pedido)
+		return Response(serializer.data)
+
 class ItemPedidoViewSet(viewsets.ModelViewSet):
 	queryset = ItemPedido.objects.all()
 	serializer_class = ItemPedidoSerializer

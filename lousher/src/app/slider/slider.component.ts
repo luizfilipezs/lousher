@@ -8,6 +8,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-slider',
@@ -28,7 +29,8 @@ export class SliderComponent implements AfterViewInit {
     this.adjustButtons(true);
 
     // Get offers
-    this.productService.getOffers().subscribe((offers) => this.offers = offers)
+    this.productService.getOffers()
+      .subscribe((offers) => this.offers = offers);
   }
 
   /* ORDER BY */

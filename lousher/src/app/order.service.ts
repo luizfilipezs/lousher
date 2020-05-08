@@ -3,12 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order, OrderItem } from './order';
 import { OrderStatus } from './types';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Authotization': 'JWT'
-  })
-}
-
 @Injectable()
 export class OrderService {
 
@@ -18,32 +12,40 @@ export class OrderService {
     orderItems: `${this.root.api}/itensPedidos`,
     order: (id: number) => `${this.root.orders}/${id}`,
     item: (id: number) => `${this.root.orderItems}/${id}`
-  }
+  };
+
+  httpOptions = {
+    headers: new HttpHeaders()
+  };
 
   constructor(private http: HttpClient) { }
+
+  setAuth(token: string) {
+    this.httpOptions.headers.append('Authorization', 'JWT '.concat(token));
+  }
 
   /* ORDER */
 
   get() {
-    return this.http.get<Order[]>(this.root.orders, httpOptions);
+    return this.http.get<Order[]>(this.root.orders, this.httpOptions);
   }
 
   getById(id: number) {
-    return this.http.get<Order>(this.root.order(id), httpOptions);
+    return this.http.get<Order>(this.root.order(id), this.httpOptions);
   }
 
   post(order: Order) {
-    return this.http.post<Order>(this.root.orders, httpOptions);
+    return this.http.post<Order>(this.root.orders, this.httpOptions);
   }
 
   /* ORDER ITEM */
 
   getOrderItems() {
-    return this.http.get<OrderItem[]>(this.root.orderItems, httpOptions);
+    return this.http.get<OrderItem[]>(this.root.orderItems, this.httpOptions);
   }
 
   postOrderItem() {
-    return this.http.post<OrderItem>(this.root.orderItems, httpOptions)
+    return this.http.post<OrderItem>(this.root.orderItems, this.httpOptions)
   }
 
   /* FORMATING */

@@ -37,7 +37,8 @@ export class LoginComponent implements AfterViewInit {
       this.authService.login(username, password)
         .subscribe(
           (sucess) => {
-            console.log(sucess);
+            // Set authorization header in order service
+            this.orderService.setAuth(this.authService.token);
             // Clear error message (if there's one)
             this.errorWhenLoggingIn = false;
             // Get orders

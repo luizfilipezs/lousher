@@ -37,9 +37,6 @@
 
     <p class="sub-section-title with-margin-top">Pedidos ({{ orders.length }})</p>
 
-    <!-- MENSAGEM DE ERRO -->
-    <p class="informative-text" *ngIf="errorGettingOrders">Não foi possível verificar se você realizou pedidos recentemente. Se tiver feito e não conseguir visualizá-los aqui, entre em contato conosco pelo email lousher@gmail.com. Se puder informar o ID do seu pedido no assunto será mais fácil ajudar você ;)</p>
-
     <!-- LISTA DE PEDIDOS -->
     <div class="order-box" *ngFor="let order of orders">
       <div class="order-info">
@@ -52,6 +49,9 @@
 
     <!-- NOTA INFORMATIVA (CASO HAJA PEDIDOS) -->
     <p class="informative-text" *ngIf="orders.length">Em caso de dúvidas, envie-nos um email (lousher@gmail.com) com o ID do seu pedido no assunto. Se for necessário trocar o endereço, informe-nos imediatamente, antes que o pedido seja despachado.</p>
+
+    <!-- MENSAGEM DE ERRO -->
+    <p class="informative-text" *ngIf="errorGettingOrders">Não foi possível verificar se você realizou pedidos recentemente. Se tiver feito e não conseguir visualizá-los aqui, entre em contato conosco pelo email lousher@gmail.com. Se puder informar o ID do seu pedido no assunto será mais fácil ajudar você ;)</p>
 
     <!-- NOTA INFORMATIVA (SEM PEDIDOS) -->
     <p class="informative-text" *ngIf="!orders.length && !errorGettingOrders">Quando você fizer um pedido ele aparecerá aqui ;)</p>
