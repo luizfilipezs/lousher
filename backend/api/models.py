@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from datetime import date
 
 class Endereco(models.Model):
     cep = models.CharField(max_length=10)
@@ -14,6 +14,14 @@ class Endereco(models.Model):
 
 class User(AbstractUser):
     enderecos = models.ManyToManyField(Endereco)
+
+class Oferta(models.Model):
+    descricao = models.CharField(max_length=70)
+    preco_oferta = models.PositiveIntegerField()
+    vencimento = models.DateField()
+
+    def __str__(self):
+        return self.descricao
 
 class Produto(models.Model):
     TIPOS = [
@@ -67,11 +75,14 @@ class Produto(models.Model):
     ]
 
     nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=220, default='Sem descrição disponível.')
     preco = models.PositiveIntegerField()
     qntd_estoque = models.PositiveIntegerField(default=0)
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
     regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
-    oferta = models.ForeignKey('Oferta', null=True, on_delete=models.SET_NULL)
+    oferta = models.ForeignKey(Oferta, null=True, blank=True, on_delete=models.SET_NULL)
+    ano = models.PositiveIntegerField(default=date.today().year, verbose_name='Ano (safra)')
+    mililitros = models.PositiveIntegerField(verbose_name='Conteúdo em mililitros (ml)', default=750)
     # informações para vinhos
     tipo = models.CharField(max_length=30, choices=TIPOS, blank=True)
     cor = models.CharField(max_length=10, choices=CORES, blank=True)
@@ -79,10 +90,8 @@ class Produto(models.Model):
     classe = models.CharField(max_length=30, choices=CLASSE, blank=True)
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
 
-class Oferta(models.Model):
-    descricao = models.CharField(max_length=70)
-    preco_oferta = models.PositiveIntegerField()
-    vencimento = models.DateField()
+    def __str__(self):
+        return self.nome
 
 class ItemCarrinho(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

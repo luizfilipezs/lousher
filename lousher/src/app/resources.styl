@@ -109,6 +109,62 @@ fadeIn(time)
 
   animation(fadein time)
 
+spin-animation(time)
+  @-moz-keyframes spin {
+    100% {
+      -moz-transform rotate(360deg)
+    }
+  }
+  @-webkit-keyframes spin {
+    100% {
+      -webkit-transform rotate(360deg)
+    } 
+  }
+  @keyframes spin {
+    100% {
+      transform(rotate(360deg))
+    }
+  }
+
+  animation(spin time linear infinite)
+
+blur-fade-in(time)
+  @-moz-keyframes blurFade {
+    0% {
+      filter(blur(5px))
+    }
+    50% {
+      filter(blur(3px))
+    }
+    100% {
+      filter(blur(0px))
+    }
+  }
+  @-webkit-keyframes blurFade {
+    0% {
+      filter(blur(5px))
+    }
+    50% {
+      filter(blur(3px))
+    }
+    100% {
+      filter(blur(0px))
+    }
+  }
+  @keyframes blurFade {
+    0% {
+      filter(blur(5px))
+    }
+    50% {
+      filter(blur(3px))
+    }
+    100% {
+      filter(blur(0px))
+    }
+  }
+
+  animation(blurFade time)
+
 filter(val)
   -webkit-filter val
   -moz-filter val

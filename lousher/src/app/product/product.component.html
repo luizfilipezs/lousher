@@ -6,15 +6,15 @@
   </div>
   
   <div class="product-info-box">
-    <div class="info-texts">
+    <div class="info-texts" *ngIf="product">
 
-      <h1 class="pdct-name">Malbec LOUSHER 2020</h1>
+      <h1 class="pdct-name">{{ product.nome }}</h1>
     
-      <p class="pdct-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+      <p class="pdct-description">{{ product.descricao }}</p>
       
       <div class="price-and-quantity">
-        <p class="price">R$ 49</p>
-        <p class="liquid-content">700ml</p>
+        <p class="price">R$ {{ product.oferta ? product.oferta.preco_oferta : product.preco }}</p>
+        <p class="liquid-content">{{ product.mililitros }} ml</p>
         <div class="define-quantity">
           <span class="add-or-remove disabled-btn">-</span>
           <span class="quantity-to-add">1</span>
@@ -26,34 +26,34 @@
       <div class="details-box">
         <div class="detail">
           <p class="detail-name">Tipo</p>
-          <p class="detail-content">Merlot</p>
+          <p class="detail-content">{{ product.tipo }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Cor</p>
-          <p class="detail-content">Tinto</p>
+          <p class="detail-content">{{ product.cor }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Doçura</p>
-          <p class="detail-content">Seco</p>
+          <p class="detail-content">{{ product.docura }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Classe</p>
-          <p class="detail-content">De mesa</p>
+          <p class="detail-content">{{ product.classe }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Sabor</p>
-          <p class="detail-content">Suave</p>
+          <p class="detail-content">{{ product.sabor }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">País</p>
-          <p class="detail-content">Brasil</p>
+          <p class="detail-content">{{ product.pais }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Região</p>
-          <p class="detail-content">Oeste Gaúcho</p>
+          <p class="detail-content">{{ product.regiao }}</p>
         </div>
       </div>
-    
+
     </div>
   </div>
 

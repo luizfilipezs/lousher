@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from './product';
-import { of } from 'rxjs';
-import { offers } from './test';
 
 @Injectable()
 export class ProductService {
 
-  private apiRoot = 'http://localhost:8000/api/product';
+  private apiRoot = 'http://localhost:8000/api/produtos';
 
   constructor(private http: HttpClient) { }
 
@@ -20,8 +18,7 @@ export class ProductService {
   }
 
   getOffers() {
-    return of(offers);
-    //return this.http.get<Product[]>(this.apiRoot.concat('/ofertas'));
+    return this.http.get<Product[]>(this.apiRoot.concat('/ofertas'));
   }
 
 }

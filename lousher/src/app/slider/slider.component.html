@@ -10,6 +10,10 @@
 </div>
 
 <div class="slider-wrapper">
+
+  <div *ngIf="loading" class="loading-wrapper">
+    <img src="assets/icons/wine-bottle-icon.png" alt="Carregando ofertas" class="loading-icon">
+  </div>
   
   <div #slider class="slider">
 

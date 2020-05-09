@@ -17,6 +17,7 @@ import { ProductService } from '../product.service';
 export class SliderComponent implements AfterViewInit {
 
   _offers: Product[] = [];
+  loading = true;
 
   @ViewChild('slider') slider: ElementRef;
   @ViewChild('sortByBtn') sortByBtn: ElementRef;
@@ -30,7 +31,10 @@ export class SliderComponent implements AfterViewInit {
 
     // Get offers
     this.productService.getOffers()
-      .subscribe((offers) => this.offers = offers);
+      .subscribe((offers) => {
+        this.offers = offers;
+        this.loading = false;
+      });
 
     // Sort by
     this.sortItemsWhenClickingBtn(this.sortByBtn.nativeElement);

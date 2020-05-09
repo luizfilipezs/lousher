@@ -8,11 +8,14 @@ export interface Offer {
 export interface Product {
   id?: number;
   nome: string;
+  descricao: string;
   preco: number;
   qntd_estoque: number;
   pais: string;
   regiao: string;
   oferta?: Offer;
+  ano: number;
+  mililitros: number;
   // informações para vinhos
   tipo?: string;
   cor?: string;

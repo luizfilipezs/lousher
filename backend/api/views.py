@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from datetime import datetime
+from datetime import date
 
 from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
 from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer, PedidoSerializer, ItemPedidoSerializer
@@ -26,11 +26,21 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	serializer_class = ProdutoSerializer
 	permission_classes = [IsAdminOrReadOnly]
 
+	def retrieve(self, request, pk=None):
+		produto = get_object_or_404(Produto, pk=pk)
+		# Checa a validade da oferta. Se estiver vencida, remove o desconto
+		if not produto.oferta is None:
+			if produto.oferta.vencimento > date.today():
+				produto.oferta = None
+		# Retorna o produto
+		serializer = ProdutoSerializer(produto)
+		return Response(serializer.data)
+
 	@action(methods=['get'], detail=False)
 	def get_ofertas(self, request):
 		# pega objetos com oferta e filtra para receber apenas os que têm o vencimento acima da data atual
-		queryset = Produto.objects.all().exclude(oferta=None).filter(oferta__vencimento__gt=datetime.date.today())
-		serializer = ProdutoSerializer(quersyset, many=True)
+		queryset = Produto.objects.all().exclude(oferta=None).filter(oferta__vencimento__gt=date.today())
+		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
 
