@@ -7,7 +7,8 @@
     <p class="total-price">R$ {{ cartService.totalPrice || 0 }}</p>
   </div>
 
-  <p class="no-items" *ngIf="!cartService.items.length">Ainda não há ítens em seu carrinho</p>
+  <p class="no-items" *ngIf="!cartService.items.length && !isLoggedOut">Ainda não há ítens em seu carrinho</p>
+  <p class="no-items" *ngIf="isLoggedOut">Faça login antes de adicionar produtos ao carrinho. Seus ítens ficarão disponíveis de qualquer dispostivo ;)</p>
 
   <div class="cart-list" *ngFor="let item of cartService.items">
     <div class="cart-item">

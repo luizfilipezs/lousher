@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../cart.service';
+import { AuthService } from '../auth.service';
 //import { ImageService } from '../image.service';
 
 @Component({
@@ -11,9 +12,17 @@ import { CartService } from '../cart.service';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private cartService: CartService) { }
+  isLoggedOut = false;
+
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService
+    ) { }
 
   ngOnInit() {
+    if (!this.authService.user)
+      this.isLoggedOut = true;
+
     this.cartService.getItems();
   }
 

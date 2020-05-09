@@ -14,9 +14,39 @@ class OfertaSerializer(serializers.ModelSerializer):
 
 class ProdutoSerializer(serializers.ModelSerializer):
 	oferta = OfertaSerializer()
+	# choices
+	pais = serializers.SerializerMethodField()
+	regiao = serializers.SerializerMethodField()
+	tipo = serializers.SerializerMethodField()
+	cor = serializers.SerializerMethodField()
+	docura = serializers.SerializerMethodField()
+	classe = serializers.SerializerMethodField()
+	sabor = serializers.SerializerMethodField()
+	
 	class Meta:
 		model = Produto
 		fields = '__all__'
+
+	def get_pais(self, obj):
+		return obj.get_pais_display()
+
+	def get_regiao(self, obj):
+		return obj.get_regiao_display()
+
+	def get_tipo(self, obj):
+		return obj.get_tipo_display()
+
+	def get_cor(self, obj):
+		return obj.get_cor_display()
+
+	def get_docura(self, obj):
+		return obj.get_docura_display()
+
+	def get_classe(self, obj):
+		return obj.get_classe_display()
+
+	def get_sabor(self, obj):
+		return obj.get_sabor_display()
 
 class ItemCarrinhoSerializer(serializers.ModelSerializer):
 	produto = ProdutoSerializer()

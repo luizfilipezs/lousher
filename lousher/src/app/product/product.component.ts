@@ -31,7 +31,7 @@ export class ProductComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.productService.getById(id)
       .subscribe(
-        (product) => this.product = product,
+        (product) => {this.product = product;console.log(product)},
         (error) => this.router.navigate(['/notFound'])
       );
   }

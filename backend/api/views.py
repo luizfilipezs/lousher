@@ -30,8 +30,9 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 		produto = get_object_or_404(Produto, pk=pk)
 		# Checa a validade da oferta. Se estiver vencida, remove o desconto
 		if not produto.oferta is None:
-			if produto.oferta.vencimento > date.today():
+			if produto.oferta.vencimento < date.today():
 				produto.oferta = None
+				produto.save()
 		# Retorna o produto
 		serializer = ProdutoSerializer(produto)
 		return Response(serializer.data)
