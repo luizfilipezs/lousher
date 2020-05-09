@@ -27,7 +27,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	permission_classes = [IsAdminOrReadOnly]
 
 	@action(methods=['get'], detail=False)
-	def get_offers(self, request):
+	def get_ofertas(self, request):
 		# pega objetos com oferta e filtra para receber apenas os que têm o vencimento acima da data atual
 		queryset = Produto.objects.all().exclude(oferta=None).filter(oferta__vencimento__gt=datetime.date.today())
 		serializer = ProdutoSerializer(quersyset, many=True)

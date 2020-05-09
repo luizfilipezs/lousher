@@ -1,4 +1,4 @@
-from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
+from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, Oferta
 from rest_framework import serializers
 
 
@@ -7,7 +7,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		model = User
 		fields = ['url', 'username', 'email']
 
+class OfertaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Oferta
+		fields = '__all__'
+
 class ProdutoSerializer(serializers.ModelSerializer):
+	oferta = OfertaSerializer()
 	class Meta:
 		model = Produto
 		fields = '__all__'

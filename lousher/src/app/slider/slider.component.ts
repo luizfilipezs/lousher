@@ -8,7 +8,6 @@ import {
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
-import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-slider',
@@ -17,9 +16,10 @@ import { AuthService } from '../auth.service';
 })
 export class SliderComponent implements AfterViewInit {
 
-  offers: Product[] = [];
+  _offers: Product[] = [];
 
   @ViewChild('slider') slider: ElementRef;
+  @ViewChild('sortByBtn') sortByBtn: ElementRef;
 
   constructor(private productService: ProductService) { }
   
@@ -31,16 +31,43 @@ export class SliderComponent implements AfterViewInit {
     // Get offers
     this.productService.getOffers()
       .subscribe((offers) => this.offers = offers);
+
+    // Sort by
+    this.sortItemsWhenClickingBtn(this.sortByBtn.nativeElement);
+  }
+
+  get offers() {
+    return this._offers;
+  }
+
+  set offers(val) {
+    this._offers = val;
+    this.sortBy('price-');
   }
 
   /* ORDER BY */
 
-  orderBy(arg: 'price-' | 'price+') {
+  sortItemsWhenClickingBtn(modifier: HTMLElement) {
+    let lower = false;
+
+    modifier.addEventListener('click', () => {
+      lower = !lower;
+      if (lower) {
+        modifier.textContent = 'Maior preço';
+        this.sortBy('price+');
+      } else {
+        modifier.textContent = 'Menor preço';
+        this.sortBy('price-');
+      }
+    });
+  }
+
+  private sortBy(arg: 'price-' | 'price+') {
     this.offers.sort((a, b) => {
       if (arg == 'price-')
-        return (a.preco > b.preco) ? 1 : -1;
+        return (a.oferta.preco_oferta > b.oferta.preco_oferta) ? 1 : -1;
       else if (arg == 'price+')
-        return (a.preco < b.preco) ? 1 : -1;
+        return (a.oferta.preco_oferta < b.oferta.preco_oferta) ? 1 : -1;
     });
   };
 

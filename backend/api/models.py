@@ -80,7 +80,7 @@ class Produto(models.Model):
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
 
 class Oferta(models.Model):
-    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    descricao = models.CharField(max_length=70)
     preco_oferta = models.PositiveIntegerField()
     vencimento = models.DateField()
 

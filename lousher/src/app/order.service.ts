@@ -3,16 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order, OrderItem } from './order';
 import { OrderStatus } from './types';
 
+class ServiceRoot {
+  api = 'http://localhost:8000/api';
+  orders = `${this.api}/pedidos`;
+  orderItems = `${this.api}/itensPedidos`;
+  order = (id: number) => `${this.orders}/${id}`;
+  item = (id: number) => `${this.orderItems}/${id}`;
+}
+
 @Injectable()
 export class OrderService {
 
-  private root = {
-    api: 'http://localhost:8000/api',
-    orders: `${this.root.api}/pedidos`,
-    orderItems: `${this.root.api}/itensPedidos`,
-    order: (id: number) => `${this.root.orders}/${id}`,
-    item: (id: number) => `${this.root.orderItems}/${id}`
-  };
+  private root = new ServiceRoot();
 
   httpOptions = {
     headers: new HttpHeaders()

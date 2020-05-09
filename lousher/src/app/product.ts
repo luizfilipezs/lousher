@@ -1,5 +1,6 @@
 export interface Offer {
   id: number;
+  descricao: string;
   preco_oferta: number;
   vencimento: string;
 }

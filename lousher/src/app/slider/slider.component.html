@@ -5,94 +5,27 @@
   <a class="see-section" href="#">Ver tudo</a>
   <div class="order-by">
     <p class="order-by-pre-text">Ordenar por</p>
-    <p class="order-by-box">Mais vendidos</p>
+    <p class="order-by-box" #sortByBtn>Menor preço</p>
   </div>
 </div>
 
 <div class="slider-wrapper">
+  
   <div #slider class="slider">
-    <div class="item" routerLink="/product">
+
+    <div *ngFor="let product of offers" class="item" routerLink="/product/{{ product.id }}">
       <div class="item-banner-wrapper">
-        <p class="old-price">R$ 39</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 29</p>
+        <p class="old-price">R$ {{ product.preco }}</p>
+        <img src="assets/img/wine-bottle.png" alt="{{ product.nome }}" class="item-img">
+        <p class="new-price">R$ {{ product.oferta.preco_oferta }}</p>
       </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
+      <p class="item-name">{{ product.nome }}</p>
       <p class="price-validity">Válido por 22:10:03…</p>
     </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 39</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 29</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 49</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 39</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 34</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 28</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 57</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 45</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 34</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 28</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 57</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 45</p>
-      </div>
-      <p class="item-name">Pinot Noir Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 34</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 28</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
-    <div class="item" routerLink="/product">
-      <div class="item-banner-wrapper">
-        <p class="old-price">R$ 57</p>
-        <img src="assets/img/wine-bottle.png" alt="Produto exemplo" class="item-img">
-        <p class="new-price">R$ 45</p>
-      </div>
-      <p class="item-name">Malbec Lousher Esp…</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
-    </div>
+
   </div>
+
   <div class="gradient-slider-box left-box visible" (click)="navigate(false)" title="Ver ítens anteriores"></div>
   <div class="gradient-slider-box right-box visible" (click)="navigate(true)" title="Ver próximos ítens"></div>
+
 </div>

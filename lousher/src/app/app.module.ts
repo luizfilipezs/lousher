@@ -17,6 +17,8 @@ import { FooterComponent } from './footer/footer.component';
 import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ProductService } from './product.service';
+import { OrderService } from './order.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
   ],
   providers: [
+    ProductService,
     CartService,
+    OrderService,
     ImageService,
     EnderecoService,
     AuthService,

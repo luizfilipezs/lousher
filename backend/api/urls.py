@@ -11,5 +11,5 @@ router.register(r'itensPedidos', views.ItemPedidoViewSet, basename='itensPedidos
 
 urlpatterns = [
 	path('', include(router.urls)),
-	path('produtos/ofertas', UserViewSet.as_view()),
+	path('produtos/ofertas', views.ProdutoViewSet.as_view({'get': 'get_ofertas'})),
 ]
