@@ -13,12 +13,12 @@
     <div class="cart-item">
 
       <div class="item-img-box">
-          <img src="assets/img/wine-bottle.png" alt="{{ item.name }}" class="item-img">
+          <img src="assets/img/wine-bottle.png" alt="{{ item.produto.nome }}" class="item-img">
         </div>
         <div class="item-text-box">
-          <p class="cart-item-title">{{ item.name }}</p>
-          <p class="cart-item-price-and-quantity">{{ item.price }} x {{ item.quantity || 0 }}</p>
-          <p class="cart-item-link"><a routerLink="/produto">Ver produto</a> | <a href="#">Remover unidade</a></p>
+          <p class="cart-item-title">{{ item.produto.nome }}</p>
+          <p class="cart-item-price-and-quantity">{{ item.produto.oferta ? item.produto.oferta.novo_preco : item.produto.preco }} x {{ item.qntd }}</p>
+          <p class="cart-item-link"><a routerLink="/produto/{{item.produto.id}}">Ver produto</a> | <a href="#">Remover unidade</a></p>
         </div>
       </div>
 

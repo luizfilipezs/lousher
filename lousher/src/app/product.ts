@@ -1,3 +1,9 @@
+export interface Offer {
+  id: number;
+  preco_oferta: number;
+  vencimento: string;
+}
+
 export interface Product {
   id?: number;
   nome: string;
@@ -5,6 +11,7 @@ export interface Product {
   qntd_estoque: number;
   pais: string;
   regiao: string;
+  oferta?: Offer;
   // informações para vinhos
   tipo?: string;
   cor?: string;

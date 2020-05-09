@@ -1,7 +1,8 @@
+import { Product } from './product';
+
 export class CartProduct {
   id?: number;
-  name?: string;
-  price?: number;
-  img?: string;
-  quantity: number;
+  usuario?: number; // id usuário
+  produto: Product;
+  qntd: number;
 }
