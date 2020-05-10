@@ -46,6 +46,7 @@ export class SliderComponent implements AfterViewInit {
 
     this.vencimentos.changes.subscribe((r) => {
       const validades = this.vencimentos.toArray();
+      // Display time
       validades.forEach(element => {
         const date = element.nativeElement.textContent;
         this.setTimeRemaining(element.nativeElement, date);
@@ -54,17 +55,33 @@ export class SliderComponent implements AfterViewInit {
   }
   
   async setTimeRemaining(element: HTMLElement, limitDate: string) {
-    let seconds = (Date.parse(limitDate) - Date.now()) / 1000;
-    console.log(new Date(seconds * 1000).toISOString());
+    const now = new Date();
+    const date = new Date(limitDate);
+    const time = date.getTime() - now.getTime();
+
+    let seconds = time / 1000;
 
     while (seconds > 0) {
-      element.textContent = new Date(seconds * 1000).toISOString().substr(11, 8);
+      let timing = '';
+
+      let days = Math.floor((seconds * 1000) / (1000 * 3600 * 24));
+      if (days > 0) {
+        timing += `${days} dia`;
+        if (days > 1) timing += 's';
+        timing += ', ';
+      }
+
+      timing += new Date(seconds * 1000).toISOString().substr(11, 8);
+      element.textContent = timing;
+
       seconds--;
       await new Promise(r => setTimeout(r, 1000));
     }
 
-    const parent = (element.parentElement || element.parentNode) as HTMLElement;
-    parent.remove();
+    element.textContent = '...'
+
+    //const parent = (element.parentElement || element.parentNode) as HTMLElement;
+    //parent.remove();
   }
 
   get offers() {
@@ -79,11 +96,11 @@ export class SliderComponent implements AfterViewInit {
   /* ORDER BY */
 
   sortItemsWhenClickingBtn(modifier: HTMLElement) {
-    let lower = false;
+    let downward = false;
 
     modifier.addEventListener('click', () => {
-      lower = !lower;
-      if (lower) {
+      downward = !downward;
+      if (downward) {
         modifier.textContent = 'Maior preço';
         this.sortBy('price+');
       } else {
