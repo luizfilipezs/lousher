@@ -24,7 +24,7 @@
         <p class="new-price">R$ {{ product.oferta.preco_oferta }}</p>
       </div>
       <p class="item-name">{{ product.nome }}</p>
-      <p class="price-validity">Válido por 22:10:03…</p>
+      <p #vencimentos class="price-validity">{{ product.oferta.vencimento }}</p>
     </div>
 
   </div>

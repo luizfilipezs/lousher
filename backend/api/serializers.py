@@ -22,10 +22,6 @@ class ProdutoSerializer(serializers.ModelSerializer):
 	docura = serializers.SerializerMethodField()
 	classe = serializers.SerializerMethodField()
 	sabor = serializers.SerializerMethodField()
-	
-	class Meta:
-		model = Produto
-		fields = '__all__'
 
 	def get_pais(self, obj):
 		return obj.get_pais_display()
@@ -47,6 +43,10 @@ class ProdutoSerializer(serializers.ModelSerializer):
 
 	def get_sabor(self, obj):
 		return obj.get_sabor_display()
+	
+	class Meta:
+		model = Produto
+		fields = '__all__'
 
 class ItemCarrinhoSerializer(serializers.ModelSerializer):
 	produto = ProdutoSerializer()
@@ -61,6 +61,11 @@ class EnderecoSerializer(serializers.ModelSerializer):
 
 class PedidoSerializer(serializers.ModelSerializer):
 	endereco = EnderecoSerializer()
+	status = serializers.SerializerMethodField()
+
+	def get_status(self, obj):
+		return obj.get_status_display()
+
 	class Meta:
 		model = Pedido
 		fields = '__all__'

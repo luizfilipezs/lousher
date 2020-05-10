@@ -16,13 +16,10 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService
+    private authService: AuthService // used in template
     ) { }
 
   ngOnInit() {
-    if (!this.authService.user)
-      this.isLoggedOut = true;
-
     this.cartService.getItems();
   }
 

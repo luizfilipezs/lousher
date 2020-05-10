@@ -22,10 +22,14 @@ export class LoginComponent implements AfterViewInit {
     ) { }
 
   ngAfterViewInit() {
+    if (this.authService.user) this.getOrders();
   }
 
   getOrders() {
-    forkJoin(this.orderService.get, this.orderService.getOrderItems)
+    // Set authorization header in order service
+    this.orderService.setAuth(this.authService.token);
+    // Get orders and their items
+    forkJoin(this.orderService.get(), this.orderService.getOrderItems())
       .subscribe(
         ([orders, orderItems]) => this.orders = this.orderService.formatOrders(orders, orderItems),
         (error) => this.errorGettingOrders = true
@@ -37,8 +41,6 @@ export class LoginComponent implements AfterViewInit {
       this.authService.login(username, password)
         .subscribe(
           (sucess) => {
-            // Set authorization header in order service
-            this.orderService.setAuth(this.authService.token);
             // Clear error message (if there's one)
             this.errorWhenLoggingIn = false;
             // Get orders

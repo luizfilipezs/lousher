@@ -3,7 +3,9 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
-  HostListener
+  HostListener,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
@@ -21,6 +23,7 @@ export class SliderComponent implements AfterViewInit {
 
   @ViewChild('slider') slider: ElementRef;
   @ViewChild('sortByBtn') sortByBtn: ElementRef;
+  @ViewChildren('vencimentos') vencimentos: QueryList<ElementRef>;
 
   constructor(private productService: ProductService) { }
   
@@ -38,6 +41,30 @@ export class SliderComponent implements AfterViewInit {
 
     // Sort by
     this.sortItemsWhenClickingBtn(this.sortByBtn.nativeElement);
+
+    // Changes
+
+    this.vencimentos.changes.subscribe((r) => {
+      const validades = this.vencimentos.toArray();
+      validades.forEach(element => {
+        const date = element.nativeElement.textContent;
+        this.setTimeRemaining(element.nativeElement, date);
+      });
+    });
+  }
+  
+  async setTimeRemaining(element: HTMLElement, limitDate: string) {
+    let seconds = (Date.parse(limitDate) - Date.now()) / 1000;
+    console.log(new Date(seconds * 1000).toISOString());
+
+    while (seconds > 0) {
+      element.textContent = new Date(seconds * 1000).toISOString().substr(11, 8);
+      seconds--;
+      await new Promise(r => setTimeout(r, 1000));
+    }
+
+    const parent = (element.parentElement || element.parentNode) as HTMLElement;
+    parent.remove();
   }
 
   get offers() {
@@ -137,17 +164,5 @@ export class SliderComponent implements AfterViewInit {
         nextBtn.classList.remove('invisible');
     }
   }
-  
-  async setTimeRemaining(element: HTMLElement, limitDate: string) {
-    let seconds = (Date.parse(limitDate) - Date.now()) / 1000;
 
-    while (seconds > 0) {
-      element.textContent = new Date(seconds * 1000).toISOString().substr(11, 8);
-      seconds--;
-      await new Promise(r => setTimeout(r, 1000));
-    }
-
-    const parent = (element.parentElement || element.parentNode) as HTMLElement;
-    parent.remove();
-  }
 }
