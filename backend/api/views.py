@@ -47,6 +47,55 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 
 # CARRINHO
 
+class ItemCarrinhoViewSet(viewsets.ViewSet):
+	permission_classes = [permissions.IsAuthenticated]
+
+	def list(self, request):
+		queryset = ItemCarrinho.objects.filter(usuario=request.user)
+		serializer = ItemCarrinhoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
+	def retrieve(self, request, pk=None):
+		queryset = ItemCarrinho.objects.filter(usuario=request.user)
+		item_carrinho = get_object_or_404(queryset, pk=pk)
+		serializer = ItemCarrinhoSerializer(item_carrinho)
+		return Response(serializer.data)
+
+	@action(methods=['post'], detail=True)
+	def change_cart(self, request, *args, **kwargs):
+		produto_id = int(kwargs['produto_id'])
+		qntd = int(kwargs['qntd'])
+
+		item_carrinho = ItemCarrinho.objects.filter(usuario=request.user, produto_id=produto_id).first()
+		has_body = True
+
+		if not item_carrinho is None:
+			# Update existing cart item if qntd > 0, else delete it
+			if qntd > 0:
+				item_carrinho.qntd = qntd
+				item_carrinho.save()
+			else:
+				item_carrinho.delete()
+				has_body = False
+		else:
+			# Create new cart item
+			if qntd > 0:
+				item_carrinho = ItemCarrinho.objects.create(
+					usuario=request.user,
+					produto=Produto.objects.get(pk=produto_id),
+					qntd=qntd 
+				)
+			else:
+				has_body = False
+		
+		# Return 
+		if has_body:
+			serializer = ItemCarrinhoSerializer(item_carrinho)
+			return Response(serializer.data)
+		else:
+			return Response(status=204)
+
+"""
 class CarrinhoViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -79,7 +128,7 @@ class CarrinhoViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         ItemCarrinho.objects.filter(pk=pk).delete()
         return Response(status=200)
-
+"""
 
 # ENDERECO
 
@@ -98,7 +147,7 @@ class EnderecoViewSet(viewsets.ViewSet):
 		return Response(serializer.data)
 
 	def create(self, request):
-		endereco = EnderecoSerializer(request.data)
+		endereco = EnderecoSerializer(data=request.data)
 		if endereco.is_valid():
 			endereco.save()
 			request.user.enderecos.add(endereco)

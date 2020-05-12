@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
   search(input: HTMLInputElement): void {
     const q = input.value.trim();
     if (q) {
-      console.log(`Search for ${q}`);
       input.select();
     }
   }

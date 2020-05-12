@@ -79,9 +79,6 @@ export class SliderComponent implements AfterViewInit {
     }
 
     element.textContent = '...'
-
-    //const parent = (element.parentElement || element.parentNode) as HTMLElement;
-    //parent.remove();
   }
 
   get offers() {

@@ -31,15 +31,13 @@ export class ProductComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.productService.getById(id)
       .subscribe(
-        (product) => {this.product = product;console.log(product)},
+        (product) => this.product = product,
         (error) => this.router.navigate(['/notFound'])
       );
   }
 
   setCart() {
-    if (this.product)
-      this.cartService.addItem(this.product.id, this.quantityInCart)
-        .subscribe();
+    if (this.product) this.cartService.setItem(this.product.id, this.quantityInCart);
   }
 
 }

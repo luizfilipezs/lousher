@@ -19,7 +19,7 @@
         <div class="item-text-box">
           <p class="cart-item-title">{{ item.produto.nome }}</p>
           <p class="cart-item-price-and-quantity">{{ item.produto.oferta ? item.produto.oferta.novo_preco : item.produto.preco }} x {{ item.qntd }}</p>
-          <p class="cart-item-link"><a routerLink="/produto/{{item.produto.id}}">Ver produto</a> | <a href="#">Remover unidade</a></p>
+          <p class="cart-item-link"><a routerLink="/produto/{{item.produto.id}}">Ver produto</a> | <a href="#" (click)="removeUnity(item.produto.id, item.qntd)">Remover unidade</a></p>
         </div>
       </div>
 

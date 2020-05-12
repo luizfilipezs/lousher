@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 
-import { CartProduct } from './cart.product';
-import { cartItems } from './test';
 import { ToggleView } from './toggle.view';
+import { CartItem } from './cart.item';
+import { Product } from './product';
+import { finalize } from 'rxjs/operators';
 
 @Injectable()
 export class CartService extends ToggleView {
 
-  private _items: CartProduct[] = [];
+  private _items: CartItem[] = [];
   public totalPrice = 0;
 
-  private apiRoot = 'http://localhost:8000/api/';
+  private apiRoot = 'http://localhost:8000/api/carrinho/';
 
   httpOptions = {
     headers: new HttpHeaders()
@@ -37,24 +37,35 @@ export class CartService extends ToggleView {
   set items(value) {
     this._items = value;
     this.totalPrice = 0;
-    value.forEach(item => this.totalPrice += (item.produto.oferta ? item.produto.oferta.preco_oferta : item.produto.preco) * item.qntd);
+
+    // Define total price of cart
+    value.forEach(item =>
+      this.totalPrice += (item.produto.oferta ? item.produto.oferta.preco_oferta : item.produto.preco) * item.qntd);
   }
 
-  // HTTP METHODS
-
+  /**
+   * Get updated list of items in user cart from server and set
+   * it in the `items` property
+   */
   getItems() {
-    of(cartItems).subscribe((items) => this.items = items);
+    return this.http.get<CartItem[]>(this.apiRoot, this.httpOptions)
+      .subscribe((items) => this.items = items);
   }
 
-  addItem(id: number, quantity: number): Observable<CartProduct> {
-    return;
-    /*        method id  qntd
-      api/cart/add/314134/1
-    */
-  }
+  /**
+   * Set quantity of a product in cart and toggle cart component when
+   * server respond with success or error
+   * @param productId ID of product that will be added or removed
+   * @param quantity New quantity of product in cart
+   */
+  setItem(productId: number, quantity: number) {
+    const url = `produto/${productId}/qntd/${quantity}/`;
 
-  removeItem(id: number, quantity: number): void {
-    this.http.delete(this.apiRoot.concat(`cart/${id}`), this.httpOptions)
-      .subscribe(this.getItems);
+    this.http.post(this.apiRoot.concat(url), this.httpOptions)
+      .pipe(
+        finalize(() => this.toggleView())
+      )
+      .subscribe((success) => this.getItems());
   }
+  
 }
