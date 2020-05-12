@@ -34,6 +34,6 @@ export class EnderecoService {
   }
 
   deleteEndereco(id: number): Observable<{}> {
-    return this.http.delete(this.apiRoot.concat(id.toString()), httpOptions);
+    return this.http.delete(this.apiRoot.concat(`${id}/`), httpOptions);
   }
 }

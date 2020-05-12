@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
 
 import { ToggleView } from './toggle.view';
 import { CartItem } from './cart.item';
-import { Product } from './product';
-import { finalize } from 'rxjs/operators';
+
 
 @Injectable()
 export class CartService extends ToggleView {
@@ -14,6 +14,9 @@ export class CartService extends ToggleView {
 
   private apiRoot = 'http://localhost:8000/api/carrinho/';
 
+  /**
+   * Provide headers for all requests
+   */
   httpOptions = {
     headers: new HttpHeaders()
   }
@@ -22,18 +25,25 @@ export class CartService extends ToggleView {
     super();
   }
 
-  // AUTH
-
+  /**
+   * Set authorization header
+   * @param token JWT Token
+   */
   setAuth(token: string) {
     this.httpOptions.headers.append('Authorization', 'JWT '.concat(token));
   }
 
-  // GET/SET ITEMS
-
+  
+  /**
+   * `items` getter
+   */
   get items() {
     return this._items;
   }
 
+  /**
+   * `items` setter. Update total price of cart
+   */
   set items(value) {
     this._items = value;
     this.totalPrice = 0;
@@ -44,11 +54,18 @@ export class CartService extends ToggleView {
   }
 
   /**
+   * Clear `items` when logging out
+   */
+  clearLocal() {
+    this.items = [];
+  }
+
+  /**
    * Get updated list of items in user cart from server and set
    * it in the `items` property
    */
   getItems() {
-    return this.http.get<CartItem[]>(this.apiRoot, this.httpOptions)
+    this.http.get<CartItem[]>(this.apiRoot, this.httpOptions)
       .subscribe((items) => this.items = items);
   }
 
@@ -63,7 +80,7 @@ export class CartService extends ToggleView {
 
     this.http.post(this.apiRoot.concat(url), this.httpOptions)
       .pipe(
-        finalize(() => this.toggleView())
+        finalize(this.toggleView)
       )
       .subscribe((success) => this.getItems());
   }

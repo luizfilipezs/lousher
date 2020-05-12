@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { OrderService, OrderInfo } from '../order.service';
 import { forkJoin } from 'rxjs';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private cartService: CartService
     ) { }
 
   ngAfterViewInit() {
@@ -45,6 +47,8 @@ export class LoginComponent implements AfterViewInit {
             this.errorWhenLoggingIn = false;
             // Get orders
             this.getOrders();
+            // Get cart
+            this.cartService.getItems();
           },
           (error) => this.errorWhenLoggingIn = true
         );
@@ -65,6 +69,9 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
-  logout = () => this.authService.logout();
+  logout() {
+    this.authService.logout();
+    this.cartService.clearLocal();
+  };
 
 }
