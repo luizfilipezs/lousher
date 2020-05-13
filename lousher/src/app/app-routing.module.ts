@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'product/:id', component: ProductComponent },
   //{ path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard] },
   { path: 'notFound', component: NotFoundComponent },
-  { path: '**', component: HomeComponent }
+  { path: '**', redirectTo: '' }
 ];
 
 const routerOptions: ExtraOptions = {

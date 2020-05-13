@@ -7,7 +7,7 @@ export class ToggleView {
 
   constructor() { }
 
-  toggleView(): void {
+  toggleView() {
     this.toggleVal = !this.toggleVal;
     this.toggleState.next(this.toggleVal);
   }
