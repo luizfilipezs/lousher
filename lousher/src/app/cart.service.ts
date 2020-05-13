@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
 
 import { ToggleView } from './toggle.view';
 import { CartItem } from './cart.item';
+import { callbackFunction } from './types';
+import { Subject } from 'rxjs';
 
 
 @Injectable()
@@ -11,6 +12,9 @@ export class CartService extends ToggleView {
 
   private _items: CartItem[] = [];
   public totalPrice = 0;
+
+  private changes = new Subject<CartItem[]>();
+  public changes$ = this.changes.asObservable();
 
   private apiRoot = 'http://localhost:8000/api/carrinho/';
 
@@ -51,6 +55,9 @@ export class CartService extends ToggleView {
     // Define total price of cart
     value.forEach(item =>
       this.totalPrice += (item.produto.oferta ? item.produto.oferta.preco_oferta : item.produto.preco) * item.qntd);
+    
+    // Has changed
+    this.changes.next(value);
   }
 
   /**
@@ -79,10 +86,21 @@ export class CartService extends ToggleView {
     const url = `produto/${productId}/qntd/${quantity}/`;
 
     this.http.post(this.apiRoot.concat(url), this.httpOptions)
-      .pipe(
-        finalize(this.toggleView)
-      )
-      .subscribe((success) => this.getItems());
+      .subscribe((success) => {
+        this.getItems();
+        if (this.toggleVal === false) this.toggleView();
+      });
+
+  }
+
+  /**
+   * If product is in cart return its `ItemCart`.
+   * Else return not found error.
+   * @param productId ID of product that will be checked
+   */
+  checkItem(productId: number) {
+    const url = `produto/${productId}/`;
+    return this.http.get<CartItem>(this.apiRoot.concat(url), this.httpOptions);
   }
   
 }

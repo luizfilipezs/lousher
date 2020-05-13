@@ -26,6 +26,11 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	serializer_class = ProdutoSerializer
 	permission_classes = [IsAdminOrReadOnly]
 
+	def list(self, request):
+		queryset = Produto.objects.filter(qntd_disponivel__gt=0)
+		serializer = ProdutoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
 	def retrieve(self, request, pk=None):
 		produto = get_object_or_404(Produto, pk=pk)
 		# Checa a validade da oferta. Se estiver vencida, remove o desconto
@@ -39,8 +44,9 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 
 	@action(methods=['get'], detail=False)
 	def get_ofertas(self, request):
-		# pega objetos com oferta e filtra para receber apenas os que têm o vencimento acima da data atual
-		queryset = Produto.objects.all().exclude(oferta=None).filter(oferta__vencimento__gt=date.today())
+		# pega objetos com oferta e filtra para receber apenas os que têm o
+		# vencimento acima da data atual e quantidade disponível maior que zero
+		queryset = Produto.objects.all().exclude(oferta=None, qntd_disponivel__lte=0).filter(oferta__vencimento__gt=date.today())
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
@@ -61,6 +67,27 @@ class ItemCarrinhoViewSet(viewsets.ViewSet):
 		serializer = ItemCarrinhoSerializer(item_carrinho)
 		return Response(serializer.data)
 
+	@action(methods=['get'], detail=True)
+	def check_product(self, request, *args, **kwargs):
+		produto_id = int(kwargs['produto_id'])
+		item = ItemCarrinho.objects.filter(usuario=request.user, produto_id=produto_id).first()
+		
+		if not item is None:
+			# Prevent to keep more products than its available quantity
+			qntd_disponivel = item.produto.qntd_disponivel
+			if item.qntd > qntd_disponivel:
+				if qntd_disponivel == 0:
+					item.delete()
+					return Response(status=404)
+				else:
+					item.qntd = qntd_disponivel
+					item.save()
+
+			serializer = ItemCarrinhoSerializer(item)
+			return Response(serializer.data)
+		else:
+			return Response(status=404)
+
 	@action(methods=['post'], detail=True)
 	def change_cart(self, request, *args, **kwargs):
 		produto_id = int(kwargs['produto_id'])
@@ -70,6 +97,11 @@ class ItemCarrinhoViewSet(viewsets.ViewSet):
 		has_body = True
 
 		if not item_carrinho is None:
+			# Prevent to add more products than its available quantity
+			qntd_disponivel = item_carrinho.produto.qntd_disponivel
+			if qntd > qntd_disponivel:
+				qntd = qntd_disponivel
+
 			# Update existing cart item if qntd > 0, else delete it
 			if qntd > 0:
 				item_carrinho.qntd = qntd
@@ -94,41 +126,6 @@ class ItemCarrinhoViewSet(viewsets.ViewSet):
 			return Response(serializer.data)
 		else:
 			return Response(status=204)
-
-"""
-class CarrinhoViewSet(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def list(self, request):
-        queryset = ItemCarrinho.objects.filter(usuario=request.user)
-        serializer = ItemCarrinhoSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, produto_id=None):
-        queryset = ItemCarrinho.objects.filter(usuario=request.user, produto_id=produto_id)
-        serializer = ItemCarrinhoSerializer(queryset)
-        return Response(serializer.data)
-
-    def create(self, request):
-        item_carrinho = ItemCarrinhoSerializer(request.data)
-        if item_carrinho.is_valid():
-            item_carrinho.save()
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        queryset = ItemCarrinho.objects.filter(usuario=request.user)
-        item_carrinho = get_object_or_404(queryset, pk=pk)
-        obj_atualizado = ItemCarrinhoSerializer(item_carrinho, request.data)
-        if obj_atualizado.is_valid():
-            obj_atualizado.save()
-            return Response(endereco.data)
-		
-        return Response(status=400)
-
-    def destroy(self, request, pk=None):
-        ItemCarrinho.objects.filter(pk=pk).delete()
-        return Response(status=200)
-"""
 
 # ENDERECO
 

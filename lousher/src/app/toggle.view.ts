@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 export class ToggleView {
   private toggleState = new Subject();
   public toggleState$ = this.toggleState.asObservable();
-  private toggleVal = false;
+  public toggleVal = false;
 
   constructor() { }
 

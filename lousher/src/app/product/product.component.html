@@ -16,12 +16,14 @@
         <p class="price">R$ {{ product.oferta ? product.oferta.preco_oferta : product.preco }}</p>
         <p class="liquid-content">{{ product.mililitros }} ml</p>
         <div class="define-quantity">
-          <span class="add-or-remove disabled-btn">-</span>
-          <span class="quantity-to-add">1</span>
-          <span class="add-or-remove">+</span></div>
+          <span #downBtn class="add-or-remove" [class.disabled-btn]="quantityInCart < 1">-</span>
+          <span class="quantity-to-add">{{ quantityInCart }}</span>
+          <span #upBtn class="add-or-remove" [class.disabled-btn]="quantityInCart >= product.qntd_disponivel">+</span>
+        </div>
       </div>
 
-      <p class="add-to-cart-btn">Adicionar ao carrinho</p>
+      <p class="cart-btn add-to-cart-btn" *ngIf="product.qntd_disponivel > 0" (click)="setCart()">Atualizar carrinho</p>
+      <p class="cart-btn not-available" *ngIf="product.qntd_disponivel == 0">Indisponível no momento</p>
 
       <div class="details-box">
         <div class="detail">

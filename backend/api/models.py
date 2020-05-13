@@ -15,6 +15,9 @@ class Endereco(models.Model):
 class User(AbstractUser):
     enderecos = models.ManyToManyField(Endereco)
 
+    def __str__(self):
+        return self.get_full_name()
+
 class Oferta(models.Model):
     descricao = models.CharField(max_length=70)
     preco_oferta = models.PositiveIntegerField()
@@ -78,6 +81,7 @@ class Produto(models.Model):
     descricao = models.CharField(max_length=220, default='Sem descrição disponível.')
     preco = models.PositiveIntegerField()
     qntd_estoque = models.PositiveIntegerField(default=0)
+    qntd_disponivel = models.PositiveIntegerField(default=0)
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
     regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
     oferta = models.ForeignKey(Oferta, null=True, blank=True, on_delete=models.SET_NULL)
@@ -98,6 +102,9 @@ class ItemCarrinho(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     qntd = models.PositiveIntegerField(default=1) 
 
+    def __str__(self):
+        return f"{self.produto} x {self.qntd}, de {self.usuario}"
+
 class Pedido(models.Model):
     primeiro_status = 'processando_pag'
     STATUS = [
@@ -113,8 +120,12 @@ class Pedido(models.Model):
     endereco = models.ForeignKey(Endereco, on_delete=models.PROTECT)
     status = models.CharField(max_length=20, choices=STATUS, default=primeiro_status)
     observacoes = models.CharField(max_length=300, blank=True)
+    data_pedido = models.DateField(auto_now_add=True, null=True)
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     qntd = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.produto} x {self.qntd} | ID pedido: {self.pedido.id}"

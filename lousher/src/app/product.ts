@@ -11,6 +11,7 @@ export interface Product {
   descricao: string;
   preco: number;
   qntd_estoque: number;
+  qntd_disponivel: number;
   pais: string;
   regiao: string;
   oferta?: Offer;
