@@ -33,12 +33,15 @@ export class ProductComponent implements OnInit {
     this.cartService.changes$.subscribe(
       (items) => {
         if (this.product) {
+          let itemNotFound = true;
           for (const item of items) {
             if (item.produto.id === this.product.id) {
               this.quantityInCart = item.qntd;
+              itemNotFound = false;
               break;
             }
           }
+          if (itemNotFound) this.quantityInCart = 0;
         }
       }
     );
