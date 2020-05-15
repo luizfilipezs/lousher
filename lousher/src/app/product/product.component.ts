@@ -29,7 +29,7 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.getProduct();
 
-    // Change quantity in cart when items from cart are
+    // Change quantityInCart when items from cart are removed
     this.cartService.changes$.subscribe(
       (items) => {
         if (this.product) {

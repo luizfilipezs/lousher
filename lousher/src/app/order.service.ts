@@ -37,7 +37,7 @@ export class OrderService {
   }
 
   post(order: Order) {
-    return this.http.post<Order>(this.root.orders, this.httpOptions);
+    return this.http.post<Order>(this.root.orders, order, this.httpOptions);
   }
 
   /* ORDER ITEM */
@@ -52,7 +52,7 @@ export class OrderService {
 
   /* FORMATING */
 
-  formatOrders(orders: Order[], items: OrderItem[]): OrderInfo[] {
+  formatOrders(orders: Order[], items: OrderItem[]) {
     let info: OrderInfo[] = [];
 
     for (const order of orders) {
@@ -86,7 +86,7 @@ export class OrderService {
         receiverAddress: address,
         id: order.id,
         status: order.status
-      })
+      });
 
     }
 

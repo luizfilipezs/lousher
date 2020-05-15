@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { ToggleView } from './toggle.view';
 import { CartItem } from './cart.item';
-import { callbackFunction } from './types';
 import { Subject } from 'rxjs';
 
 
@@ -13,6 +12,9 @@ export class CartService extends ToggleView {
   private _items: CartItem[] = [];
   public totalPrice = 0;
 
+  /**
+   * Observe changes made in cart list
+   */
   private changes = new Subject<CartItem[]>();
   public changes$ = this.changes.asObservable();
 

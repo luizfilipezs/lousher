@@ -11,7 +11,7 @@ export class ImageService {
   
   constructor() { }
   
-  public getPhoto(id: string, callback: callbackFunction): void {
+  public getPhoto(id: string, callback: callbackFunction) {
     this.unsplash.photos.getPhoto(id)
       .then(toJson)
       .then(callback);
