@@ -53,7 +53,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	@action(methods=['get'], detail=False)
 	def get_by_type(self, request, *args, **kwargs):
 		tipo = kwargs['tipo']
-		queryset = Produto.objects.filter(tipo=tipo, qntd_disponivel__gt=0)
+		queryset = Produto.objects.filter(tipo=tipo, qntd_disponivel__gt=0).order_by('-ano')
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 

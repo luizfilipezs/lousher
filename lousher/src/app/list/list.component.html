@@ -1,0 +1,23 @@
+<div class="main">
+  <app-header></app-header>
+
+  <h1 class="list-title">{{ title }}</h1>
+
+  <p class="error-message" *ngIf="error">
+    Houve um erro ao tentar carregar os produtos. Pode ser algo relacionado à sua conexão ou ao nosso servidor. <a routerLink="/">Voltar.</a>
+  </p>
+  <p class="error-message" *ngIf="noResults">
+    Não encontramos nenhum produto nesta categoria. <a routerLink="/">Voltar.</a>
+  </p>
+
+  <div class="items-wrapper">
+
+    <div class="product-box" *ngFor="let produto of products" routerLink="/product/{{ produto.id }}">
+      <div class="rounded-box">
+        <img src="assets/img/wine-bottle.png" alt="{{ produto.nome }}" class="product-img">
+      </div>
+      <p class="product-year-price"><span class="product-year">{{ produto.ano }}</span>, R$ {{ produto.oferta ? produto.oferta.preco_oferta : produto.preco }}</p>
+    </div>
+
+  </div>
+</div>

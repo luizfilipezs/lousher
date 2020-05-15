@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.cartService.getItems();
+    if (this.authService.user) this.cartService.getItems();
   }
 
   removeUnity(productId: number, currentQuantity: number) {
