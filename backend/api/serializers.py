@@ -13,6 +13,7 @@ class OfertaSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class ProdutoSerializer(serializers.ModelSerializer):
+	nome = serializers.SerializerMethodField()
 	oferta = OfertaSerializer()
 	# choices
 	pais = serializers.SerializerMethodField()
@@ -22,6 +23,9 @@ class ProdutoSerializer(serializers.ModelSerializer):
 	docura = serializers.SerializerMethodField()
 	classe = serializers.SerializerMethodField()
 	sabor = serializers.SerializerMethodField()
+
+	def get_nome(self, obj):
+		return f"{obj.get_tipo_display()} {obj.ano}"
 
 	def get_pais(self, obj):
 		return obj.get_pais_display()

@@ -77,7 +77,6 @@ class Produto(models.Model):
         ('defumado', 'Defumado')
     ]
 
-    nome = models.CharField(max_length=100)
     descricao = models.CharField(max_length=220, default='Sem descrição disponível.')
     preco = models.PositiveIntegerField()
     qntd_estoque = models.PositiveIntegerField(default=0)
