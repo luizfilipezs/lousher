@@ -50,6 +50,13 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
+	@action(methods=['get'], detail=False)
+	def get_by_type(self, request, *args, **kwargs):
+		tipo = kwargs['tipo']
+		queryset = Produto.objects.filter(tipo=tipo, qntd_disponivel__gt=0)
+		serializer = ProdutoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
 
 # CARRINHO
 
