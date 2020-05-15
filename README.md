@@ -4,11 +4,23 @@ Wine e-commerce. Backend written in Python 3, with Django REST Framework. Fronte
 
 ## `backend` folder
 
+Install `virtualenv` using pip:
+
+```bash
+pip3 install virtualenv
+```
+
+Create virtual environment and install packages:
+
+```bash
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
 Run migrations:
 
 ```bash
-source env/bin/activate
-
 python manage.py makemigrations
 python manage.py migrate
 ```
