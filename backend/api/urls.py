@@ -13,6 +13,7 @@ router.register(r'itensPedidos', views.ItemPedidoViewSet, basename='itensPedidos
 urlpatterns = [
 	path('produtos/ofertas', views.ProdutoViewSet.as_view({'get': 'get_ofertas'})),
 	path('produtos/tipo/<str:tipo>', views.ProdutoViewSet.as_view({'get': 'get_by_type'})),
+	path('produtos/search/<str:q>', views.ProdutoViewSet.as_view({'get': 'search'})),
 	path('carrinho/produto/<int:produto_id>/', views.ItemCarrinhoViewSet.as_view({'get': 'check_product'})),
 	path('carrinho/produto/<int:produto_id>/qntd/<int:qntd>/', views.ItemCarrinhoViewSet.as_view({'post': 'change_cart'})),
 	path('', include(router.urls)),

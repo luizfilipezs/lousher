@@ -94,7 +94,7 @@ class Produto(models.Model):
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
 
     def __str__(self):
-        return self.nome
+        return f"{self.tipo} {self.ano}"
 
 class ItemCarrinho(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

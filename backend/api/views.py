@@ -12,6 +12,18 @@ from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, 
 
 from api.permission_classes import IsAdminOrReadOnly
 
+
+from django.db.models import Transform
+
+class LowerCase(Transform):
+	lookup_name = 'lower'
+	function = 'LOWER'
+	bilateral = True
+
+from django.db.models import CharField
+CharField.register_lookup(LowerCase)
+
+
 # USER
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -54,6 +66,32 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	def get_by_type(self, request, *args, **kwargs):
 		tipo = kwargs['tipo']
 		queryset = Produto.objects.filter(tipo=tipo, qntd_disponivel__gt=0).order_by('-ano')
+		serializer = ProdutoSerializer(queryset, many=True)
+		return Response(serializer.data)
+
+	@action(methods=['get'], detail=False)
+	def search(self, request, *args, **kwargs):
+		q = kwargs['q']
+
+		y = 0
+		try:
+			y = int(q)
+		except ValueError:
+			y = 0
+
+		from django.db.models import Q
+
+		queryset = Produto.objects.filter(
+			Q(tipo__unaccent__lower__trigram_similar=q) |
+			Q(classe__unaccent__lower__trigram_similar=q) |
+			Q(cor__unaccent__lower__trigram_similar=q) |
+			Q(docura__unaccent__lower__trigram_similar=q) |
+			Q(sabor__unaccent__lower__trigram_similar=q) |
+			Q(ano=y)
+		).exclude(
+			qntd_disponivel__lt=1
+		)
+
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
