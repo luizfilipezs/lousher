@@ -12,17 +12,14 @@ from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, 
 
 from api.permission_classes import IsAdminOrReadOnly
 
-
-from django.db.models import Transform
+from django.db.models import Transform, CharField, Q
 
 class LowerCase(Transform):
 	lookup_name = 'lower'
 	function = 'LOWER'
 	bilateral = True
 
-from django.db.models import CharField
 CharField.register_lookup(LowerCase)
-
 
 # USER
 
@@ -78,8 +75,6 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 			y = int(q)
 		except ValueError:
 			y = 0
-
-		from django.db.models import Q
 
 		queryset = Produto.objects.filter(
 			Q(tipo__unaccent__lower__trigram_similar=q) |

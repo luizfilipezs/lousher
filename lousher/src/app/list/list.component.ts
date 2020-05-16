@@ -18,8 +18,7 @@ export class ListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
@@ -31,7 +30,8 @@ export class ListComponent implements OnInit {
   getItems(type: string) {
     // Search
     if (type && type.startsWith('search:')) {
-      this.title = 'Busca: ' + type.substring(7).replace(/%20/g, ' ');
+      type = type.substring(7).replace(/%20/g, ' ');
+      this.title = `Busca: ${type}`; 
       this.subscribe(this.productService.search(type));
     }
     // Offers

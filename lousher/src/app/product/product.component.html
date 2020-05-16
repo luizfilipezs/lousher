@@ -13,7 +13,7 @@
       <p class="pdct-description">{{ product.descricao }}</p>
       
       <div class="price-and-quantity">
-        <p class="price">R$ {{ product.oferta ? product.oferta.preco_oferta : product.preco }}</p>
+        <p class="price">R$ {{ product.oferta ? product.preco_oferta : product.preco }}</p>
         <p class="liquid-content">{{ product.mililitros }} ml</p>
         <div class="define-quantity">
           <span #downBtn class="add-or-remove" [class.disabled-btn]="quantityInCart < 1">-</span>

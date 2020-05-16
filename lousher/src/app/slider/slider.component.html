@@ -21,7 +21,7 @@
       <div class="item-banner-wrapper">
         <p class="old-price">R$ {{ product.preco }}</p>
         <img src="assets/img/wine-bottle.png" alt="{{ product.nome }}" class="item-img">
-        <p class="new-price">R$ {{ product.oferta.preco_oferta }}</p>
+        <p class="new-price">R$ {{ product.preco_oferta }}</p>
       </div>
       <p class="item-name">{{ product.nome }}</p>
       <p #vencimentos class="price-validity">{{ product.oferta.vencimento }}</p>

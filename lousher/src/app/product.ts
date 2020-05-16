@@ -1,7 +1,6 @@
 export interface Offer {
   id: number;
-  descricao: string;
-  preco_oferta: number;
+  porcentagem: number;
   vencimento: string;
 }
 
@@ -10,6 +9,7 @@ export interface Product {
   nome: string;
   descricao: string;
   preco: number;
+  preco_oferta?: number;
   qntd_estoque: number;
   qntd_disponivel: number;
   pais: string;

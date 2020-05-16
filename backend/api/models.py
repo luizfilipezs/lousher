@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import date
 
 class Endereco(models.Model):
@@ -19,12 +20,11 @@ class User(AbstractUser):
         return self.get_full_name()
 
 class Oferta(models.Model):
-    descricao = models.CharField(max_length=70)
-    preco_oferta = models.PositiveIntegerField()
+    porcentagem = models.PositiveIntegerField(default=10, validators=[MinValueValidator(1), MaxValueValidator(100)])
     vencimento = models.DateField()
 
     def __str__(self):
-        return self.descricao
+        return f"{self.porcentagem}% | Até {self.vencimento.strftime('%d/%m/%Y')}"
 
 class Produto(models.Model):
     TIPOS = [

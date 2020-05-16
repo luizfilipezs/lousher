@@ -8,10 +8,10 @@ admin.site.register(Pedido)
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-	list_display = ('preco', 'tipo', 'ano', 'oferta',)
+	list_display = ('tipo', 'ano', 'preco', 'oferta',)
 	search_fields = ['tipo', 'ano']
 
 @admin.register(Oferta)
 class OfertaAdmin(admin.ModelAdmin):
-	list_display = ('descricao', 'preco_oferta', 'vencimento',)
-	search_fields = ['descricao', 'preco_oferta']
+	list_display = ('porcentagem', 'vencimento',)
+	search_fields = ['porcentagem', 'vencimento']

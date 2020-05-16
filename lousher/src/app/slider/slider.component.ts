@@ -110,9 +110,9 @@ export class SliderComponent implements AfterViewInit {
   private sortBy(arg: 'price-' | 'price+') {
     this.offers.sort((a, b) => {
       if (arg == 'price-')
-        return (a.oferta.preco_oferta > b.oferta.preco_oferta) ? 1 : -1;
+        return (a.preco_oferta > b.preco_oferta) ? 1 : -1;
       else if (arg == 'price+')
-        return (a.oferta.preco_oferta < b.oferta.preco_oferta) ? 1 : -1;
+        return (a.preco_oferta < b.preco_oferta) ? 1 : -1;
     });
   };
 

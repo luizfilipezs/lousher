@@ -1,6 +1,6 @@
 from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, Oferta
 from rest_framework import serializers
-
+from decimal import Decimal
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
@@ -15,6 +15,7 @@ class OfertaSerializer(serializers.ModelSerializer):
 class ProdutoSerializer(serializers.ModelSerializer):
 	nome = serializers.SerializerMethodField()
 	oferta = OfertaSerializer()
+	preco_oferta = serializers.SerializerMethodField()
 	# choices
 	pais = serializers.SerializerMethodField()
 	regiao = serializers.SerializerMethodField()
@@ -23,6 +24,13 @@ class ProdutoSerializer(serializers.ModelSerializer):
 	docura = serializers.SerializerMethodField()
 	classe = serializers.SerializerMethodField()
 	sabor = serializers.SerializerMethodField()
+
+	def get_preco_oferta(self, obj):
+		if not obj.oferta is None:
+			preco = obj.preco * (1 - (obj.oferta.porcentagem / 100))
+			return int(preco)
+		else:
+			return None
 
 	def get_nome(self, obj):
 		return f"{obj.get_tipo_display()} {obj.ano}"
