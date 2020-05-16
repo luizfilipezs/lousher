@@ -1,9 +1,8 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 
 import { CartService } from '../cart.service';
 import { AuthService } from '../auth.service';
-import { ProductService } from '../product.service';
 
 let header: HTMLElement;
 
@@ -13,6 +12,8 @@ let header: HTMLElement;
   styleUrls: ['./header.component.styl']
 })
 export class HeaderComponent implements OnInit {
+
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(
     private cartService: CartService,
@@ -24,16 +25,20 @@ export class HeaderComponent implements OnInit {
     header = document.querySelector('.main-header');
   }
 
-  search(input: HTMLInputElement) {
-    let q = input.value;
+  typingQuery(event: KeyboardEvent) {
+    if (event.keyCode === 13) this.search();
+  }
+
+  search() {
+    let q = this.searchInput.nativeElement.value;
 
     if (q) {
-      input.select();
+      this.searchInput.nativeElement.select();
 
       q = q.trim(); // Remove first and last white spaces
       q = q.toLowerCase(); // Lower case
       q = q.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Remove accents
-      q = q.replace(/ /g, '%20'); // Replace white spaces by URL space (%20)
+      q = q.replace(/ /g, '_'); // Replace white spaces by underline (_)
       
       this.router.navigate(['list', `search:${q}`]);
     }

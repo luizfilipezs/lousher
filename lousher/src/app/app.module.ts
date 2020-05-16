@@ -20,6 +20,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ProductService } from './product.service';
 import { OrderService } from './order.service';
 import { ListComponent } from './list/list.component';
+import { PurchaseComponent } from './purchase/purchase.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ListComponent } from './list/list.component';
     CartComponent,
     LoginComponent,
     NotFoundComponent,
-    ListComponent
+    ListComponent,
+    PurchaseComponent
   ],
   imports: [
     BrowserModule,

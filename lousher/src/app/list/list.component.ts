@@ -30,14 +30,27 @@ export class ListComponent implements OnInit {
   getItems(type: string) {
     // Search
     if (type && type.startsWith('search:')) {
-      type = type.substring(7).replace(/%20/g, ' ');
-      this.title = `Busca: ${type}`; 
+      type = type.substring(7);
+      this.title = `Busca: ${type.replace(/_/g, ' ')}`; 
       this.subscribe(this.productService.search(type));
     }
     // Offers
     else if (type === 'offers') {
       this.title = 'Ofertas';
       this.subscribe(this.productService.getOffers());
+    }
+    // Lists
+    else if (type === 'presente') {
+      this.title = 'Presentes que você amaria';
+      this.subscribe(this.productService.search('leve_composto_carnoso'));
+    }
+    else if (type === 'amigos') {
+      this.title = 'Para degustar com um amigo';
+      this.subscribe(this.productService.search('pinot_branco'));
+    }
+    else if (type === 'reuniao') {
+      this.title = 'Ideais para celebrar';
+      this.subscribe(this.productService.search('amadeirado_austero_seco'));
     }
     // Wine type
     else {

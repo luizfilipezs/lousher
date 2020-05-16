@@ -1,0 +1,47 @@
+@import '../resources.styl'
+
+.main
+  width 100%
+  height 100vh
+  padding 0
+
+  .purchase-header
+    width 86%
+    height auto
+    padding 2.5em 7% 2.5em 7%
+    flex-parent(row, nowrap, space-between)
+    align-items center
+    background-color lighter-gray-color
+
+    .logo
+      flex-parent(row, nowrap, flex-start)
+      align-items center
+
+      .logo-img
+        flex-basis 4em
+        height 4em
+        margin-right 1em
+
+      .logo-txt
+        font-size 1.7em
+        font-style italic
+        font-weight 800
+        color theme-color
+        text-transform uppercase
+        text-shadow 0px 2px 16px rgba(0, 0, 0, .2)
+    
+    .basic-menu
+      list-style none
+
+      .menu-list-item
+        margin-left 1.5em
+        font-size 1.6em
+        font-weight 600
+        color #999
+        float left
+
+        &.theme-color
+          color theme-color
+
+        &.pointer-cursor
+          cursor pointer
