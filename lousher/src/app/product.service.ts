@@ -39,4 +39,12 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiRoot + `/tipo/${type}`);
   }
 
+  /**
+   * Returns all available products witch contains query text in its type or year
+   * @param q Search text
+   */
+  search(q: string) {
+    return this.http.get<Product[]>(this.apiRoot + `/search/${q}`);
+  }
+
 }
