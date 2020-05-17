@@ -2,10 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthService, AuthInterceptor, AuthGuard } from './auth.service';
-import { CartService } from './cart.service';
-import { ImageService } from './image.service';
-import { EnderecoService } from './endereco.service';
+import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
+import { CartService } from './services/cart.service';
+import { ImageService } from './services/image.service';
+import { EnderecoService } from './services/endereco.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,8 +17,8 @@ import { FooterComponent } from './footer/footer.component';
 import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ProductService } from './product.service';
-import { OrderService } from './order.service';
+import { ProductService } from './services/product.service';
+import { OrderService } from './services/order.service';
 import { ListComponent } from './list/list.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 

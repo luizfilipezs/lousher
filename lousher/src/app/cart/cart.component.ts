@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { CartService } from '../cart.service';
-import { AuthService } from '../auth.service';
-//import { ImageService } from '../image.service';
+import { CartService } from '../services/cart.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-cart',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { CartService } from '../cart.service';
-import { OrderService } from '../order.service';
-import { EnderecoService } from '../endereco.service';
+import { AuthService } from '../services/auth.service';
+import { CartService } from '../services/cart.service';
+import { OrderService } from '../services/order.service';
+import { EnderecoService } from '../services/endereco.service';
 import { CartItem } from '../cart.item';
 import { Router } from '@angular/router';
 
@@ -24,16 +24,29 @@ export class PurchaseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setServicesAuth();
   }
 
+  // Set authorization header in services
+
+  private setServicesAuth() {
+    const token = this.authService.token;
+
+    this.cartService.setAuth(token);
+    this.enderecoService.setAuth(token);
+    this.orderService.setAuth(token)
+  }
+
+  // Get cart
+
   private getCartItems() {
-    // Set auth token
-    this.cartService.setAuth(this.authService.token);
     // Observe changes
     this.cartService.changes$.subscribe((items) => this.cartItems = items);
     // Get items from server
     this.cartService.getItems();
   }
+
+  // Logout and get out current page
 
   logout() {
     this.authService.logout();

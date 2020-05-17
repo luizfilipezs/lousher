@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { CartService } from '../cart.service';
+import { CartService } from '../services/cart.service';
 import { Product } from '../product';
-import { ProductService } from '../product.service';
+import { ProductService } from '../services/product.service';
 import { finalize } from 'rxjs/operators';
 
 @Component({

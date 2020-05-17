@@ -1,8 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { OrderService, OrderInfo } from '../order.service';
+import { AuthService } from '../services/auth.service';
+import { OrderService, OrderInfo } from '../services/order.service';
 import { forkJoin } from 'rxjs';
-import { CartService } from '../cart.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-login',

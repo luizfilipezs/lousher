@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 
-import { CartService } from '../cart.service';
-import { AuthService } from '../auth.service';
+import { CartService } from '../services/cart.service';
+import { AuthService } from '../services/auth.service';
 
 let header: HTMLElement;
 

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
-import { ProductService } from '../product.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-slider',

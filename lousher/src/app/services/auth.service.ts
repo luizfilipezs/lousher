@@ -8,7 +8,7 @@ import { tap, shareReplay } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
-import { ToggleView } from './toggle.view';
+import { ToggleView } from '../toggle.view';
 
 @Injectable()
 export class AuthService extends ToggleView {

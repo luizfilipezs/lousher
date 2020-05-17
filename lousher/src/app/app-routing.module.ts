@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, ExtraOptions, RouterModule } from '@angular/router';
-import { AuthGuard } from './auth.service';
+import { AuthGuard } from './services/auth.service';
 
 import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './product/product.component';

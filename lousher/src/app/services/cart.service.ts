@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { ToggleView } from './toggle.view';
-import { CartItem } from './cart.item';
+import { ToggleView } from '../toggle.view';
+import { CartItem } from '../cart.item';
 import { Subject } from 'rxjs';
 
 

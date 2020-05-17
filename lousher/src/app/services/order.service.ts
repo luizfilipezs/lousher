@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Order, OrderItem } from './order';
-import { OrderStatus } from './types';
+import { Order, OrderItem } from '../order';
+import { OrderStatus } from '../types';
 
 class ServiceRoot {
   api = 'http://localhost:8000/api';

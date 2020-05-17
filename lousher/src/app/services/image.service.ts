@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Unsplash, { toJson } from 'unsplash-js';
-import { callbackFunction } from './types';
+import { callbackFunction } from '../types';
 
 
 @Injectable()
