@@ -10,6 +10,7 @@ import { PurchaseComponent } from './purchase/purchase.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'product/:id', component: ProductComponent },
   { path: 'list/:listName', component: ListComponent },
   { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard] },

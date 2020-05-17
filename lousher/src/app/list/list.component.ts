@@ -3,6 +3,7 @@ import { ProductService } from '../product.service';
 import { Product } from '../product';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list',
@@ -15,6 +16,7 @@ export class ListComponent implements OnInit {
   error = false;
   noResults = false;
   title: string;
+  loading = false;
 
   constructor(
     private productService: ProductService,
@@ -28,6 +30,10 @@ export class ListComponent implements OnInit {
   }
 
   getItems(type: string) {
+    this.loading = true;
+    this.products = [];
+    this.error = false;
+    this.noResults = false;
     // Search
     if (type && type.startsWith('search:')) {
       type = type.substring(7);
@@ -42,11 +48,11 @@ export class ListComponent implements OnInit {
     // Lists
     else if (type === 'presente') {
       this.title = 'Presentes que você amaria';
-      this.subscribe(this.productService.search('leve_composto_carnoso'));
+      this.subscribe(this.productService.search('carnoso_austero'));
     }
     else if (type === 'amigos') {
       this.title = 'Para degustar com um amigo';
-      this.subscribe(this.productService.search('pinot_branco'));
+      this.subscribe(this.productService.search('pinot_tinto_doce'));
     }
     else if (type === 'reuniao') {
       this.title = 'Ideais para celebrar';
@@ -61,6 +67,9 @@ export class ListComponent implements OnInit {
 
   private subscribe(obs: Observable<Product[]>) {
     obs
+      .pipe(
+        finalize(() => this.loading = false)
+      )
       .subscribe(
         (items) => {
           this.products = items;

@@ -4,6 +4,7 @@ import { CartService } from '../cart.service';
 import { OrderService } from '../order.service';
 import { EnderecoService } from '../endereco.service';
 import { CartItem } from '../cart.item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-purchase',
@@ -19,6 +20,7 @@ export class PurchaseComponent implements OnInit {
     private cartService: CartService,
     private enderecoService: EnderecoService,
     private orderService: OrderService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -31,6 +33,12 @@ export class PurchaseComponent implements OnInit {
     this.cartService.changes$.subscribe((items) => this.cartItems = items);
     // Get items from server
     this.cartService.getItems();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.cartService.clearLocal();
+    this.router.navigate(['home']);
   }
 
 }

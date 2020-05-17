@@ -9,6 +9,9 @@
   <p class="error-message" *ngIf="noResults">
     Não encontramos nenhum produto nesta categoria. <a routerLink="/">Voltar.</a>
   </p>
+  <p class="error-message" *ngIf="loading">
+    Carregando...
+  </p>
 
   <div class="items-wrapper">
 
