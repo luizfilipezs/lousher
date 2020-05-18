@@ -59,11 +59,7 @@ export class PurchaseComponent implements OnInit {
   // Iterate items for showing each one at the screen
   
   private *nextItem() {
-    while (true) {
-      for (let item of this.cartItems) {
-        yield this.currentItem = item;
-      }
-    }
+    while (true) for (let item of this.cartItems) yield this.currentItem = item;
   }
 
   // Logout and get out current page
