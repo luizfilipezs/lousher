@@ -20,9 +20,7 @@ export class EnderecoService {
     this.httpOptions.headers.append('Authorization', `JWT ${token}`);
   }
 
-  getEnderecos(): Observable<Endereco[]> {
-    return this.http.get<Endereco[]>(this.apiRoot, this.httpOptions);
-  }
+  // CRUD
 
   getEnderecoById(id: number): Observable<Endereco> {
     return this.http.get<Endereco>(this.apiRoot.concat(`${id}/`), this.httpOptions);
@@ -39,4 +37,15 @@ export class EnderecoService {
   deleteEndereco(id: number): Observable<{}> {
     return this.http.delete(this.apiRoot.concat(`${id}/`), this.httpOptions);
   }
+
+  // User address
+
+  getUserAddres() {
+    return this.http.get<Endereco>(this.apiRoot.concat('meu_endereco'), this.httpOptions);
+  }
+
+  changeUserAddres(address: Endereco) {
+    return this.http.post<Endereco>(this.apiRoot.concat('meu_endereco/alterar'), address, this.httpOptions);
+  }
+
 }

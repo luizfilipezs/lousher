@@ -4,18 +4,22 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import date
 
 class Endereco(models.Model):
-    cep = models.CharField(max_length=10)
-    bairro = models.CharField(max_length=100)
+    uf = models.CharField(max_length=2, default='RS')
+    cidade = models.CharField(max_length=28, default='Três Palmeiras')
     rua = models.CharField(max_length=100)
     numero = models.PositiveIntegerField()
+    cep = models.CharField(max_length=10)
+    bairro = models.CharField(max_length=100)
     complemento = models.CharField(max_length=100)
-    telefone = models.CharField(max_length=20)
-    email = models.CharField(max_length=100)
     nome_destinatario = models.CharField(max_length=100)
+    telefone = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.nome_destinatario} | {self.telefone}"
 
 class User(AbstractUser):
-    enderecos = models.ManyToManyField(Endereco)
-
+    endereco = models.ForeignKey(Endereco, on_delete=models.SET_NULL, null=True)
+    
     def __str__(self):
         return self.get_full_name()
 

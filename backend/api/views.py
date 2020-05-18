@@ -169,41 +169,31 @@ class ItemCarrinhoViewSet(viewsets.ViewSet):
 
 # ENDERECO
 
-class EnderecoViewSet(viewsets.ViewSet):
+class EnderecoViewSet(viewsets.ModelViewSet):
+	queryset = Endereco.objects.all()
+	serializer_class = EnderecoSerializer
 	permission_classes = [permissions.IsAuthenticated]
 	
-	def list(self, request):
-		queryset = request.user.enderecos
-		serializer = EnderecoSerializer(queryset, many=True)
-		return Response(serializer.data)
+	@action(methods=['get'], detail=True)
+	def get_endereco_usuario(self, request):
+		endereco = request.user.endereco
+		if not endereco is None:
+			serializer = EnderecoSerializer(endereco)
+			return Response(serializer.data)
+		else:
+			return Response(status=404)
+	
+	@action(methods=['post'], detail=True)
+	def alterar_endereco_usuario(self, request):
+		dados = request.data
+		serializer = EnderecoSerializer(dados)
+		serializer.save()
+		if serializer.is_valid():
+			request.user.endereco = serializer
+			request.user.save()
+			return Response(serializer.data)
+		return Response(status=403)
 
-	def retrieve(self, request, pk=None):
-		queryset = request.user.enderecos
-		endereco = get_object_or_404(queryset, pk=pk)
-		serializer = EnderecoSerializer(endereco)
-		return Response(serializer.data)
-
-	def create(self, request):
-		endereco = EnderecoSerializer(data=request.data)
-		if endereco.is_valid():
-			endereco.save()
-			request.user.enderecos.add(endereco)
-			return Response(endereco.data)
-		
-		return Response(status=400)
-
-	def update(self, request, pk=None):
-		endereco = get_object_or_404(request.user.enderecos, pk=pk)
-		endereco = EnderecoSerializer(endereco, request.data)
-		if endereco.is_valid():
-			endereco.save()
-			return Response(endereco.data)
-		
-		return Response(status=400)
-
-	def destroy(self, request, pk=None):
-		Endereco.objects.filter(pk=pk).delete()
-		return Response(status=200)
 
 # PEDIDO
 

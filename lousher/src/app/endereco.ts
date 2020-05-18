@@ -1,12 +1,12 @@
 export interface Endereco {
   id?: number;
-  cep: string;
+  uf: string;
+  cidade: string;
   rua: string;
   numero: number;
-  bairro: string;
-  cidade: string;
-  uf: string;
+  cep: string;
   complemento: string;
+  bairro: string;
   telefone: string;
   nome_destinatario: string;
 }

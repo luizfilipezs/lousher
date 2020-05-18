@@ -2,10 +2,17 @@ from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, O
 from rest_framework import serializers
 from decimal import Decimal
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+
+class EnderecoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Endereco
+		fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+	endereco = EnderecoSerializer()
 	class Meta:
 		model = User
-		fields = ['url', 'username', 'email']
+		fields = '__all__'
 
 class OfertaSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -64,11 +71,6 @@ class ItemCarrinhoSerializer(serializers.ModelSerializer):
 	produto = ProdutoSerializer()
 	class Meta:
 		model = ItemCarrinho
-		fields = '__all__'
-
-class EnderecoSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Endereco
 		fields = '__all__'
 
 class PedidoSerializer(serializers.ModelSerializer):
