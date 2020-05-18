@@ -10,10 +10,10 @@ import { PurchaseComponent } from './purchase/purchase.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'product/:id', component: ProductComponent },
+  { path: 'home', component: HomeComponent, data: { animation: 'HomePage' } },
+  { path: 'product/:id', component: ProductComponent, data: { animation: 'ProductPage' } },
   { path: 'list/:listName', component: ListComponent },
-  { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard] },
+  { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard], data: { animation: 'PurchasePage' } },
   { path: 'notFound', component: NotFoundComponent },
   { path: '**', redirectTo: '' }
 ];

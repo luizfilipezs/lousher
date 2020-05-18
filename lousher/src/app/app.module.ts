@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
@@ -40,6 +41,7 @@ import { PurchaseComponent } from './purchase/purchase.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ProductService,
