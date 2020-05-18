@@ -16,9 +16,9 @@
         <p class="price">R$ {{ product.oferta ? product.preco_oferta : product.preco }}</p>
         <p class="liquid-content">{{ product.mililitros }} ml</p>
         <div class="define-quantity">
-          <span #downBtn class="add-or-remove" [class.disabled-btn]="quantityInCart < 1">-</span>
+          <span #downBtn class="add-or-remove" [class.disabled-btn]="quantityInCart < 1" (click)="removeUnity()">-</span>
           <span class="quantity-to-add">{{ quantityInCart }}</span>
-          <span #upBtn class="add-or-remove" [class.disabled-btn]="quantityInCart >= product.qntd_disponivel">+</span>
+          <span #upBtn class="add-or-remove" [class.disabled-btn]="quantityInCart >= product.qntd_disponivel" (click)="addUnity()">+</span>
         </div>
       </div>
 

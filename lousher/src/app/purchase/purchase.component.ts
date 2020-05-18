@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 export class PurchaseComponent implements OnInit {
 
   cartItems: CartItem[] = [];
+  currentItem: CartItem;
+
+  itemIterator: IterableIterator<CartItem>;
 
   constructor(
     private authService: AuthService,
@@ -25,6 +28,7 @@ export class PurchaseComponent implements OnInit {
 
   ngOnInit() {
     this.setServicesAuth();
+    this.getCartItems();
   }
 
   // Set authorization header in services
@@ -41,9 +45,25 @@ export class PurchaseComponent implements OnInit {
 
   private getCartItems() {
     // Observe changes
-    this.cartService.changes$.subscribe((items) => this.cartItems = items);
+    this.cartService.changes$.subscribe((items) => {
+      // Set items array
+      this.cartItems = items;
+      // Set and start iterator
+      this.itemIterator = this.nextItem();
+      this.itemIterator.next();
+    });
     // Get items from server
     this.cartService.getItems();
+  }
+
+  // Iterate items for showing each one at the screen
+  
+  private *nextItem() {
+    while (true) {
+      for (let item of this.cartItems) {
+        yield this.currentItem = item;
+      }
+    }
   }
 
   // Logout and get out current page

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { Product } from '../product';
 import { ProductService } from '../services/product.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-product',
@@ -27,7 +26,10 @@ export class ProductComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.getProduct();
+    this.route.paramMap.subscribe(params => {
+      const id = +params.get('id');
+      this.getProduct(id);
+    });
 
     // Change quantityInCart when items from cart are removed
     this.cartService.changes$.subscribe(
@@ -47,20 +49,17 @@ export class ProductComponent implements OnInit {
     );
   }
 
-  changeQuantityButtons() {
-    this.upBtn.nativeElement.addEventListener('click', () => {
-      if (!(this.quantityInCart + 1 > this.product.qntd_disponivel))
-        this.quantityInCart++;
-    });
-    
-    this.downBtn.nativeElement.addEventListener('click', () => {
-      if (!(this.quantityInCart - 1 < 0))
-        this.quantityInCart--;
-    })
+  addUnity() {
+    if (!(this.quantityInCart + 1 > this.product.qntd_disponivel))
+      this.quantityInCart++;
   }
 
-  getProduct() {
-    const id = +this.route.snapshot.paramMap.get('id');
+  removeUnity() {
+    if (!(this.quantityInCart - 1 < 0))
+      this.quantityInCart--;
+  }
+
+  getProduct(id: number) {
     this.productService.getById(id)
       .subscribe(
         (product) => {
@@ -73,9 +72,6 @@ export class ProductComponent implements OnInit {
 
   setQuantityInCartFromServer() {
     this.cartService.checkItem(this.product.id)
-      .pipe(
-        finalize(() => this.changeQuantityButtons())
-      )
       .subscribe(
         (item) => this.quantityInCart = item.qntd,
         (error) => this.quantityInCart = 0
