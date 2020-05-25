@@ -64,6 +64,7 @@ class Grupo(models.Model):
     ]
 
     CLASSE = [
+        ('fino', 'Fino'),
         ('mesa', 'De mesa'),
         ('leve', 'Leve'),
         ('champagne', 'Champagne'),
@@ -85,6 +86,7 @@ class Grupo(models.Model):
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
     regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
     mililitros = models.PositiveIntegerField(verbose_name='Conteúdo em mililitros (ml)', default=750)
+    vol_alcoolico = models.FloatField(verbose_name='Vol. Alcoólico', null=True, blank=True, default=None)
     # informações para vinhos
     tipo = models.CharField(max_length=30, choices=TIPOS, blank=True)
     cor = models.CharField(max_length=10, choices=CORES, blank=True)
