@@ -4,6 +4,7 @@ from api import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
+router.register(r'grupos', views.GrupoViewSet)
 router.register(r'produtos', views.ProdutoViewSet)
 router.register(r'carrinho', views.ItemCarrinhoViewSet, basename='carrinho')
 router.register(r'enderecos', views.EnderecoViewSet, basename='enderecos')

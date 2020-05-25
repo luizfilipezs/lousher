@@ -8,8 +8,8 @@ admin.site.register(Pedido)
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-	list_display = ('tipo', 'ano', 'preco', 'oferta',)
-	search_fields = ['tipo', 'ano']
+	list_display = ('grupo', 'ano', 'preco', 'oferta',)
+	search_fields = ['grupo', 'ano']
 
 @admin.register(Oferta)
 class OfertaAdmin(admin.ModelAdmin):

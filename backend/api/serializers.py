@@ -1,4 +1,4 @@
-from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, Oferta
+from .models import User, Grupo, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, Oferta
 from rest_framework import serializers
 from decimal import Decimal
 
@@ -19,10 +19,7 @@ class OfertaSerializer(serializers.ModelSerializer):
 		model = Oferta
 		fields = '__all__'
 
-class ProdutoSerializer(serializers.ModelSerializer):
-	nome = serializers.SerializerMethodField()
-	oferta = OfertaSerializer()
-	preco_oferta = serializers.SerializerMethodField()
+class GrupoSerializer(serializers.ModelSerializer):
 	# choices
 	pais = serializers.SerializerMethodField()
 	regiao = serializers.SerializerMethodField()
@@ -31,16 +28,6 @@ class ProdutoSerializer(serializers.ModelSerializer):
 	docura = serializers.SerializerMethodField()
 	classe = serializers.SerializerMethodField()
 	sabor = serializers.SerializerMethodField()
-
-	def get_preco_oferta(self, obj):
-		if not obj.oferta is None:
-			preco = obj.preco * (1 - (obj.oferta.porcentagem / 100))
-			return int(preco)
-		else:
-			return None
-
-	def get_nome(self, obj):
-		return f"{obj.get_tipo_display()} {obj.ano}"
 
 	def get_pais(self, obj):
 		return obj.get_pais_display()
@@ -62,6 +49,25 @@ class ProdutoSerializer(serializers.ModelSerializer):
 
 	def get_sabor(self, obj):
 		return obj.get_sabor_display()
+	
+	class Meta:
+		model = Grupo
+		fields = '__all__'
+
+class ProdutoSerializer(serializers.ModelSerializer):
+	nome = serializers.SerializerMethodField()
+	oferta = OfertaSerializer()
+	preco_oferta = serializers.SerializerMethodField()
+
+	def get_preco_oferta(self, obj):
+		if not obj.oferta is None:
+			preco = obj.preco * (1 - (obj.oferta.porcentagem / 100))
+			return int(preco)
+		else:
+			return None
+
+	def get_nome(self, obj):
+		return f"{obj.grupo.get_tipo_display()} {obj.ano}"
 	
 	class Meta:
 		model = Produto

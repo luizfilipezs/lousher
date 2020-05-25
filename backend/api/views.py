@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from datetime import date
 
-from .models import User, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
-from .serializers import UserSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer, PedidoSerializer, ItemPedidoSerializer
+from .models import User, Grupo, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
+from .serializers import UserSerializer, GrupoSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer, PedidoSerializer, ItemPedidoSerializer
 
 from api.permission_classes import IsAdminOrReadOnly
 
@@ -28,6 +28,13 @@ class UserViewSet(viewsets.ModelViewSet):
 	serializer_class = UserSerializer
 	permission_classes = [permissions.IsAuthenticated]
 
+# GRUPO
+
+class GrupoViewSet(viewsets.ModelViewSet):
+	queryset = Grupo.objects.all()
+	serializer_class = GrupoSerializer
+	permission_classes = [IsAdminOrReadOnly]
+
 # PRODUTO
 
 class ProdutoViewSet(viewsets.ModelViewSet):
@@ -42,7 +49,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 
 	def retrieve(self, request, pk=None):
 		produto = get_object_or_404(Produto, pk=pk)
-		# Checa a validade da oferta. Se estiver vencida, remove o desconto
+		# Checa a validade da oferta. Se estiver vencida, a remove
 		if not produto.oferta is None:
 			if produto.oferta.vencimento < date.today():
 				produto.oferta = None
@@ -62,7 +69,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	@action(methods=['get'], detail=False)
 	def get_by_type(self, request, *args, **kwargs):
 		tipo = kwargs['tipo']
-		queryset = Produto.objects.filter(tipo=tipo, qntd_disponivel__gt=0).order_by('-ano')
+		queryset = Produto.objects.filter(grupo__tipo=tipo, qntd_disponivel__gt=0).order_by('-ano')
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
 
@@ -77,11 +84,11 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 			y = 0
 
 		queryset = Produto.objects.filter(
-			Q(tipo__unaccent__lower__trigram_similar=q) |
-			Q(classe__unaccent__lower__trigram_similar=q) |
-			Q(cor__unaccent__lower__trigram_similar=q) |
-			Q(docura__unaccent__lower__trigram_similar=q) |
-			Q(sabor__unaccent__lower__trigram_similar=q) |
+			Q(grupo__tipo__unaccent__lower__trigram_similar=q) |
+			Q(grupo__classe__unaccent__lower__trigram_similar=q) |
+			Q(grupo__cor__unaccent__lower__trigram_similar=q) |
+			Q(grupo__docura__unaccent__lower__trigram_similar=q) |
+			Q(grupo__sabor__unaccent__lower__trigram_similar=q) |
 			Q(ano=y)
 		).exclude(
 			qntd_disponivel__lt=1

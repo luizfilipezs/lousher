@@ -30,7 +30,7 @@ class Oferta(models.Model):
     def __str__(self):
         return f"{self.porcentagem}% | Até {self.vencimento.strftime('%d/%m/%Y')}"
 
-class Produto(models.Model):
+class Grupo(models.Model):
     TIPOS = [
         ('merlot', 'Merlot'),
         ('cabernet_suavignon', 'Cabernet Suavignon'),
@@ -82,13 +82,8 @@ class Produto(models.Model):
     ]
 
     descricao = models.CharField(max_length=220, default='Sem descrição disponível.')
-    preco = models.PositiveIntegerField()
-    qntd_estoque = models.PositiveIntegerField(default=0)
-    qntd_disponivel = models.PositiveIntegerField(default=0)
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
     regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
-    oferta = models.ForeignKey(Oferta, null=True, blank=True, on_delete=models.SET_NULL)
-    ano = models.PositiveIntegerField(default=date.today().year, verbose_name='Ano (safra)')
     mililitros = models.PositiveIntegerField(verbose_name='Conteúdo em mililitros (ml)', default=750)
     # informações para vinhos
     tipo = models.CharField(max_length=30, choices=TIPOS, blank=True)
@@ -98,7 +93,18 @@ class Produto(models.Model):
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
 
     def __str__(self):
-        return f"{self.tipo} {self.ano}"
+        return self.tipo
+
+class Produto(models.Model):
+    grupo = models.ForeignKey(Grupo, null=True, on_delete=models.PROTECT)
+    preco = models.PositiveIntegerField()
+    ano = models.PositiveIntegerField(default=date.today().year, verbose_name='Ano (safra)')
+    qntd_estoque = models.PositiveIntegerField(default=0)
+    qntd_disponivel = models.PositiveIntegerField(default=0)
+    oferta = models.ForeignKey(Oferta, null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"{self.grupo} {self.preco}"
 
 class ItemCarrinho(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
