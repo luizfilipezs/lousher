@@ -1,3 +1,5 @@
+import { Grupo } from './grupo';
+
 export interface Offer {
   id: number;
   porcentagem: number;
@@ -6,21 +8,12 @@ export interface Offer {
 
 export interface Product {
   id: number;
+  grupo: Grupo;
   nome: string;
-  descricao: string;
   preco: number;
-  preco_oferta?: number;
+  ano: number;
   qntd_estoque: number;
   qntd_disponivel: number;
-  pais: string;
-  regiao: string;
   oferta?: Offer;
-  ano: number;
-  mililitros: number;
-  // informações para vinhos
-  tipo?: string;
-  cor?: string;
-  docura?: string;
-  classe?: string;
-  sabor?: string;
+  preco_oferta?: number;
 }

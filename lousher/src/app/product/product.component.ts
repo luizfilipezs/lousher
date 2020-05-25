@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    // Observe changes on parameters of current route
     this.route.paramMap.subscribe(params => {
       const id = +params.get('id');
       this.getProduct(id);

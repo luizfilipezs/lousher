@@ -24,9 +24,8 @@ export class ListComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.getItems(params.get('listName'));
-    });
+    // Observe changes on parameters of current route
+    this.route.paramMap.subscribe(params => this.getItems(params.get('listName')));
   }
 
   getItems(type: string) {

@@ -10,11 +10,11 @@
 
       <h1 class="pdct-name">{{ product.nome }}</h1>
     
-      <p class="pdct-description">{{ product.descricao }}</p>
+      <p class="pdct-description">{{ product.grupo.descricao }}</p>
       
       <div class="price-and-quantity">
         <p class="price">R$ {{ product.oferta ? product.preco_oferta : product.preco }}</p>
-        <p class="liquid-content">{{ product.mililitros }} ml</p>
+        <p class="liquid-content">{{ product.grupo.mililitros }} ml</p>
         <div class="define-quantity">
           <span #downBtn class="add-or-remove" [class.disabled-btn]="quantityInCart < 1" (click)="removeUnity()">-</span>
           <span class="quantity-to-add">{{ quantityInCart }}</span>
@@ -28,31 +28,31 @@
       <div class="details-box">
         <div class="detail">
           <p class="detail-name">Tipo</p>
-          <p class="detail-content" title="{{ product.tipo }}">{{ product.tipo }}</p>
+          <p class="detail-content" title="{{ product.grupo.tipo }}">{{ product.grupo.tipo }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Cor</p>
-          <p class="detail-content" title="{{ product.cor }}">{{ product.cor }}</p>
+          <p class="detail-content" title="{{ product.grupo.cor }}">{{ product.grupo.cor }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Doçura</p>
-          <p class="detail-content" title="{{ product.docura }}">{{ product.docura }}</p>
+          <p class="detail-content" title="{{ product.grupo.docura }}">{{ product.grupo.docura }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Classe</p>
-          <p class="detail-content" title="{{ product.classe }}">{{ product.classe }}</p>
+          <p class="detail-content" title="{{ product.grupo.classe }}">{{ product.grupo.classe }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Sabor</p>
-          <p class="detail-content" title="{{ product.sabor }}">{{ product.sabor }}</p>
+          <p class="detail-content" title="{{ product.grupo.sabor }}">{{ product.grupo.sabor }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">País</p>
-          <p class="detail-content" title="{{ product.pais }}">{{ product.pais }}</p>
+          <p class="detail-content" title="{{ product.grupo.pais }}">{{ product.grupo.pais }}</p>
         </div>
         <div class="detail">
           <p class="detail-name">Região</p>
-          <p class="detail-content" title="{{ product.regiao }}">{{ product.regiao }}</p>
+          <p class="detail-content" title="{{ product.grupo.regiao }}">{{ product.grupo.regiao }}</p>
         </div>
       </div>
 
