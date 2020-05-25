@@ -56,6 +56,7 @@ class GrupoSerializer(serializers.ModelSerializer):
 
 class ProdutoSerializer(serializers.ModelSerializer):
 	nome = serializers.SerializerMethodField()
+	grupo = GrupoSerializer()
 	oferta = OfertaSerializer()
 	preco_oferta = serializers.SerializerMethodField()
 

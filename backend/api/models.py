@@ -95,7 +95,7 @@ class Grupo(models.Model):
     sabor = models.CharField(max_length=20, choices=SABOR, blank=True)
 
     def __str__(self):
-        return self.tipo
+        return self.get_tipo_display()
 
 class Produto(models.Model):
     grupo = models.ForeignKey(Grupo, null=True, on_delete=models.PROTECT)
