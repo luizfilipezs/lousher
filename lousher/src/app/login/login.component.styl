@@ -74,12 +74,17 @@
         color gray-color
         background-color #F2F2F2
       
-      .form-error
+      .form-message
         width 100%
         margin-bottom 1em
         font-size 1.5em
         text-align center
-        color orangered
+
+        &.error-message
+          color orangered
+
+        &.good-message
+          color green
 
       .button-wrapper
         width 100%

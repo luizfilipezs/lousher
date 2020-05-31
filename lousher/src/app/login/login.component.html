@@ -6,7 +6,8 @@
     <form class="form theme-form" #loginForm>
       <input #usernameLogin type="text" placeholder="Nome de usuário" class="text-input" required>
       <input #passwordLogin type="password" placeholder="Senha" class="text-input" required>
-      <p *ngIf="errorWhenLoggingIn" class="form-error">Algo está incorreto &#9888;</p>
+      <p *ngIf="errorWhenLoggingIn" class="form-message error-message">Algo está incorreto &#9888;</p>
+      <p *ngIf="loadingLogin" class="form-message good-message">Processando...</p>
       <div class="button-wrapper bottom-distance">
         <input type="button" value="Continuar" class="submit-btn" (click)="login(usernameLogin.value, passwordLogin.value)"><br>
       </div>

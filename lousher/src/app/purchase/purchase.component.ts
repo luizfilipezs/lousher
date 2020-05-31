@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
 import { OrderService } from '../services/order.service';
@@ -11,12 +11,15 @@ import { Router } from '@angular/router';
   templateUrl: './purchase.component.html',
   styleUrls: ['./purchase.component.styl']
 })
-export class PurchaseComponent implements OnInit {
+export class PurchaseComponent implements AfterViewInit {
 
   cartItems: CartItem[] = [];
   currentItem: CartItem;
 
   itemIterator: IterableIterator<CartItem>;
+
+  @ViewChildren('innerViews') innerViews: QueryList<ElementRef>;
+  currentViewIndex = 0;
 
   constructor(
     private authService: AuthService,
@@ -26,9 +29,10 @@ export class PurchaseComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.setServicesAuth();
     this.getCartItems();
+    this.updateView();
   }
 
   // Set authorization header in services
@@ -60,6 +64,33 @@ export class PurchaseComponent implements OnInit {
   
   private *nextItem() {
     while (true) for (let item of this.cartItems) yield this.currentItem = item;
+  }
+
+  // control inner views
+
+  private updateView() {
+    const views = this.innerViews.toArray();
+
+    for (const v of views) {
+      v.nativeElement.style.display =
+        views.indexOf(v) == this.currentViewIndex ? 'block' : 'none';
+    }
+  }
+
+  nextView() {
+    const total = this.innerViews.toArray().length;
+
+    if (this.currentViewIndex < total - 1) {
+      this.currentViewIndex++;
+      this.updateView();
+    }
+  }
+
+  previousView() {
+    if (this.currentViewIndex > 0) {
+      this.currentViewIndex--;
+      this.updateView();
+    }
   }
 
   // Logout and get out current page

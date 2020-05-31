@@ -15,37 +15,40 @@
 
     <div class="configure-order-box">
       <ul class="progress-menu">
-        <li class="proccess-part selected-item">Endereço</li>
-        <li class="proccess-part">Revisar pedido</li>
-        <li class="proccess-part">Finalizar</li>
+        <li class="proccess-part" [class.selected-item]="currentViewIndex === 0">Endereço</li>
+        <li class="proccess-part" [class.selected-item]="currentViewIndex === 1">Revisar pedido</li>
+        <li class="proccess-part" [class.selected-item]="currentViewIndex === 2">Finalizar</li>
       </ul>
 
-      <div class="current-step">
+      <div class="inner-view" #innerViews>
+        <div class="current-step">
 
-        <p class="label">Primeiro, vamos registrar o seu endereço.</p>
-        <div class="inputs-wrapper">
-          <input type="text" class="input special-input" id="uf" minlength="2" maxlength="2" placeholder="UF" required>
-          <input type="text" class="input" id="cidade" minlength="4" maxlength="28" placeholder="Cidade" required>
-          <input type="text" class="input" id="rua" minlength="1" maxlength="100" placeholder="Rua" required>
-          <input type="number" class="input" id="numero" min="1" placeholder="Número" required>
-          <input class="input" id="cep" pattern="\d{5}-\d{3}" minlength="9" maxlength="9" placeholder="CEP" required>
+          <p class="label">Primeiro, vamos registrar o seu endereço.</p>
+          <div class="inputs-wrapper">
+            <input type="text" class="input special-input" id="uf" minlength="2" maxlength="2" placeholder="UF" required>
+            <input type="text" class="input" id="cidade" minlength="4" maxlength="28" placeholder="Cidade" required>
+            <input type="text" class="input" id="rua" minlength="1" maxlength="100" placeholder="Rua" required>
+            <input type="number" class="input" id="numero" min="1" placeholder="Número" required>
+            <input class="input" id="cep" pattern="\d{5}-\d{3}" minlength="9" maxlength="9" placeholder="CEP" required>
+          </div>
+
+          <p class="label">Quem irá receber o pedido? Como podemos entrar em contato?</p>
+          <div class="inputs-wrapper">
+            <input type="text" class="input" id="nome-completo" minlength="5" maxlength="40" placeholder="Nome completo" required>
+            <input type="text" class="input" id="telefone" minlength="10" maxlength="18" placeholder="Telefone" required>
+          </div>
+
+          <p class="label">Há alguma informação que gostaria de deixar para ajudar na entrega? Sinta-se à vontade para escrever ;)</p>
+          <div class="inputs-wrapper">
+            <textarea class="input" id="personal-message" rows="4" placeholder="Sua mensagem aqui (opcional)"></textarea>
+          </div>
+        
         </div>
 
-        <p class="label">Quem irá receber o pedido? Como podemos entrar em contato?</p>
-        <div class="inputs-wrapper">
-          <input type="text" class="input" id="nome-completo" minlength="5" maxlength="40" placeholder="Nome completo" required>
-          <input type="text" class="input" id="telefone" minlength="10" maxlength="18" placeholder="Telefone" required>
+        <div class="actions">
+          <div class="action-btn back-button"><a routerLink="/">Voltar às compras</a></div>
+          <div class="action-btn next-button" (click)="nextView()">Continuar</div>
         </div>
-
-        <p class="label">Há alguma informação que gostaria de deixar para ajudar na entrega? Sinta-se à vontade para escrever ;)</p>
-        <div class="inputs-wrapper">
-          <textarea class="input" id="personal-message" rows="4" placeholder="Sua mensagem aqui (opcional)"></textarea>
-        </div>
-      </div>
-
-      <div class="actions">
-        <div class="action-btn back-button"><a routerLink="/">Voltar às compras</a></div>
-        <div class="action-btn next-button">Continuar</div>
       </div>
 
     </div>

@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { OrderService, OrderInfo } from '../services/order.service';
 import { forkJoin } from 'rxjs';
 import { CartService } from '../services/cart.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,8 @@ export class LoginComponent implements AfterViewInit {
   errorWhenLoggingIn = false;
   errorWhenRegistering = false;
   errorGettingOrders = false;
+
+  loadingLogin = false;
 
   orders: OrderInfo[] = [];
 
@@ -40,11 +43,14 @@ export class LoginComponent implements AfterViewInit {
 
   login(username: string, password: string) {
     if (username && password) {
+      this.loadingLogin = true;
+      this.errorWhenLoggingIn = false;
       this.authService.login(username, password)
+        .pipe(
+          finalize(() => this.loadingLogin = false)
+        )
         .subscribe(
           (sucess) => {
-            // Clear error message (if there's one)
-            this.errorWhenLoggingIn = false;
             // Get orders
             this.getOrders();
             // Get cart

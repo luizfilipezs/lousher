@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import simpleParallax from 'simple-parallax-js';
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
@@ -11,10 +12,10 @@ export class HomeComponent implements OnInit {
 
   private parallaxEffect: simpleParallax;
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    //this.applyParallaxEffect();
+    if (this.authService.isLoggedIn) this.authService.refreshToken();
   }
 
   applyParallaxEffect() {
