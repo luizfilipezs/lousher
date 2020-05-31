@@ -4,6 +4,89 @@
   width 86%
   height auto
   margin-top 9em
-  padding 7em 7% 7em 7%
+  padding 7.6em 7% 5em 7%
   color #fff
   background-color theme-color
+  // flex properties
+  flex-parent(row, wrap, space-between)
+
+  .footer-section
+    flex-basis 1
+    height auto
+
+    .section-title
+      font-size 2.1em
+      font-weight 700
+      color #fff
+      margin-bottom 1.2em
+    
+    .pages-list
+      list-style none
+
+      .page-in-list
+        font-size 1.5em
+        font-weight 600
+        text-transform capitalize
+        color #fff
+        margin-bottom .5em
+
+    .contact-form
+      height auto
+      flex-parent(row, wrap, flex-start)
+
+      .default-inputs-wrapper
+        flex-basis auto
+        height auto
+        margin-right 2.4em
+
+      .message-input-wrapper
+        flex-basis auto
+        height auto
+
+      .input
+        height auto
+        margin-bottom 1.4em
+        padding .7em 1.2em .7em 1.2em
+        border-radius(5px)
+        font-size 1.5em
+        font-weight 500
+        color gray-color
+        background-color #fff
+        box-shadow(0px 2px 20px 0px rgba(gray-color, .1))
+        placeholder(rgba(gray-color, .55))
+
+        &.default
+          width 15em
+
+        &.message
+          width 22em
+          resize none
+          height 5.3em
+
+      .submit-button
+        width 5em
+        margin-left auto
+        padding .7em 2em .7em 2em
+        border-radius(25px)
+        font-size 1.5em
+        font-weight 600
+        text-align center
+        text-transform uppercase
+        color #fff
+        background-color rgba(#fff, .2)
+        box-shadow(0px 2px 20px 0px rgba(gray-color, .1))
+        transition(.5s)
+        cursor pointer
+
+        &:hover
+          color theme-color
+          background-color #fff
+
+    .social-buttons
+      flex-parent(row, wrap, flex-end)
+
+      .social-icon
+        margin-left 3em
+        flex-basis auto
+        height 2.9em
+        cursor pointer

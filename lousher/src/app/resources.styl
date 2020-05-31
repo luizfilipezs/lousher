@@ -179,3 +179,16 @@ selection-color(selected-color, background-color)
   ::selection
     color selected-color
     background-color background-color
+
+placeholder(color)
+  &::-webkit-input-placeholder
+    color color
+
+  &::-moz-placeholder
+    color color
+
+  &:-ms-input-placeholder
+    color color
+
+  &:-moz-placeholder
+    color color
