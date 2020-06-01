@@ -57,9 +57,6 @@ export class CartService extends ToggleView {
     // Define total price of cart
     value.forEach(item =>
       this.totalPrice += (item.produto.oferta ? item.produto.preco_oferta : item.produto.preco) * item.qntd);
-    
-    // Has changed
-    this.changes.next(value);
   }
 
   /**
@@ -75,7 +72,10 @@ export class CartService extends ToggleView {
    */
   getItems() {
     this.http.get<CartItem[]>(this.apiRoot, this.httpOptions)
-      .subscribe((items) => this.items = items);
+      .subscribe((items) => {
+        this.items = items;
+        this.changes.next(items);
+      });
   }
 
   /**

@@ -29,6 +29,7 @@
             <input type="text" class="input" id="cidade" minlength="4" maxlength="28" placeholder="Cidade" required>
             <input type="text" class="input" id="rua" minlength="1" maxlength="100" placeholder="Rua" required>
             <input type="number" class="input" id="numero" min="1" placeholder="Número" required>
+            <input type="text" class="input" id="complemento" maxlength="100" placeholder="Complemento">
             <input class="input" id="cep" pattern="\d{5}-\d{3}" minlength="9" maxlength="9" placeholder="CEP" required>
           </div>
 
@@ -46,7 +47,29 @@
         </div>
 
         <div class="actions">
-          <div class="action-btn back-button"><a routerLink="/">Voltar às compras</a></div>
+          <div class="action-btn back-button" [routerLink]="['/']">Voltar às compras</div>
+          <div class="action-btn next-button" (click)="validateAndGoNext()">Continuar</div>
+        </div>
+      </div>
+
+      <div class="inner-view" #innerViews>
+        <div class="current-step">
+          <p class="label">Ótimo! Se seu pedido for este mesmo, podemos seguir em frente:</p>
+          <div class="cart-items-list">
+            <div class="cart-item" *ngFor="let item of cartItems">
+              <img class="product-img" src="assets/img/wine-bottle.png" alt="{{ item.produto.nome }}">
+
+              <div class="about-cart-item">
+                <p class="product-name">{{ item.produto.nome }}</p>
+                <p class="product-price">R$ {{ item.produto.oferta ? item.produto.preco_oferta : item.produto.preco }}</p>
+                <p class="items-in-cart">{{ item.qntd }} {{ item.qntd > 1 ? 'unidades' : 'unidade'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div class="action-btn back-button" (click)="previousView()">Voltar</div>
           <div class="action-btn next-button" (click)="nextView()">Continuar</div>
         </div>
       </div>

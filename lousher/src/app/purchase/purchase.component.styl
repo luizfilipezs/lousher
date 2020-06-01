@@ -91,6 +91,8 @@
             font-weight 700
             margin-bottom 1.7em
 
+          // Adress
+
           .inputs-wrapper
             width 100%
             height auto
@@ -129,6 +131,9 @@
 
               &#numero
                 width 7em
+              
+              &#complemento
+                width 16.5em
 
               &#cep
                 width 8em
@@ -144,6 +149,43 @@
                 padding 1em
                 border-radius(1.5em)
                 resize none
+        
+          // Confirm order
+
+          .cart-items-list
+            padding-top 1.2em
+            
+            .cart-item
+              flex-parent(row, wrap, flex-start)
+
+              &:not(:last-child)
+                margin-bottom 1.6em
+
+              .product-img
+                flex-basis auto
+                height 7em
+              
+              .about-cart-item
+                margin-left 3em
+                flex-basis auto
+                height 100%
+
+                .product-name
+                  font-size 1em
+                  font-weight 700
+                  color theme-color
+
+                .product-price
+                  font-size 1em
+                  font-weight 500
+                  margin-top .5em
+                
+                .items-in-cart
+                  font-size 1em
+                  font-weight 500
+                  font-style italic
+                  color gray-color
+                  margin-top .5em
         
         .actions
           width 100%

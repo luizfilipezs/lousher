@@ -4,7 +4,7 @@ import { CartService } from '../services/cart.service';
 import { OrderService } from '../services/order.service';
 import { EnderecoService } from '../services/endereco.service';
 import { CartItem } from '../cart.item';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-purchase',
@@ -91,6 +91,14 @@ export class PurchaseComponent implements AfterViewInit {
       this.currentViewIndex--;
       this.updateView();
     }
+  }
+
+  // validate address form
+
+  validateAndGoNext() {
+    // code
+
+    this.nextView();
   }
 
   // Logout and get out current page
