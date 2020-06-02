@@ -25,18 +25,15 @@
 
   .info-texts
     width 100%
-    height auto
 
     .pdct-name
       width 30%
-      height auto
       font-size 3.4em
       font-weight 700
       margin-bottom 1.2em
     
     .pdct-description
       width 85%
-      height auto
       font-size 1.65em
       font-weight 500
       color gray-color
@@ -109,14 +106,19 @@
     
     .details-box
       width 70%
-      height auto
       margin-top 6em
+      flex-parent(row, wrap, flex-start)
+
+      @media (max-width 1600px)
+        width 90%
+
+      @media (max-width 1366px)
+        width 100%
 
       .detail
         width 14em
         height auto
         margin-bottom 3em
-        float left
 
         .detail-name
         .detail-content

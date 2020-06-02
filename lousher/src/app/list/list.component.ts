@@ -28,11 +28,26 @@ export class ListComponent implements OnInit {
     this.route.paramMap.subscribe(params => this.getItems(params.get('listName')));
   }
 
+  private subscribe(obs: Observable<Product[]>) {
+    obs
+      .pipe(
+        finalize(() => this.loading = false)
+      )
+      .subscribe(
+        (items) => {
+          this.products = items;
+          this.noResults = items.length === 0;
+        },
+        (error) => this.error = true
+      );
+  }
+
   getItems(type: string) {
     this.loading = true;
     this.products = [];
     this.error = false;
     this.noResults = false;
+    
     // Search
     if (type && type.startsWith('search:')) {
       type = type.substring(7);
@@ -62,20 +77,6 @@ export class ListComponent implements OnInit {
       this.title = type.replace('_', ' ');
       this.subscribe(this.productService.getByType(type));
     }
-  }
-
-  private subscribe(obs: Observable<Product[]>) {
-    obs
-      .pipe(
-        finalize(() => this.loading = false)
-      )
-      .subscribe(
-        (items) => {
-          this.products = items;
-          this.noResults = items.length === 0;
-        },
-        (error) => this.error = true
-      );
   }
 
 }

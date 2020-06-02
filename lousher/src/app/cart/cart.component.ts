@@ -10,7 +10,6 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./cart.component.styl']
 })
 export class CartComponent implements OnInit {
-
   isLoggedOut = false;
 
   constructor(
