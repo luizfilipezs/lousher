@@ -15,6 +15,16 @@
   &.shaded-header
     box-shadow(0px 2px 20px 0px rgba(0,0,0,0.11))
 
+  @media (max-width 600px)
+    width calc(100% - 6em)
+    height 6em
+    padding 0 3em 0 3em
+    border-bottom 1px solid lighter-gray-color
+    background-color #fff
+
+    &.shaded-header
+      box-shadow(none)
+
   // LOGO
 
   .site-title-box
@@ -41,6 +51,16 @@
       color theme-color
       text-transform uppercase
 
+    @media (max-width 600px)
+      flex-basis auto
+
+      .logo-img
+        flex-basis 3.25em
+        height 3.25em
+
+      .site-title
+        font-size 1.75em
+
   // WHITE BLOCKS
 
   .white-block
@@ -48,6 +68,10 @@
     height 100%
     border-left 1px solid lighter-gray-color
     background-color #fff
+
+    @media (max-width 600px)
+      margin-left 2.5em
+      border none
 
     &.home-block
       width 5.8em
@@ -79,6 +103,10 @@
       flex-parent(row, nowrap, center)
       cursor pointer
 
+      @media (max-width 600px)
+        padding 0
+        border-radius 50%
+
       .search-icon
         flex-basis 2.5em
         height 2.5em
@@ -86,20 +114,31 @@
         cursor pointer
 
       .cart-icon
-        flex-basis 2em
-        height 2em
+        flex-basis 5em
+        height 5em
         align-self center
+
+        @media (max-width 600px)
+          flex-basis 3em
+          height 3em
 
       .account-icon
         flex-basis 1.8em
         height 1.8em
         align-self center
 
+        @media (max-width 600px)
+          flex-basis 2.4em
+          height 2.4em
+
       .access-name
         align-self center
         margin-left 1.4em
         font-size 1.6em
         font-weight normal
+
+        @media (max-width 600px)
+          display none
 
       .search-input
         flex-grow 1
@@ -118,7 +157,8 @@
       flex-grow 1
     
     &.fixed-size
-      width 12.45em
+      @media (min-width 601px)
+        width 12.45em
 
       .access-name
         one-line-text()
