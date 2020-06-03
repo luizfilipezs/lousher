@@ -2,8 +2,8 @@ import { Subject } from 'rxjs';
 
 export class ToggleView {
   private toggleState = new Subject();
-  public toggleState$ = this.toggleState.asObservable();
-  public toggleVal = false;
+  toggleState$ = this.toggleState.asObservable();
+  toggleVal = false;
 
   constructor() { }
 

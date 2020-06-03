@@ -43,7 +43,6 @@ export class SliderComponent implements AfterViewInit {
     this.sortItemsWhenClickingBtn(this.sortByBtn.nativeElement);
 
     // Changes
-
     this.vencimentos.changes.subscribe((r) => {
       const validades = this.vencimentos.toArray();
       // Display time

@@ -7,7 +7,7 @@ export interface OrderItem {
   pedido: number; // order.id
   product: Product;
   qntd: number;
-};
+}
 
 export interface Order {
   id?: number;
@@ -15,4 +15,4 @@ export interface Order {
   endereco: Endereco;
   status: OrderStatus;
   observacoes: string;
-};
+}

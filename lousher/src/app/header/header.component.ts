@@ -44,16 +44,22 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  toggleCart(): void {
+  toggleCart() {
+    if (this.authService.toggleVal)
+      this.authService.toggleView();
+
     this.cartService.toggleView();
   }
 
-  toggleAccount(): void {
+  toggleAccount() {
+    if (this.cartService.toggleVal)
+      this.cartService.toggleView();
+
     this.authService.toggleView();
   }
 
   @HostListener('window:scroll')
-  toggleShadow(): void {
+  toggleShadow() {
     if (window.scrollY > 58) {
       if (!header.classList.contains('shaded-header'))
         header.classList.add('shaded-header');

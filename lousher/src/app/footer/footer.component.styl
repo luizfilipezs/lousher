@@ -2,17 +2,19 @@
 
 .footer
   width 86%
-  height auto
   margin-top 9em
   padding 7.6em 7% 5em 7%
   color #fff
   background-color theme-color
-  // flex properties
   flex-parent(row, wrap, space-between)
+  
+  @media (max-width 600px)
+    margin-top 2em
+    padding-top 1em
 
   .footer-section
-    flex-basis 1
-    height auto
+    flex-basis 100%
+    margin-top 3em
 
     .section-title
       font-size 2.1em
@@ -31,20 +33,16 @@
         margin-bottom .5em
 
     .contact-form
-      height auto
       flex-parent(row, wrap, flex-start)
 
       .default-inputs-wrapper
         flex-basis auto
-        height auto
         margin-right 2.4em
 
       .message-input-wrapper
         flex-basis auto
-        height auto
 
       .input
-        height auto
         margin-bottom 1.4em
         padding .7em 1.2em .7em 1.2em
         border-radius(5px)
@@ -78,6 +76,9 @@
         transition(.2s)
         cursor pointer
 
+        @media (max-width 600px)
+          margin-left 0
+
         &:hover
           color theme-color
           background-color #fff
@@ -90,3 +91,11 @@
         flex-basis auto
         height 2.9em
         cursor pointer
+
+      @media (max-width 600px)
+        justify-content flex-start
+
+        .social-icon
+          margin-left 0
+          &:first-child
+            margin-right 2em

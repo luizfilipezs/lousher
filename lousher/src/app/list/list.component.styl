@@ -13,6 +13,10 @@
   letter-spacing .2em
   text-transform uppercase
 
+  @media (max-width 600px)
+    margin-top 1.5em
+    margin-bottom 1.5em
+
 .error-message
   font-size 1.6em
   font-weight 500
@@ -25,12 +29,19 @@
   width 100%
   height auto
   flex-parent(row, wrap, flex-start)
-
+  
+  @media (max-width 600px)
+    justify-content center
+  
   .product-box
     flex-basis 22em
     height auto
     margin 2em 3.5em 1.25em 0
     cursor pointer
+
+    @media (max-width 600px)
+      flex-basis 15em
+      margin 0 1em 4em 1em
 
     .rounded-box
       width 100%
@@ -38,6 +49,9 @@
       border-radius(50%)
       flex-parent(row, nowrap, center)
       background-color lighter-gray-color
+
+      @media (max-width 600px)
+        height 15em
 
       .product-img
         height 82%
