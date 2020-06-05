@@ -13,8 +13,11 @@
     padding-top 1em
 
   .footer-section
-    flex-basis 100%
+    flex-basis auto
     margin-top 3em
+
+    @media (max-width 600px)
+      flex-basis 100%
 
     .section-title
       font-size 2.1em
@@ -60,28 +63,35 @@
           width 22em
           resize none
           height 5.3em
+          clear both
 
-      .submit-button
-        width 9em
-        margin-left auto
-        padding .7em 0 .7em 0
-        border-radius(25px)
-        font-size 1.5em
-        font-weight 600
-        text-align center
-        text-transform uppercase
-        color #fff
-        background-color rgba(#fff, .2)
-        box-shadow(0px 2px 20px 0px rgba(gray-color, .1))
-        transition(.2s)
-        cursor pointer
+      .submit-wrapper
+        width 100%
+        height auto
+        flex-parent(row, wrap, flex-end)
 
         @media (max-width 600px)
-          margin-left 0
+          justify-content flex-start
 
-        &:hover
-          color theme-color
-          background-color #fff
+        .submit-button
+          padding .7em 2em .7em 2em
+          border-radius(25px)
+          font-size 1.5em
+          font-weight 600
+          text-align center
+          text-transform uppercase
+          color #fff
+          background-color rgba(#fff, .2)
+          box-shadow(0px 2px 20px 0px rgba(gray-color, .1))
+          transition(.2s)
+          cursor pointer
+
+          @media (max-width 600px)
+            margin-left 0
+
+          &:hover
+            color theme-color
+            background-color #fff
 
     .social-buttons
       flex-parent(row, wrap, flex-end)

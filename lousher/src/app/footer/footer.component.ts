@@ -15,6 +15,8 @@ export class FooterComponent implements OnInit {
 
   private http: RequestParser;
 
+  messageState = 'Enviar';
+
   constructor(private formBuilder: FormBuilder) {
     this.contactForm = this.formBuilder.group({
       nome: '',
@@ -39,15 +41,22 @@ export class FooterComponent implements OnInit {
    */
   onSubmit(data: MensagemContato) {
     if (this.contactForm.valid) {
+      this.messageState = 'Enviando...';
+
       this.http.request<MensagemContato>({
         url: 'enviarMensagem',
         method: 'post',
         obj: data
       })
-        .then(
-          (sucess) => this.contactForm.reset(),
-          (error) => console.error('Oops... There was an error! See it: ', error)
-        );
+        .then((sucess) => {
+          this.messageState = 'Enviado!';
+          setTimeout(() => this.messageState = 'Enviar', 2500);
+          this.contactForm.reset();
+        })
+        .catch((reason) => this.messageState = 'Tentar novamente');
+
+    } else {
+      this.messageState = 'Preencha os campos!';
     }
   }
 

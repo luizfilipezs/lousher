@@ -23,7 +23,10 @@
 
       <div class="message-input-wrapper">
         <textarea rows="5" placeholder="Mensagem" class="input message" maxlength="200" required formControlName="mensagem"></textarea>
-        <input type="submit" class="submit-button" value="Enviar">
+        <div style="clear: both;"></div>
+        <div class="submit-wrapper">
+          <button class="submit-button" type="submit">{{ messageState }}</button>
+        </div>
       </div>
 
     </form>
