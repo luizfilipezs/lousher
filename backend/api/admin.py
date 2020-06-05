@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import (User, Endereco, Grupo, Produto, Pedido, Oferta)
+from .models import (User, Endereco, Grupo, Produto, Pedido, Oferta, MensagemContato)
 
 
 admin.site.register(User)
@@ -20,3 +20,8 @@ class ProdutoAdmin(admin.ModelAdmin):
 class OfertaAdmin(admin.ModelAdmin):
 	list_display = ('porcentagem', 'vencimento',)
 	search_fields = ['porcentagem', 'vencimento']
+
+@admin.register(MensagemContato)
+class MensagemContatoAdmin(admin.ModelAdmin):
+	list_display = ('assunto', 'nome', 'email',)
+	search_fields = ['email', 'nome', 'assunto']

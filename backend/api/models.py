@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import date
 
@@ -147,3 +148,10 @@ class MensagemContato(models.Model):
     assunto = models.CharField(max_length=50, null=True, blank=True)
     mensagem = models.CharField(max_length=200, null=True, blank=True)
     data_envio = models.DateField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f"De: {self.email} | Assunto: {self.assunto}"
+
+    class Meta:
+        verbose_name = _('Mensagem')
+        verbose_name_plural = _('Mensagens')
