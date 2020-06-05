@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToggleView } from '../toggle.view';
 import { CartItem } from '../cart.item';
 import { Subject } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 
 @Injectable()
@@ -88,11 +89,12 @@ export class CartService extends ToggleView {
     const url = `produto/${productId}/qntd/${quantity}/`;
 
     this.http.post(this.apiRoot.concat(url), this.httpOptions)
-      .subscribe((success) => {
-        this.getItems();
-        if (this.toggleVal === false) this.toggleView();
-      });
-
+      .pipe(
+        finalize(() => {
+          if (!this.toggleVal) this.toggleView();
+        })
+      )
+      .subscribe((success) => this.getItems());
   }
 
   /**
@@ -101,8 +103,8 @@ export class CartService extends ToggleView {
    * @param productId ID of product that will be checked
    */
   checkItem(productId: number) {
-    const url = `produto/${productId}/`;
-    return this.http.get<CartItem>(this.apiRoot.concat(url), this.httpOptions);
+    const url = this.apiRoot + 'produto/' + productId + '/';
+    return this.http.get<CartItem>(url, this.httpOptions);
   }
   
 }
