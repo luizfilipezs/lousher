@@ -12,17 +12,22 @@
 
   <section class="footer-section">
     <h2 class="section-title">Contato</h2>
-    <form class="contact-form">
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit(contactForm.value)" class="contact-form">
+
       <div class="default-inputs-wrapper">
-        <input type="text" placeholder="Nome" class="input default" minlength="2" required><br>
-        <input type="email" placeholder="Email" class="input default" required><br>
-        <input type="text" placeholder="Assunto" class="input default" required>
+        <input type="text" placeholder="Nome" class="input default" minlength="2" required formControlName="nome"><br>
+        <input type="email" placeholder="Email" class="input default" maxlength="50" required formControlName="email"><br>
+        <input type="text" placeholder="Assunto" class="input default" maxlength="40" required formControlName="assunto">
       </div>
+
       <div class="message-input-wrapper">
-        <textarea rows="5" placeholder="Mensagem" class="input message" required></textarea>
-        <div class="submit-button">Enviar</div>
+        <textarea rows="5" placeholder="Mensagem" class="input message" maxlength="200" required formControlName="mensagem"></textarea>
+        <input type="submit" class="submit-button" value="Enviar">
       </div>
+
     </form>
+
   </section>
 
   <section class="footer-section">

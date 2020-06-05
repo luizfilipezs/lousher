@@ -22,6 +22,7 @@
     "@angular/router": "~7.2.0",
     "@types/jwt-decode": "^2.2.1",
     "core-js": "^2.5.4",
+    "http-service-ts": "^1.0.8",
     "jwt-decode": "^2.2.0",
     "moment": ">=2.19.3",
     "rellax": "^1.12.1",

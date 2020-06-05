@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { RequestParser } from 'http-service-ts';
+import { MensagemContato } from '../mensagem.contato';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +11,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  contactForm: FormGroup;
+
+  private http: RequestParser;
+
+  constructor(private formBuilder: FormBuilder) {
+    this.contactForm = this.formBuilder.group({
+      nome: '',
+      email: '',
+      assunto: '',
+      mensagem: ''
+    });
+  }
 
   ngOnInit() {
+    this.http = new RequestParser('http://localhost:8000/api', {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      appendSlash: true
+    });
+  }
+
+  /**
+   * Check contact form validations and send message to server.
+   * @param {MensagemContato} data Message object.
+   */
+  onSubmit(data: MensagemContato) {
+    if (this.contactForm.valid) {
+      this.http.request<MensagemContato>({
+        url: 'enviarMensagem',
+        method: 'post',
+        obj: data
+      })
+        .then(
+          (sucess) => this.contactForm.reset(),
+          (error) => console.error('Oops... There was an error! See it: ', error)
+        );
+    }
   }
 
 }
