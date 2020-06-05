@@ -10,6 +10,7 @@ router.register(r'carrinho', views.ItemCarrinhoViewSet, basename='carrinho')
 router.register(r'enderecos', views.EnderecoViewSet, basename='enderecos')
 router.register(r'pedidos', views.PedidoViewSet, basename='pedidos')
 router.register(r'itensPedidos', views.ItemPedidoViewSet, basename='itensPedidos')
+router.register(r'enviarMensagem', views.MensagemContatoCreateView)
 
 urlpatterns = [
 	path('produtos/ofertas', views.ProdutoViewSet.as_view({'get': 'get_ofertas'})),

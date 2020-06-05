@@ -7,10 +7,19 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from datetime import date
 
-from .models import User, Grupo, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido
-from .serializers import UserSerializer, GrupoSerializer, ProdutoSerializer, EnderecoSerializer, ItemCarrinhoSerializer, PedidoSerializer, ItemPedidoSerializer
-
 from api.permission_classes import IsAdminOrReadOnly
+
+from .models import (
+	User, Grupo, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, MensagemContato)
+from .serializers import (
+	UserSerializer,
+	GrupoSerializer,
+	ProdutoSerializer,
+	EnderecoSerializer,
+	ItemCarrinhoSerializer,
+	PedidoSerializer,
+	ItemPedidoSerializer,
+	MensagemContatoSerializer)
 
 from django.db.models import Transform, CharField, Q
 
@@ -223,3 +232,10 @@ class ItemPedidoViewSet(viewsets.ModelViewSet):
 	queryset = ItemPedido.objects.all()
 	serializer_class = ItemPedidoSerializer
 	permission_classes = [permissions.IsAuthenticated]
+
+# USER
+
+class MensagemContatoCreateView(viewsets.mixins.CreateModelMixin, viewsets.GenericViewSet):
+	queryset = MensagemContato.objects.all().order_by('-data_envio')
+	serializer_class = MensagemContatoSerializer
+	permission_classes = [permissions.AllowAny]

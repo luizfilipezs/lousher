@@ -140,3 +140,10 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.produto} x {self.qntd} | ID pedido: {self.pedido.id}"
+
+class MensagemContato(models.Model):
+    nome = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=50, null=True, blank=True)
+    assunto = models.CharField(max_length=50, null=True, blank=True)
+    mensagem = models.CharField(max_length=200, null=True, blank=True)
+    data_envio = models.DateField(auto_now_add=True, null=True)
