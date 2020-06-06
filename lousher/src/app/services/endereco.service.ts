@@ -40,11 +40,11 @@ export class EnderecoService {
 
   // User address
 
-  getUserAddres() {
+  getUserAddress() {
     return this.http.get<Endereco>(this.apiRoot.concat('meu_endereco'), this.httpOptions);
   }
 
-  changeUserAddres(address: Endereco) {
+  changeUserAddress(address: Endereco) {
     return this.http.post<Endereco>(this.apiRoot.concat('meu_endereco/alterar'), address, this.httpOptions);
   }
 

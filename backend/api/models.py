@@ -19,10 +19,10 @@ class Endereco(models.Model):
         return f"{self.nome_destinatario} | {self.telefone}"
 
 class User(AbstractUser):
-    endereco = models.ForeignKey(Endereco, on_delete=models.SET_NULL, null=True)
+    endereco = models.OneToOneField(Endereco, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
-        return self.get_full_name()
+        return self.username
 
 class Oferta(models.Model):
     porcentagem = models.PositiveIntegerField(default=10, validators=[MinValueValidator(1), MaxValueValidator(100)])

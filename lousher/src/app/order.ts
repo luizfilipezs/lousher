@@ -11,8 +11,8 @@ export interface OrderItem {
 
 export interface Order {
   id?: number;
-  usuario: number;
-  endereco: Endereco;
-  status: OrderStatus;
-  observacoes: string;
+  usuario?: number;
+  endereco?: Endereco;
+  status?: OrderStatus;
+  observacoes?: string;
 }

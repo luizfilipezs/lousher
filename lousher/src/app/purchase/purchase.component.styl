@@ -125,6 +125,10 @@
                 width 12em
                 text-transform capitalize
 
+              &#bairro
+                width 12em
+                text-transform capitalize
+
               &#rua
                 width 18em
                 text-transform capitalize
@@ -198,13 +202,13 @@
             font-weight 700
             padding .6em 2.5em .6em 2.5em
             border-radius(.75em)
-            cursor pointer
             transition(.2s)
 
             &.back-button
               background-color lighter-gray-color
               color gray-color
               border .2em solid transparent
+              cursor pointer
 
               &:hover
                 color theme-color
@@ -212,12 +216,18 @@
 
             &.next-button
               background-color #fff
-              color theme-color
-              border .2em solid theme-color
+              color gray-color
+              border .2em solid gray-color
+              cursor auto
 
-              &:hover
-                background-color theme-color
-                color #fff
+              &.active-button
+                border-color theme-color
+                color theme-color
+                cursor pointer
+
+                &:hover
+                  background-color theme-color
+                  color #fff
 
     .about-order-items-box
       flex-basis 45em

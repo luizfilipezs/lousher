@@ -5,6 +5,10 @@ import { OrderService } from '../services/order.service';
 import { EnderecoService } from '../services/endereco.service';
 import { CartItem } from '../cart.item';
 import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Order } from '../order';
+import { Endereco } from '../endereco';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-purchase',
@@ -12,6 +16,20 @@ import { Router, RouterLink } from '@angular/router';
   styleUrls: ['./purchase.component.styl']
 })
 export class PurchaseComponent implements AfterViewInit {
+
+  order: Order = {
+    endereco: {
+      uf: '',
+      cidade: '',
+      bairro: '',
+      rua: '',
+      numero: 0,
+      cep: '',
+      complemento: '',
+      nome_destinatario: '',
+      telefone: ''
+    }
+  }
 
   cartItems: CartItem[] = [];
   currentItem: CartItem;
@@ -21,18 +39,61 @@ export class PurchaseComponent implements AfterViewInit {
   @ViewChildren('innerViews') innerViews: QueryList<ElementRef>;
   currentViewIndex = 0;
 
+  addressForm: FormGroup;
+
   constructor(
     private authService: AuthService,
     private cartService: CartService,
     private enderecoService: EnderecoService,
     private orderService: OrderService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private formBuilder: FormBuilder
+  )
+  {
+    this.addressForm = this.formBuilder.group(this.order.endereco);
+  }
 
   ngAfterViewInit() {
     this.setServicesAuth();
     this.getCartItems();
     this.updateView();
+
+    this.getUserAddress();
+  }
+
+  // Check if user has a registered address
+
+  getUserAddress() {
+    this.enderecoService.getUserAddress()
+      .subscribe(
+        (address) => {
+          this.order.endereco = address;
+
+          delete address.id;
+          this.addressForm = this.formBuilder.group(address);
+        }
+      );
+  }
+
+  // Validate address form
+
+  validateAndGoNext() {
+    if (this.addressForm.valid) {
+      const validAddress = this.addressForm.value;
+      let send: Observable<Endereco>;
+
+      if (this.order.endereco.id)
+        // PUT Endereco
+        send = this.enderecoService.updateEndereco(this.order.endereco.id, validAddress);
+      else
+        // POST Endereco
+        send = this.enderecoService.changeUserAddress(this.addressForm.value);
+
+      send.subscribe((address) => {
+        this.order.endereco = address;
+        this.nextView();
+      });
+    }
   }
 
   // Set authorization header in services
@@ -91,14 +152,6 @@ export class PurchaseComponent implements AfterViewInit {
       this.currentViewIndex--;
       this.updateView();
     }
-  }
-
-  // validate address form
-
-  validateAndGoNext() {
-    // code
-
-    this.nextView();
   }
 
   // Logout and get out current page

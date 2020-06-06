@@ -85,8 +85,8 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 	@action(methods=['get'], detail=False)
 	def search(self, request, *args, **kwargs):
 		q = kwargs['q']
-
 		y = 0
+
 		try:
 			y = int(q)
 		except ValueError:
@@ -99,9 +99,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 			Q(grupo__docura__unaccent__lower__trigram_similar=q) |
 			Q(grupo__sabor__unaccent__lower__trigram_similar=q) |
 			Q(ano=y)
-		).exclude(
-			qntd_disponivel__lt=1
-		)
+		).exclude(qntd_disponivel__lt=1)
 
 		serializer = ProdutoSerializer(queryset, many=True)
 		return Response(serializer.data)
