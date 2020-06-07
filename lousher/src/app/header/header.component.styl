@@ -21,6 +21,7 @@
     padding 0 3em 0 3em
     border-bottom 1px solid lighter-gray-color
     background-color #fff
+    justify-content flex-end
 
     &.shaded-header
       box-shadow(none)
@@ -53,6 +54,7 @@
 
     @media (max-width 600px)
       flex-basis auto
+      margin-right auto
 
       .logo-img
         flex-basis 3.25em
@@ -69,9 +71,11 @@
     border-left 1px solid lighter-gray-color
     background-color #fff
 
+    @media (max-width 960px)
+      border none
+
     @media (max-width 600px)
       margin-left 2.5em
-      border none
 
     &.home-block
       width 5.8em
@@ -86,7 +90,10 @@
     &.main-menu-block
       flex-parent(row, nowrap, center)
       align-items center
-
+      
+      @media (max-width 1280px)
+        display none
+      
       .main-menu
         flex-parent(row, nowrap, flex-start)
         align-items center
@@ -112,6 +119,9 @@
         height 2.5em
         align-self center
         cursor pointer
+
+        @media (max-width 960px)
+          display none
 
       .cart-icon
         flex-basis 2.5em
@@ -152,6 +162,9 @@
 
         &:focus
           border-color #CCC
+
+        @media (max-width 960px)
+          display none
 
     &.grow-block
       flex-grow 1
