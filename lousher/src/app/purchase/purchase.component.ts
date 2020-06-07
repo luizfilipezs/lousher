@@ -87,7 +87,7 @@ export class PurchaseComponent implements AfterViewInit {
         send = this.enderecoService.updateEndereco(this.order.endereco.id, validAddress);
       else
         // POST Endereco
-        send = this.enderecoService.changeUserAddress(this.addressForm.value);
+        send = this.enderecoService.changeUserAddress(validAddress);
 
       send.subscribe((address) => {
         this.order.endereco = address;

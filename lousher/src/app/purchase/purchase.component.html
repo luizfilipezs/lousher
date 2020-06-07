@@ -71,14 +71,13 @@
 
         <div class="actions">
           <div class="action-btn back-button" (click)="previousView()">Voltar</div>
-          <div class="action-btn next-button" (click)="nextView()">Continuar</div>
+          <div class="action-btn next-button active-button" (click)="nextView()">Continuar</div>
         </div>
       </div>
 
     </div>
   
     <div class="about-order-items-box" *ngIf="currentItem">
-
       <div class="scale">
         <p class="measures">26 cm</p>
       </div>
@@ -91,7 +90,6 @@
       <div class="next-box">
         <p class="next-btn" (click)="itemIterator.next()">Próx.</p>
       </div>
-
     </div>
   </div>
 </div>

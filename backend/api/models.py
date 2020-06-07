@@ -10,8 +10,8 @@ class Endereco(models.Model):
     rua = models.CharField(max_length=100)
     numero = models.PositiveIntegerField()
     cep = models.CharField(max_length=10)
-    bairro = models.CharField(max_length=100)
-    complemento = models.CharField(max_length=100)
+    bairro = models.CharField(max_length=100, null=True, blank=True)
+    complemento = models.CharField(max_length=100, null=True, blank=True)
     nome_destinatario = models.CharField(max_length=100)
     telefone = models.CharField(max_length=20)
 

@@ -1,6 +1,6 @@
 <!-- SLIDER -->
 
-<div class="nav-slider-box">
+<div class="nav-slider-box" *ngIf="loading || offers.length">
   <p class="sub-title">Ofertas para você</p>
   <a class="see-section" routerLink="/list/offers">Ver tudo</a>
   <div class="order-by no-mobile">

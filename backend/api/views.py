@@ -199,11 +199,10 @@ class EnderecoViewSet(viewsets.ModelViewSet):
 	
 	@action(methods=['post'], detail=True)
 	def alterar_endereco_usuario(self, request):
-		dados = request.data
-		serializer = EnderecoSerializer(dados)
-		serializer.save()
+		serializer = EnderecoSerializer(data=request.data)
 		if serializer.is_valid():
-			request.user.endereco = serializer
+			model = serializer.save()
+			request.user.endereco = model
 			request.user.save()
 			return Response(serializer.data)
 		return Response(status=403)
