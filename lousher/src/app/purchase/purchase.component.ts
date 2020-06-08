@@ -6,9 +6,9 @@ import { EnderecoService } from '../services/endereco.service';
 import { CartItem } from '../cart.item';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Order } from '../order';
+import { Order, OrderItem } from '../order';
 import { Endereco } from '../endereco';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-purchase',
@@ -28,7 +28,8 @@ export class PurchaseComponent implements AfterViewInit {
       complemento: '',
       nome_destinatario: '',
       telefone: ''
-    }
+    },
+    observacoes: ''
   }
 
   cartItems: CartItem[] = [];
@@ -54,46 +55,16 @@ export class PurchaseComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    // Set up view
     this.setServicesAuth();
     this.getCartItems();
     this.updateView();
 
+    // Order data
+    this.order.usuario = this.authService.user.user_id;
+
+    // Secondary actions
     this.getUserAddress();
-  }
-
-  // Check if user has a registered address
-
-  getUserAddress() {
-    this.enderecoService.getUserAddress()
-      .subscribe(
-        (address) => {
-          this.order.endereco = address;
-
-          delete address.id;
-          this.addressForm = this.formBuilder.group(address);
-        }
-      );
-  }
-
-  // Validate address form
-
-  validateAndGoNext() {
-    if (this.addressForm.valid) {
-      const validAddress = this.addressForm.value;
-      let send: Observable<Endereco>;
-
-      if (this.order.endereco.id)
-        // PUT Endereco
-        send = this.enderecoService.updateEndereco(this.order.endereco.id, validAddress);
-      else
-        // POST Endereco
-        send = this.enderecoService.changeUserAddress(validAddress);
-
-      send.subscribe((address) => {
-        this.order.endereco = address;
-        this.nextView();
-      });
-    }
   }
 
   // Set authorization header in services
@@ -152,6 +123,79 @@ export class PurchaseComponent implements AfterViewInit {
       this.currentViewIndex--;
       this.updateView();
     }
+  }
+
+  // Check if user has a registered address
+
+  private getUserAddress() {
+    this.enderecoService.getUserAddress()
+      .subscribe(
+        (address) => {
+          this.order.endereco = address;
+
+          delete address.id;
+          this.addressForm = this.formBuilder.group(address);
+        }
+      );
+  }
+
+  // Validate address form
+
+  validateAndGoNext() {
+    if (this.addressForm.valid) {
+      const validAddress = this.addressForm.value;
+      let send: Observable<Endereco>;
+
+      if (this.order.endereco.id)
+        // PUT Endereco
+        send = this.enderecoService.updateEndereco(this.order.endereco.id, validAddress);
+      else
+        // POST Endereco
+        send = this.enderecoService.changeUserAddress(validAddress);
+
+      send.subscribe((address) => {
+        this.order.endereco = address;
+        this.nextView();
+      });
+    }
+  }
+
+  // update order.observacoes when its input in template changes
+
+  setObservacoes(text: string) {
+    this.order.observacoes = text;
+  }
+
+  // finalize order
+
+  postOrder() {
+    this.orderService.post(this.order)
+      .subscribe(
+        (order) => {
+          this.order = order;
+          this.postOrderItens();
+        },
+        (error) => { /* code */ }
+      );
+  }
+
+  private postOrderItens() {
+    let orderItems: Observable<OrderItem>[] = [];
+
+    this.cartItems.forEach(cartItem => {
+      orderItems.push(
+        this.orderService.postOrderItem({
+          pedido: this.order.id,
+          produto: cartItem.produto,
+          qntd: cartItem.qntd
+        })
+      )
+    });
+
+    forkJoin(orderItems).subscribe(
+      (success) => this.nextView(),
+      (error) => { /* code */ }
+    );
   }
 
   // Logout and get out current page

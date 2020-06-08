@@ -46,8 +46,8 @@ export class OrderService {
     return this.http.get<OrderItem[]>(this.root.orderItems, this.httpOptions);
   }
 
-  postOrderItem() {
-    return this.http.post<OrderItem>(this.root.orderItems, this.httpOptions)
+  postOrderItem(orderItem: OrderItem) {
+    return this.http.post<OrderItem>(this.root.orderItems, orderItem, this.httpOptions);
   }
 
   /* FORMATING */
@@ -63,7 +63,7 @@ export class OrderService {
       items.forEach(element => {
         // Item from current order
         if (element.pedido == order.id)
-          description += `${element.product.nome} (${element.qntd} unidades), `;
+          description += `${element.produto.nome} (${element.qntd} unidades), `;
       });
 
       // Remove last comma and white space

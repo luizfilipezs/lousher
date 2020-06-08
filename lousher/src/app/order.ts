@@ -5,7 +5,7 @@ import { OrderStatus } from './types';
 export interface OrderItem {
   id?: number;
   pedido: number; // order.id
-  product: Product;
+  produto: Product;
   qntd: number;
 }
 

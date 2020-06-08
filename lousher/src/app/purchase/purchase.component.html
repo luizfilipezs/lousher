@@ -21,31 +21,38 @@
       </ul>
 
       <div class="inner-view" #innerViews>
-        <form class="current-step" [formGroup]="addressForm">
+        <div class="current-step">
+          <form [formGroup]="addressForm">
+            <p class="label">Primeiro, vamos registrar o seu endereço.</p>
+            <div class="inputs-wrapper">
+              <input type="text" class="input special-input" id="uf" minlength="2" maxlength="2" placeholder="UF" required formControlName="uf">
+              <input type="text" class="input" id="cidade" minlength="4" maxlength="28" placeholder="Cidade" required formControlName="cidade">
+              <input type="text" class="input" id="bairro" minlength="1" maxlength="100" placeholder="Bairro (opcional)" formControlName="bairro">
+              <input type="text" class="input" id="rua" minlength="1" maxlength="100" placeholder="Rua" required formControlName="rua">
+              <input type="number" class="input" id="numero" min="1" placeholder="Número" required formControlName="numero">
+              <input type="text" class="input" id="complemento" maxlength="100" placeholder="Complemento" formControlName="complemento">
+              <input class="input" id="cep" pattern="\d{5}-\d{3}" minlength="9" maxlength="9" placeholder="CEP" required formControlName="cep">
+            </div>
 
-          <p class="label">Primeiro, vamos registrar o seu endereço.</p>
-          <div class="inputs-wrapper">
-            <input type="text" class="input special-input" id="uf" minlength="2" maxlength="2" placeholder="UF" required formControlName="uf">
-            <input type="text" class="input" id="cidade" minlength="4" maxlength="28" placeholder="Cidade" required formControlName="cidade">
-            <input type="text" class="input" id="bairro" minlength="1" maxlength="100" placeholder="Bairro (opcional)" formControlName="bairro">
-            <input type="text" class="input" id="rua" minlength="1" maxlength="100" placeholder="Rua" required formControlName="rua">
-            <input type="number" class="input" id="numero" min="1" placeholder="Número" required formControlName="numero">
-            <input type="text" class="input" id="complemento" maxlength="100" placeholder="Complemento" formControlName="complemento">
-            <input class="input" id="cep" pattern="\d{5}-\d{3}" minlength="9" maxlength="9" placeholder="CEP" required formControlName="cep">
-          </div>
-
-          <p class="label">Quem irá receber o pedido? Como podemos entrar em contato?</p>
-          <div class="inputs-wrapper">
-            <input type="text" class="input" id="nome-completo" minlength="5" maxlength="40" placeholder="Nome completo" required formControlName="nome_destinatario">
-            <input type="text" class="input" id="telefone" minlength="10" maxlength="18" placeholder="Telefone" required formControlName="telefone">
-          </div>
+            <p class="label">Quem irá receber o pedido? Como podemos entrar em contato?</p>
+            <div class="inputs-wrapper">
+              <input type="text" class="input" id="nome-completo" minlength="5" maxlength="40" placeholder="Nome completo" required formControlName="nome_destinatario">
+              <input type="text" class="input" id="telefone" minlength="10" maxlength="18" placeholder="Telefone" required formControlName="telefone">
+            </div>
+          </form>
 
           <p class="label">Há alguma informação que gostaria de deixar para ajudar na entrega? Sinta-se à vontade para escrever ;)</p>
           <div class="inputs-wrapper">
-            <textarea class="input" id="personal-message" rows="4" placeholder="Sua mensagem aqui (opcional)"></textarea>
+            <textarea
+              class="input"
+              id="personal-message"
+              rows="4"
+              placeholder="Sua mensagem aqui (opcional)"
+              [ngModel]="sg"
+              (ngModelChange)="setObservacoes($event)"></textarea>
           </div>
         
-        </form>
+        </div>
 
         <div class="actions">
           <div class="action-btn back-button" [routerLink]="['/']">Voltar às compras</div>
