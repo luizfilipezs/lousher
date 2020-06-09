@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Order, OrderItem } from '../order';
 import { Endereco } from '../endereco';
 import { Observable, forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-purchase',
@@ -17,20 +18,23 @@ import { Observable, forkJoin } from 'rxjs';
 })
 export class PurchaseComponent implements AfterViewInit {
 
-  order: Order = {
-    endereco: {
-      uf: '',
-      cidade: '',
-      bairro: '',
-      rua: '',
-      numero: 0,
-      cep: '',
-      complemento: '',
-      nome_destinatario: '',
-      telefone: ''
-    },
-    observacoes: ''
+  order: Order = { observacoes: '' };
+
+  endereco: Endereco = {
+    uf: '',
+    cidade: '',
+    bairro: '',
+    rua: '',
+    numero: 0,
+    cep: '',
+    complemento: '',
+    nome_destinatario: '',
+    telefone: ''
   }
+
+  creatingOrder = false;
+  errorCreatingOrder = false;
+  errorSendingItems = false;
 
   cartItems: CartItem[] = [];
   currentItem: CartItem;
@@ -51,7 +55,7 @@ export class PurchaseComponent implements AfterViewInit {
     private formBuilder: FormBuilder
   )
   {
-    this.addressForm = this.formBuilder.group(this.order.endereco);
+    this.addressForm = this.formBuilder.group(this.endereco);
   }
 
   ngAfterViewInit() {
@@ -131,7 +135,7 @@ export class PurchaseComponent implements AfterViewInit {
     this.enderecoService.getUserAddress()
       .subscribe(
         (address) => {
-          this.order.endereco = address;
+          this.endereco = address;
 
           delete address.id;
           this.addressForm = this.formBuilder.group(address);
@@ -148,13 +152,14 @@ export class PurchaseComponent implements AfterViewInit {
 
       if (this.order.endereco.id)
         // PUT Endereco
-        send = this.enderecoService.updateEndereco(this.order.endereco.id, validAddress);
+        send = this.enderecoService.updateEndereco(this.endereco.id, validAddress);
       else
         // POST Endereco
         send = this.enderecoService.changeUserAddress(validAddress);
 
       send.subscribe((address) => {
-        this.order.endereco = address;
+        this.endereco = address;
+        this.order.endereco_id = address.id;
         this.nextView();
       });
     }
@@ -169,33 +174,43 @@ export class PurchaseComponent implements AfterViewInit {
   // finalize order
 
   postOrder() {
+    this.creatingOrder = true;
+    this.errorCreatingOrder = false;
+
     this.orderService.post(this.order)
       .subscribe(
         (order) => {
           this.order = order;
           this.postOrderItens();
         },
-        (error) => { /* code */ }
+        (error) => this.errorCreatingOrder = true
       );
   }
 
-  private postOrderItens() {
+  postOrderItens() {
+    this.errorCreatingOrder = false;
+    this.errorSendingItems = false;
+    
     let orderItems: Observable<OrderItem>[] = [];
 
     this.cartItems.forEach(cartItem => {
       orderItems.push(
         this.orderService.postOrderItem({
           pedido: this.order.id,
-          produto: cartItem.produto,
+          produto_id: cartItem.produto.id,
           qntd: cartItem.qntd
         })
       )
     });
 
-    forkJoin(orderItems).subscribe(
-      (success) => this.nextView(),
-      (error) => { /* code */ }
-    );
+    forkJoin(orderItems)
+      .pipe(
+        finalize(() => this.creatingOrder = false)
+      )
+      .subscribe(
+        (success) => this.nextView(),
+        (error) => this.errorSendingItems = true
+      );
   }
 
   // Logout and get out current page

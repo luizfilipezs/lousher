@@ -18,7 +18,9 @@ from .serializers import (
 	EnderecoSerializer,
 	ItemCarrinhoSerializer,
 	PedidoSerializer,
+	CreatePedidoSerializer,
 	ItemPedidoSerializer,
+	CreateItemPedidoSerializer,
 	MensagemContatoSerializer)
 
 from django.db.models import Transform, CharField, Q
@@ -225,10 +227,26 @@ class PedidoViewSet(viewsets.ModelViewSet):
 		serializer = PedidoSerializer(pedido)
 		return Response(serializer.data)
 
+	def create(self, request):
+		serializer = CreatePedidoSerializer(data=request.data)
+		if serializer.is_valid():
+			model = serializer.save()
+			response_serializer = PedidoSerializer(model)
+			return Response(response_serializer.data)
+		return Response(status=400)
+
 class ItemPedidoViewSet(viewsets.ModelViewSet):
 	queryset = ItemPedido.objects.all()
 	serializer_class = ItemPedidoSerializer
 	permission_classes = [permissions.IsAuthenticated]
+
+	def create(self, request):
+		serializer = CreateItemPedidoSerializer(data=request.data)
+		if serializer.is_valid():
+			model = serializer.save()
+			response_serializer = ItemPedidoSerializer(model)
+			return Response(response_serializer.data)
+		return Response(status=400)
 
 # CONTATO
 

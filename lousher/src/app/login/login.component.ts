@@ -17,6 +17,7 @@ export class LoginComponent implements AfterViewInit {
   errorGettingOrders = false;
 
   loadingLogin = false;
+  loadingRegister = false;
 
   orders: OrderInfo[] = [];
 
@@ -64,8 +65,12 @@ export class LoginComponent implements AfterViewInit {
   }
 
   signup(username: string, email: string, password1: string, password2: string) {
+    this.loadingRegister = true;
     if (username && email && password1 && password2) {
       this.authService.signup(username, email, password1, password2)
+        .pipe(
+          finalize(() => this.loadingRegister = false)
+        )
         .subscribe(
           (sucess) => this.errorWhenRegistering = false,
           (error) => this.errorWhenRegistering = true

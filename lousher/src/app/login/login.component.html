@@ -20,7 +20,8 @@
       <input #email type="email" placeholder="Email" class="text-input" required>
       <input #passwordOne type="password" placeholder="Senha" class="text-input" required>
       <input #passwordTwo type="password" placeholder="Repetir senha" class="text-input" required>
-      <p *ngIf="errorWhenRegistering" class="form-error">Alguma informação está incorreta ou em branco &#9888;</p>
+      <p *ngIf="errorWhenRegistering" class="form-message error-message">Alguma informação está incorreta ou foi deixada em branco &#9888;</p>
+      <p *ngIf="loadingRegister" class="form-message good-message">Processando...</p>
       <div class="button-wrapper">
         <input type="button" value="Continuar" class="submit-btn dark-color" (click)="signup(username.value, email.value, passwordOne.value, passwordTwo.value)"><br>
       </div>

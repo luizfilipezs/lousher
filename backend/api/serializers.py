@@ -81,7 +81,7 @@ class ItemCarrinhoSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class PedidoSerializer(serializers.ModelSerializer):
-	endereco = EnderecoSerializer()
+	endereco = EnderecoSerializer(read_only=True)
 	status = serializers.SerializerMethodField()
 
 	def get_status(self, obj):
@@ -91,11 +91,39 @@ class PedidoSerializer(serializers.ModelSerializer):
 		model = Pedido
 		fields = '__all__'
 
+class CreatePedidoSerializer(serializers.ModelSerializer):
+	endereco_id = serializers.PrimaryKeyRelatedField(queryset=Endereco.objects.all())
+
+	class Meta:
+		model = Pedido
+		fields = ['usuario', 'endereco_id', 'observacoes']
+	
+	def create(self, validated_data):
+		return Pedido.objects.create(
+			usuario=validated_data.get('usuario'),
+			endereco=validated_data.get('endereco_id'),
+			observacoes=validated_data.get('observacoes')
+		)
+
 class ItemPedidoSerializer(serializers.ModelSerializer):
 	produto = ProdutoSerializer()
 	class Meta:
 		model = Pedido
 		fields = '__all__'
+
+class CreateItemPedidoSerializer(serializers.ModelSerializer):
+	produto_id = serializers.PrimaryKeyRelatedField(queryset=Produto.objects.all())
+
+	class Meta:
+		model = Pedido
+		fields = ['pedido', 'produto_id', 'qntd']
+	
+	def create(self, validated_data):
+		return Pedido.objects.create(
+			pedido=validated_data.get('pedido'),
+			produto=validated_data.get('produto_id'),
+			qntd=validated_data.get('qntd')
+		)
 
 class MensagemContatoSerializer(serializers.ModelSerializer):
 	class Meta:

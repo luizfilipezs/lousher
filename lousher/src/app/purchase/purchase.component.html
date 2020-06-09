@@ -16,8 +16,8 @@
     <div class="configure-order-box">
       <ul class="progress-menu">
         <li class="proccess-part" [class.selected-item]="currentViewIndex === 0">Endereço</li>
-        <li class="proccess-part" [class.selected-item]="currentViewIndex === 1">Revisar pedido</li>
-        <li class="proccess-part" [class.selected-item]="currentViewIndex === 2">Finalizar</li>
+        <li class="proccess-part" [class.selected-item]="currentViewIndex === 1">Checar ítens</li>
+        <li class="proccess-part" [class.selected-item]="currentViewIndex === 2">Pedido</li>
       </ul>
 
       <div class="inner-view" #innerViews>
@@ -78,7 +78,26 @@
 
         <div class="actions">
           <div class="action-btn back-button" (click)="previousView()">Voltar</div>
-          <div class="action-btn next-button active-button" (click)="nextView()">Continuar</div>
+          <!--Inital state-->
+          <div class="action-btn next-button active-button" *ngIf="!creatingOrder && !errorCreatingOrder && !errorSendingItems" (click)="postOrder()">Confirmar</div>
+          <!--Loading request-->
+          <div class="action-btn next-button active-button" *ngIf="creatingOrder">Confirmando...</div>
+          <!--Error emitting order-->
+          <div class="action-btn next-button active-button" *ngIf="errorCreatingOrder" (click)="postOrder()">Tentar novamente</div>
+          <!--Error creating order items-->
+          <div class="action-btn next-button active-button" *ngIf="errorSendingItems" (click)="postOrderItems()">Tentar novamente</div>
+        </div>
+      </div>
+
+      <div class="inner-view" #innerViews>
+        <div class="current-step">
+          <p class="label">Seu pedido foi feito.</p>
+
+
+        </div>
+
+        <div class="actions">
+          <div class="action-btn back-button"><a routerLink="/">Concluir</a></div>
         </div>
       </div>
 
