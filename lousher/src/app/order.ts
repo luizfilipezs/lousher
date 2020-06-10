@@ -1,6 +1,5 @@
 import { Endereco } from './endereco';
 import { Product } from './product';
-import { OrderStatus } from './types';
 
 export interface OrderItem {
   id?: number;
@@ -10,11 +9,11 @@ export interface OrderItem {
   qntd: number;
 }
 
-export interface Order {
+export class Order {
   id?: number;
   usuario?: number;
   endereco?: Endereco;
   endereco_id?: number;
-  status?: OrderStatus;
-  observacoes?: string;
+  status?: string;
+  observacoes = '';
 }

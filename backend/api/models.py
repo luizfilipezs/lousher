@@ -118,9 +118,9 @@ class ItemCarrinho(models.Model):
         return f"{self.produto} x {self.qntd}, de {self.usuario}"
 
 class Pedido(models.Model):
-    primeiro_status = 'processando_pag'
+    primeiro_status = 'em_analise'
     STATUS = [
-        (primeiro_status, 'processando pag.'),
+        (primeiro_status, 'em análise'),
         ('preparando', 'preparando envio'),
         ('despachado', 'despachado'),
         ('entregue', 'entregue'),
@@ -133,6 +133,9 @@ class Pedido(models.Model):
     status = models.CharField(max_length=20, choices=STATUS, default=primeiro_status)
     observacoes = models.CharField(max_length=300, blank=True)
     data_pedido = models.DateField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return f"Por {self.usuario.username}, em {self.data_pedido}"
 
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)

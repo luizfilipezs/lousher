@@ -107,19 +107,22 @@ class CreatePedidoSerializer(serializers.ModelSerializer):
 
 class ItemPedidoSerializer(serializers.ModelSerializer):
 	produto = ProdutoSerializer()
+
 	class Meta:
-		model = Pedido
+		model = ItemPedido
 		fields = '__all__'
 
 class CreateItemPedidoSerializer(serializers.ModelSerializer):
+	#produto = serializers.PrimaryKeyRelatedField(queryset=Produto.objects.all()) it's valid too
 	produto_id = serializers.PrimaryKeyRelatedField(queryset=Produto.objects.all())
+	pedido = serializers.PrimaryKeyRelatedField(queryset=Pedido.objects.all())
 
 	class Meta:
-		model = Pedido
+		model = ItemPedido
 		fields = ['pedido', 'produto_id', 'qntd']
 	
 	def create(self, validated_data):
-		return Pedido.objects.create(
+		return ItemPedido.objects.create(
 			pedido=validated_data.get('pedido'),
 			produto=validated_data.get('produto_id'),
 			qntd=validated_data.get('qntd')

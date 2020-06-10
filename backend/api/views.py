@@ -232,6 +232,10 @@ class PedidoViewSet(viewsets.ModelViewSet):
 		if serializer.is_valid():
 			model = serializer.save()
 			response_serializer = PedidoSerializer(model)
+
+			# limpa carrinho do usuário
+			ItemCarrinho.objects.filter(usuario=request.user).delete()
+
 			return Response(response_serializer.data)
 		return Response(status=400)
 

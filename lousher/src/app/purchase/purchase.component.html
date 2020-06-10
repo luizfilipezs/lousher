@@ -2,12 +2,12 @@
   <header class="purchase-header">
     <div class="logo">
       <img src="assets/icons/transparent-wine-glass.png" alt="Lousher" class="logo-img">
-      <p class="logo-txt">Lousher</p>
+      <p class="logo-txt">Louscher</p>
     </div>
     <ul class="basic-menu">
       <li class="menu-list-item theme-color">{{ authService.user.username }}</li>
-      <li class="menu-list-item">&#9679;</li>
-      <li class="menu-list-item pointer-cursor" title="Sair (logout)" (click)="logout()">Sair</li>
+      <li class="menu-list-item no-mobile">&#9679;</li>
+      <li class="menu-list-item pointer-cursor no-mobile" title="Sair (logout)" (click)="logout()">Sair</li>
     </ul>
   </header>
   
@@ -22,7 +22,7 @@
 
       <div class="inner-view" #innerViews>
         <div class="current-step">
-          <form [formGroup]="addressForm">
+          <form class="address-form" [formGroup]="addressForm">
             <p class="label">Primeiro, vamos registrar o seu endereço.</p>
             <div class="inputs-wrapper">
               <input type="text" class="input special-input" id="uf" minlength="2" maxlength="2" placeholder="UF" required formControlName="uf">
@@ -56,7 +56,10 @@
 
         <div class="actions">
           <div class="action-btn back-button" [routerLink]="['/']">Voltar às compras</div>
-          <div class="action-btn next-button" (click)="validateAndGoNext()" [class.active-button]="addressForm.valid">Continuar</div>
+          <div class="action-btn next-button" (click)="validateAndGoNext()" [class.active-button]="addressForm.valid">
+            <span *ngIf="!sendindAddress">Continuar</span>
+            <span *ngIf="sendindAddress">Salvando...</span>
+          </div>
         </div>
       </div>
 
@@ -97,7 +100,7 @@
         </div>
 
         <div class="actions">
-          <div class="action-btn back-button"><a routerLink="/">Concluir</a></div>
+          <div class="action-btn back-button" [routerLink]="['/']">Concluir</div>
         </div>
       </div>
 
@@ -113,7 +116,7 @@
         <p class="quantity-in-cart"><span class="info-content">X {{ currentItem.qntd }}</span></p>
       </div>
 
-      <div class="next-box">
+      <div class="next-box" *ngIf="cartItems.length > 1">
         <p class="next-btn" (click)="itemIterator.next()">Próx.</p>
       </div>
     </div>

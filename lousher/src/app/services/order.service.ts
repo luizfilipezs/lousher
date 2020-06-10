@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order, OrderItem } from '../order';
-import { OrderStatus } from '../types';
 
 class ServiceRoot {
-  api = 'http://localhost:8000/api';
-  orders = `${this.api}/pedidos`;
-  orderItems = `${this.api}/itensPedidos`;
-  order = (id: number) => `${this.orders}/${id}`;
-  item = (id: number) => `${this.orderItems}/${id}`;
+  api = 'http://localhost:8000/api/';
+  orders = this.api.concat('pedidos/');
+  orderItems = this.api.concat('itensPedidos/');
+  order = (id: number) => this.orders + id;
+  item = (id: number) => this.orderItems + id;
 }
 
 @Injectable()
@@ -100,5 +99,5 @@ export interface OrderInfo {
   receiverName: string;
   receiverAddress: string;
   id: number;
-  status: OrderStatus;
+  status: string;
 }

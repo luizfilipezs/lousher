@@ -18,7 +18,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class PurchaseComponent implements AfterViewInit {
 
-  order: Order = { observacoes: '' };
+  order = new Order();
 
   endereco: Endereco = {
     uf: '',
@@ -32,6 +32,7 @@ export class PurchaseComponent implements AfterViewInit {
     telefone: ''
   }
 
+  sendingAddress = false;
   creatingOrder = false;
   errorCreatingOrder = false;
   errorSendingItems = false;
@@ -147,21 +148,27 @@ export class PurchaseComponent implements AfterViewInit {
 
   validateAndGoNext() {
     if (this.addressForm.valid) {
+      this.sendingAddress = true;
+
       const validAddress = this.addressForm.value;
       let send: Observable<Endereco>;
 
-      if (this.order.endereco.id)
+      if (this.endereco.id)
         // PUT Endereco
         send = this.enderecoService.updateEndereco(this.endereco.id, validAddress);
       else
         // POST Endereco
         send = this.enderecoService.changeUserAddress(validAddress);
 
-      send.subscribe((address) => {
-        this.endereco = address;
-        this.order.endereco_id = address.id;
-        this.nextView();
-      });
+      send
+        .pipe(
+          finalize(() => this.sendingAddress = false)
+        )
+        .subscribe((address) => {
+          this.endereco = address;
+          this.order.endereco_id = address.id;
+          this.nextView();
+        });
     }
   }
 
@@ -183,7 +190,10 @@ export class PurchaseComponent implements AfterViewInit {
           this.order = order;
           this.postOrderItens();
         },
-        (error) => this.errorCreatingOrder = true
+        (error) => {
+          this.creatingOrder = false;
+          this.errorCreatingOrder = true;
+        }
       );
   }
 

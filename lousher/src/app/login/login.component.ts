@@ -83,6 +83,7 @@ export class LoginComponent implements AfterViewInit {
   logout() {
     this.authService.logout();
     this.cartService.clearLocal();
+    this.orders = [];
   };
 
 }
