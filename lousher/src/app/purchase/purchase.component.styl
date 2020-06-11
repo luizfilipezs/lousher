@@ -97,7 +97,7 @@
         .current-step
           width calc(100% - 5em)
           height auto
-          max-height 27.5em
+          max-height 28em
           overflow-y auto
           font-size 1.55em
           margin-top 2.5em
@@ -117,6 +117,38 @@
           .label
             font-weight 700
             margin-bottom 1.7em
+
+          .letter
+            width 100%
+            padding-top 1em
+            min-height 24em
+            height auto
+            flex-parent(column, nowrap, space-between)
+
+            @media (max-width 600px)
+              min-height none
+
+            .letter-wrapper
+              width 100%
+
+              .letter-message
+                width 95%
+                font-size .975em
+                font-weight 500
+                font-style italic
+                color gray-color
+                line-height 1.3em
+                margin-bottom 1.25em
+
+                .highlighted-text
+                  color theme-color
+
+                &.no-margin
+                  margin-bottom 0
+
+                &.paragraph-indent
+                  text-indent 1em
+              
 
           // Adress
 
