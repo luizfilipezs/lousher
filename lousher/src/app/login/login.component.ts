@@ -32,6 +32,8 @@ export class LoginComponent implements AfterViewInit {
   }
 
   getOrders() {
+    // Remove previous error messages after trying to connect to server
+    this.errorGettingOrders = false;
     // Set authorization header in order service
     this.orderService.setAuth(this.authService.token);
     // Get orders and their items
