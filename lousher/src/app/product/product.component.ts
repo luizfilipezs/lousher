@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { Product } from '../product';
 import { ProductService } from '../services/product.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -19,6 +20,7 @@ export class ProductComponent implements OnInit {
   @ViewChild('downBtn') downBtn: ElementRef;
 
   constructor(
+    private authService: AuthService,
     private productService: ProductService,
     private cartService: CartService,
     private route: ActivatedRoute,
@@ -72,11 +74,12 @@ export class ProductComponent implements OnInit {
   }
 
   setQuantityInCartFromServer() {
-    this.cartService.checkItem(this.product.id)
-      .subscribe(
-        (item) => this.quantityInCart = item.qntd,
-        (error) => this.quantityInCart = 0
-      );
+    this.quantityInCart = 0;
+
+    if (this.authService.user) {
+      this.cartService.checkItem(this.product.id)
+        .subscribe((item) => this.quantityInCart = item.qntd);
+    }
   }
 
   setCart() {

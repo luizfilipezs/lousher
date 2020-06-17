@@ -68,7 +68,8 @@ export class LoginComponent implements AfterViewInit {
 
   signup(username: string, email: string, password1: string, password2: string) {
     this.loadingRegister = true;
-    if (username && email && password1 && password2) {
+
+    username && email && password1 && password2 ?
       this.authService.signup(username, email, password1, password2)
         .pipe(
           finalize(() => this.loadingRegister = false)
@@ -76,10 +77,8 @@ export class LoginComponent implements AfterViewInit {
         .subscribe(
           (sucess) => this.errorWhenRegistering = false,
           (error) => this.errorWhenRegistering = true
-        );
-    } else {
-      this.errorWhenRegistering = true;
-    }
+        )
+    : this.errorWhenRegistering = true;
   }
 
   logout() {
