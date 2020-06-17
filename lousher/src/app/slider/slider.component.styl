@@ -80,11 +80,6 @@
     top 0
     width 14em
     height 100%
-    // gradient
-    background rgb(2,0,36)
-    background -moz-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
-    background -webkit-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
-    background linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
     transition(.1s)
     cursor pointer
 
@@ -92,11 +87,20 @@
       display none
 
     &.left-box
-      transform(rotate(180deg))
       left 0
+      // gradient
+      background rgb(255,255,255)
+      background -moz-linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7959558823529411) 53%, rgba(255,255,255,0) 100%)
+      background -webkit-linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7959558823529411) 53%, rgba(255,255,255,0) 100%)
+      background linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7959558823529411) 53%, rgba(255,255,255,0) 100%)
 
     &.right-box
       right 0
+      // gradient
+      background rgb(2,0,36)
+      background -moz-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
+      background -webkit-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
+      background linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8015406846332283) 47%, rgba(255,255,255,1) 100%)
 
     &.invisible
       width 0
@@ -129,7 +133,7 @@
         width 17em
         margin-right 3em
 
-      &:last-child
+      &:last-of-type
         margin-right 0
 
       .item-banner-wrapper

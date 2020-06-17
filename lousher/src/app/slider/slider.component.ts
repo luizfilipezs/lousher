@@ -10,6 +10,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Product } from '../product';
 import { ProductService } from '../services/product.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-slider',
@@ -28,15 +29,17 @@ export class SliderComponent implements AfterViewInit {
   constructor(private productService: ProductService) { }
   
   ngAfterViewInit() {
-    // Adjust slider
-    this.slider.nativeElement.scrollLeft = 0;
-    this.adjustButtons(true);
-
     // Get offers
     this.productService.getOffers()
+      .pipe(
+        finalize(() => this.loading = false)
+      )
       .subscribe((offers) => {
         this.offers = offers;
-        this.loading = false;
+
+        // Adjust slider
+        this.sortBy('price-');
+        this.adjustButtons(true);
       });
 
     // Sort by
@@ -47,8 +50,8 @@ export class SliderComponent implements AfterViewInit {
       const validades = this.vencimentos.toArray();
       // Display time
       validades.forEach(element => {
-        const date = element.nativeElement.textContent;
-        this.setTimeRemaining(element.nativeElement, date);
+        const native = element.nativeElement;
+        this.setTimeRemaining(native, native.textContent);
       });
     });
   }
@@ -86,7 +89,6 @@ export class SliderComponent implements AfterViewInit {
 
   set offers(val) {
     this._offers = val;
-    this.sortBy('price-');
   }
 
   /* ORDER BY */
@@ -149,33 +151,56 @@ export class SliderComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['true'])
   adjustButtons(firstTime?: true) {
-    let { scrollLeft, scrollLeftMax } = this.slider.nativeElement;
+    const dimensions = this.getSliderDimentions();
+    const scrollLeft = dimensions.scrollPosition;
+    const scrollLeftMax = dimensions.scrollWidth;
     
-    const previousBtn = document.querySelector('.left-box'),
-          nextBtn = document.querySelector('.right-box');
+    const previousBtn = document.querySelector('.left-box');
+    const nextBtn = document.querySelector('.right-box');
 
-    if (firstTime)
-      scrollLeft = scrollLeftMax;
+    const hiddenClass = 'invisible';
 
-    // toggle previous button
-
-    if (scrollLeft === scrollLeftMax) {
-      if (!previousBtn.classList.contains('invisible'))
-        previousBtn.classList.add('invisible');
-    }  else {
-      if (previousBtn.classList.contains('invisible'))
-        previousBtn.classList.remove('invisible');
+    const hideBtn = (btn: Element) => {
+      if (!btn.classList.contains(hiddenClass))
+        btn.classList.add(hiddenClass);
     }
 
-    // togle next button
+    const showBtn = (btn: Element) => {
+      if (btn.classList.contains(hiddenClass))
+        btn.classList.remove(hiddenClass);
+    }
 
-    if (scrollLeft === 0) {
-      if (!nextBtn.classList.contains('invisible'))
-        nextBtn.classList.add('invisible');
+    if (firstTime) {
+      // initial state
+      if (scrollLeftMax === dimensions.width) {
+        hideBtn(previousBtn);
+      }
+
+      /*
+        Next btn will always appear at the initial state
+        - even when there is no next content
+      */
+
     } else {
-      if (nextBtn.classList.contains('invisible'))
-        nextBtn.classList.remove('invisible');
+      // came to the end
+      if (scrollLeft === 0) {
+        hideBtn(nextBtn);
+        // if there is previous content
+        if (scrollLeftMax > dimensions.width) {
+          showBtn(previousBtn);
+        }
+      }
+
+      // if it is before the end
+      if (scrollLeft > 0) {
+        showBtn(nextBtn);
+      }
+
+      // if it is at the start
+      if (dimensions.width + scrollLeft === scrollLeftMax) {
+        hideBtn(previousBtn);
+      }
     }
   }
-
+  
 }
