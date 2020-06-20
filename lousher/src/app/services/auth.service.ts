@@ -9,11 +9,12 @@ import * as jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
 import { ToggleView } from '../toggle.view';
+import { APIRoot } from '../api.root';
 
 @Injectable()
 export class AuthService extends ToggleView {
 
-  private apiRoot = 'http://localhost:8000/auth/';
+  private apiRoot = APIRoot.main.concat('auth/');
 
   constructor(private http: HttpClient) {
     super();

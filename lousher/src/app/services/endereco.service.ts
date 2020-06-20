@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Endereco } from '../endereco';
+import { APIRoot } from '../api.root';
 
 @Injectable()
 export class EnderecoService {
 
-  apiRoot = 'http://localhost:8000/api/enderecos/';
+  apiRoot = APIRoot.api.concat('enderecos/');
 
   private httpOptions = {
     headers: new HttpHeaders({

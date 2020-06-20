@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../product';
+import { APIRoot } from '../api.root';
 
 @Injectable()
 export class ProductService {
 
-  private apiRoot = 'http://localhost:8000/api/produtos';
+  private apiRoot = APIRoot.api.concat('produtos');
 
   constructor(private http: HttpClient) { }
 

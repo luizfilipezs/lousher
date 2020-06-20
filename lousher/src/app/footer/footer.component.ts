@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { RequestParser } from 'http-service-ts';
 import { MensagemContato } from '../mensagem.contato';
+import { APIRoot } from '../api.root';
 
 @Component({
   selector: 'app-footer',
@@ -27,11 +28,11 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http = new RequestParser('http://localhost:8000/api', {
+    this.http = new RequestParser(APIRoot.api, {
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
-      appendSlash: true
+      appendSlash: false
     });
   }
 

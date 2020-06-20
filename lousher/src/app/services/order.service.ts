@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Order, OrderItem } from '../order';
+import { APIRoot } from '../api.root';
 
 class ServiceRoot {
-  api = 'http://localhost:8000/api/';
-  orders = this.api.concat('pedidos/');
-  orderItems = this.api.concat('itensPedidos/');
+  orders = APIRoot.api.concat('pedidos/');
+  orderItems = APIRoot.api.concat('itensPedidos/');
   order = (id: number) => this.orders + id;
   item = (id: number) => this.orderItems + id;
 }

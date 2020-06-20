@@ -5,6 +5,7 @@ import { ToggleView } from '../toggle.view';
 import { CartItem } from '../cart.item';
 import { Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { APIRoot } from '../api.root';
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class CartService extends ToggleView {
   private changes = new Subject<CartItem[]>();
   public changes$ = this.changes.asObservable();
 
-  private apiRoot = 'http://localhost:8000/api/carrinho/';
+  private apiRoot = APIRoot.api.concat('carrinho/');
 
   /**
    * Provide headers for all requests

@@ -363,6 +363,26 @@ var fadeInAnimation = Object(_angular_animations__WEBPACK_IMPORTED_MODULE_0__["t
 
 /***/ }),
 
+/***/ "./src/app/api.root.ts":
+/*!*****************************!*\
+  !*** ./src/app/api.root.ts ***!
+  \*****************************/
+/*! exports provided: APIRoot */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "APIRoot", function() { return APIRoot; });
+var dev = 'http://localhost:8000/';
+var prod = '/';
+var APIRoot = {
+    main: prod,
+    api: prod + 'api'
+};
+
+
+/***/ }),
+
 /***/ "./src/app/app-routing.module.ts":
 /*!***************************************!*\
   !*** ./src/app/app-routing.module.ts ***!
@@ -700,6 +720,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var http_service_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! http-service-ts */ "./node_modules/http-service-ts/lib/index.js");
 /* harmony import */ var http_service_ts__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(http_service_ts__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
@@ -716,11 +738,11 @@ var FooterComponent = /** @class */ (function () {
         });
     }
     FooterComponent.prototype.ngOnInit = function () {
-        this.http = new http_service_ts__WEBPACK_IMPORTED_MODULE_3__["RequestParser"]('http://localhost:8000/api', {
+        this.http = new http_service_ts__WEBPACK_IMPORTED_MODULE_3__["RequestParser"](_api_root__WEBPACK_IMPORTED_MODULE_4__["APIRoot"].api, {
             headers: new Headers({
                 'Content-Type': 'application/json',
             }),
-            appendSlash: true
+            appendSlash: false
         });
     };
     /**
@@ -1677,6 +1699,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _toggle_view__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../toggle.view */ "./src/app/toggle.view.ts");
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
@@ -1690,7 +1714,7 @@ var AuthService = /** @class */ (function (_super) {
     function AuthService(http) {
         var _this = _super.call(this) || this;
         _this.http = http;
-        _this.apiRoot = 'http://localhost:8000/auth/';
+        _this.apiRoot = _api_root__WEBPACK_IMPORTED_MODULE_8__["APIRoot"].main.concat('auth/');
         return _this;
     }
     AuthService.prototype.setSession = function (authResult) {
@@ -1816,6 +1840,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _toggle_view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../toggle.view */ "./src/app/toggle.view.ts");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
@@ -1834,7 +1860,7 @@ var CartService = /** @class */ (function (_super) {
          */
         _this.changes = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
         _this.changes$ = _this.changes.asObservable();
-        _this.apiRoot = 'http://localhost:8000/api/carrinho/';
+        _this.apiRoot = _api_root__WEBPACK_IMPORTED_MODULE_6__["APIRoot"].api.concat('carrinho/');
         /**
          * Provide headers for all requests
          */
@@ -1939,13 +1965,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
 var EnderecoService = /** @class */ (function () {
     function EnderecoService(http) {
         this.http = http;
-        this.apiRoot = 'http://localhost:8000/api/enderecos/';
+        this.apiRoot = _api_root__WEBPACK_IMPORTED_MODULE_3__["APIRoot"].api.concat('enderecos/');
         this.httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json',
@@ -2037,15 +2065,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
 var ServiceRoot = /** @class */ (function () {
     function ServiceRoot() {
         var _this = this;
-        this.api = 'http://localhost:8000/api/';
-        this.orders = this.api.concat('pedidos/');
-        this.orderItems = this.api.concat('itensPedidos/');
+        this.orders = _api_root__WEBPACK_IMPORTED_MODULE_3__["APIRoot"].api.concat('pedidos/');
+        this.orderItems = _api_root__WEBPACK_IMPORTED_MODULE_3__["APIRoot"].api.concat('itensPedidos/');
         this.order = function (id) { return _this.orders + id; };
         this.item = function (id) { return _this.orderItems + id; };
     }
@@ -2136,13 +2165,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _api_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.root */ "./src/app/api.root.ts");
+
 
 
 
 var ProductService = /** @class */ (function () {
     function ProductService(http) {
         this.http = http;
-        this.apiRoot = 'http://localhost:8000/api/produtos';
+        this.apiRoot = _api_root__WEBPACK_IMPORTED_MODULE_3__["APIRoot"].api.concat('produtos');
     }
     /**
      * Returns all available items from server
