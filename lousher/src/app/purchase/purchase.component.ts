@@ -48,7 +48,7 @@ export class PurchaseComponent implements AfterViewInit {
   addressForm: FormGroup;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private cartService: CartService,
     private enderecoService: EnderecoService,
     private orderService: OrderService,

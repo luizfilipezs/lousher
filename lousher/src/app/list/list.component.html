@@ -17,7 +17,7 @@
 
     <div class="product-box" *ngFor="let produto of products" routerLink="/product/{{ produto.id }}">
       <div class="rounded-box">
-        <img src="assets/img/wine-bottle.png" alt="{{ produto.nome }}" class="product-img">
+        <img src="static/assets/img/wine-bottle.png" alt="{{ produto.nome }}" class="product-img">
       </div>
       <p class="product-year-price"><span class="product-year">{{ produto.ano }}</span>, R$ {{ produto.oferta ? produto.preco_oferta : produto.preco }}</p>
       <p class="wine-type">{{ produto.grupo.tipo }}</p>

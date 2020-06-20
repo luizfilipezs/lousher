@@ -12,7 +12,7 @@
 <div class="slider-wrapper">
 
   <div *ngIf="loading" class="loading-wrapper">
-    <img src="assets/icons/wine-bottle-icon.png" alt="Carregando ofertas" class="loading-icon">
+    <img src="static/assets/icons/wine-bottle-icon.png" alt="Carregando ofertas" class="loading-icon">
   </div>
   
   <div #slider class="slider">
@@ -20,7 +20,7 @@
     <div *ngFor="let product of offers" class="item" routerLink="/product/{{ product.id }}">
       <div class="item-banner-wrapper">
         <p class="old-price">R$ {{ product.preco }}</p>
-        <img src="assets/img/wine-bottle.png" alt="{{ product.nome }}" class="item-img">
+        <img src="static/assets/img/wine-bottle.png" alt="{{ product.nome }}" class="item-img">
         <p class="new-price">R$ {{ product.preco_oferta }}</p>
       </div>
       <p class="item-name">{{ product.nome }}</p>

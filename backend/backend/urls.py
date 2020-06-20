@@ -18,7 +18,18 @@ from django.urls import path, include
 
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
+# For using Angular
+
+from django.shortcuts import render
+from django.views.generic import TemplateView
+from django.conf.urls import url
+
+class HomePageView(TemplateView):
+    def get(self, request, **kwargs):
+        return render(request, 'index.html', context=None)
+
 urlpatterns = [
+    url(r'^$', HomePageView.as_view()), # For using Angular
     path('admin/', admin.site.urls),
     path('auth/login/', obtain_jwt_token),
     path('auth/signup/', include('rest_auth.registration.urls')),

@@ -13,7 +13,7 @@ export class CartComponent implements OnInit {
   isLoggedOut = false;
 
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     private authService: AuthService // used in template
     ) { }
 

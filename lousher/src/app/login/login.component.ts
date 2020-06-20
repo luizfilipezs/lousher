@@ -22,7 +22,7 @@ export class LoginComponent implements AfterViewInit {
   orders: OrderInfo[] = [];
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private orderService: OrderService,
     private cartService: CartService
     ) { }

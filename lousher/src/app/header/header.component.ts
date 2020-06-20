@@ -16,8 +16,8 @@ export class HeaderComponent implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(
+    public authService: AuthService,
     private cartService: CartService,
-    private authService: AuthService,
     private router: Router
     ) { }
 
