@@ -46,7 +46,7 @@ export class EnderecoService {
   }
 
   changeUserAddress(address: Endereco) {
-    return this.http.post<Endereco>(this.apiRoot.concat('meu_endereco/alterar'), address, this.httpOptions);
+    return this.http.post<Endereco>(this.apiRoot.concat('meu_endereco/alterar/'), address, this.httpOptions);
   }
 
 }

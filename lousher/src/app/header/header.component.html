@@ -1,11 +1,11 @@
 <header class="main-header">
   <div class="site-title-box">
-    <img src="static/assets/icons/transparent-wine-glass.png" alt="Louscher" class="logo-img" routerLink="/">
+    <img src="/assets/icons/transparent-wine-glass.png" alt="Louscher" class="logo-img" routerLink="/">
     <a class="site-title" routerLink="/">Louscher</a>
   </div>
   <!-- HOME -->
   <div class="white-block home-block no-mobile" routerLink="/">
-    <img src="static/assets/icons/home.png" alt="Lousher" class="home-icon">
+    <img src="/assets/icons/home.png" alt="Lousher" class="home-icon">
   </div>
   <div class="white-block main-menu-block grow-block">
 
@@ -20,16 +20,16 @@
   <!-- SEARCH -->
   <div class="white-block access-button grow-block no-mobile">
     <input type="text" placeholder="Pesquisar" class="search-input" #searchInput (keypress)="typingQuery($event)">
-    <img src="static/assets/icons/search.png" alt="Pesquisar" class="search-icon" (click)="search()">
+    <img src="/assets/icons/search.png" alt="Pesquisar" class="search-icon" (click)="search()">
   </div>
   <!-- CARRINHO -->
   <div class="white-block access-button fixed-size" (click)="toggleCart()">
-    <img src="static/assets/icons/cart.png" alt="Carrinho de compras" class="cart-icon">
+    <img src="/assets/icons/cart.png" alt="Carrinho de compras" class="cart-icon">
     <p class="access-name">Carrinho</p>
   </div>
   <!-- CONTA -->
   <div class="white-block access-button fixed-size" (click)="toggleAccount()">
-    <img src="static/assets/icons/account.png" alt="Minha conta" class="account-icon">
+    <img src="/assets/icons/account.png" alt="Minha conta" class="account-icon">
     <p class="access-name" *ngIf="!authService.user">Entrar</p>
     <p class="access-name" *ngIf="authService.user">{{ authService.user.username }}</p>
   </div>

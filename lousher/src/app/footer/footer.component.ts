@@ -43,9 +43,9 @@ export class FooterComponent implements OnInit {
   onSubmit(data: MensagemContato) {
     if (this.contactForm.valid) {
       this.messageState = 'Enviando...';
-
+      
       this.http.request<MensagemContato>({
-        url: 'enviarMensagem',
+        url: 'enviarMensagem/',
         method: 'post',
         obj: data
       })
