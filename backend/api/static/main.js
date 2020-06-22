@@ -377,7 +377,7 @@ var dev = 'http://localhost:8000/';
 var prod = '/';
 var APIRoot = {
     main: prod,
-    api: prod + 'api'
+    api: prod + 'api/'
 };
 
 
