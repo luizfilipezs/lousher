@@ -1,5 +1,5 @@
 const dev = 'http://localhost:8000/';
-const prod = 'http://191.252.3.221/';
+const prod = 'https://louscherback.life/';
 
 const root = prod;
 
