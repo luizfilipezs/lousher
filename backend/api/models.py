@@ -151,6 +151,7 @@ class MensagemContato(models.Model):
     assunto = models.CharField(max_length=50, null=True, blank=True)
     mensagem = models.CharField(max_length=200, null=True, blank=True)
     data_envio = models.DateField(auto_now_add=True, null=True)
+    lido = models.BooleanField(default=False)
 
     def __str__(self):
         return f"De: {self.email} | Assunto: {self.assunto}"
