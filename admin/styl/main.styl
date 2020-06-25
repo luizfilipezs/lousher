@@ -1,0 +1,76 @@
+@import 'resources'
+
+*
+  margin 0
+  padding 0
+
+  &:focus
+  &:active
+    outline 0
+
+html
+  scroll-behavior smooth
+
+html
+body
+  width 100%
+  height 100vh
+
+body
+  flex-parent(row, nowrap, flex-start)
+  font-family font
+  font-size 62.5%
+
+a
+  color inherit
+  text-decoration none
+
+  &.contrast-link
+    color contrast-color
+
+.menu-bar
+  flex-basis 30em - 7em
+  height calc(100% - 3em)
+  padding 3em 3.5em 0 3.5em
+  background-color theme-color
+
+  .site-title
+    font-size 2.5em
+    font-weight 700
+    color contrast-text-color
+
+  .pages-menu
+    margin-top 7em
+    list-style none
+
+    .page-link
+      margin-bottom .5em
+      font-size 1.7em
+      font-weight 400
+      color rgba(contrast-text-color, .5)
+      cursor pointer
+
+      &.active-link
+        color contrast-text-color
+
+
+.items-bar
+  flex-basis 42em
+  height 100%
+  background-color contrast-color
+
+  .roll-bar-header
+    width 100%
+    height 5.5em
+    background-color contrast-color2
+
+  .items-list
+    width 100%
+    height calc(100% - 5.5em)
+    overflow-y auto
+    background-color transparent
+
+.open-content
+  flex-grow 1
+  height 100%
+  background-color #fff

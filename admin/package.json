@@ -1,0 +1,26 @@
+{
+  "name": "louscher-admin",
+  "version": "1.0.0",
+  "description": "Administration platform for Louscher (wine e-commerce)",
+  "main": "index.js",
+  "scripts": {
+    "styl": "stylus -w styl -o css",
+    "ts": "tsc js/main.ts --watch",
+    "browserify": "watchify js/main.js -o js/bundle.js",
+    "build": "concurrently --kill-others \"npm run ts\" \"npm run browserify\" \"npm run styl\""
+  },
+  "keywords": [
+    "wine",
+    "e-commerce",
+    "admin"
+  ],
+  "author": "Luiz Filipe da Silva",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-service-ts": "^1.0.9"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
