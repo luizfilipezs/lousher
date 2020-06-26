@@ -257,3 +257,8 @@ class ItemPedidoViewSet(viewsets.ModelViewSet):
 class MensagemContatoCreateView(viewsets.mixins.CreateModelMixin, viewsets.GenericViewSet):
 	serializer_class = MensagemContatoSerializer
 	permission_classes = [permissions.AllowAny]
+
+class MensagemContatoView(viewsets.ModelViewSet):
+	queryset = MensagemContato.objects.all().order_by('-id');
+	serializer_class = MensagemContatoSerializer
+	permission_classes = [permissions.IsAdminUser]

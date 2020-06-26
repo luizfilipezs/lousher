@@ -78,9 +78,10 @@ a.contrast-link {
   padding: 1.9em 3em 1.3em 3em;
   background-color: #f0f0f0;
 }
-.items-bar .roll-bar-header .order-by {
+.items-bar .roll-bar-header #order-by {
   font-size: 1.6em;
   font-weight: 300;
+  cursor: pointer;
 }
 .items-bar .roll-bar-header #refresh {
   flex-basis: 2.3em;

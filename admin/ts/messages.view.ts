@@ -1,22 +1,42 @@
 import { Mensagem } from './models';
 import { mensagemService } from './services';
 import { Service } from 'http-service-ts';
-import View, { OrderParam } from './view';
+import View from './view';
+
+type OrderParam = 'newer' | 'older' | 'unread';
 
 export default class MessagesView implements View<Mensagem> {
+
+  selectedItem: Mensagem;
   items: Mensagem[] = [];
+  orderBy: OrderParam = 'newer';
+
+  iterateOrder = this.orderParameter();
+
   http: Service<Mensagem> = mensagemService;
 
-  orderBy: OrderParam = 'newer';
+  private DOM: { [key: string]: HTMLElement } = {
+    listSelector: document.querySelector('.items-list'),
+    orderListButton: document.getElementById('order-by'),
+    refreshButton: document.getElementById('refresh')
+  };
 
   private _errorMessage: string = '';
 
-  constructor() { }
+  // Add listeners at the DOM
+  constructor() {
+    // Update list order
+    this.DOM.orderListButton
+      .addEventListener('click', () => {
+        this.reorderItems();
 
-  *changeOrderParam() {
-    while (true)
-      for (const param of ['newer', 'older', 'unread'] as OrderParam[])
-        yield this.orderBy = param;
+        this.DOM.orderListButton.textContent =
+          ['Mais recentes', 'Mais antigas', 'Não lidas']
+          [['newer', 'older', 'unread'].indexOf(this.orderBy)];
+      });
+    // Refresh list
+    this.DOM.refreshButton
+      .addEventListener('click', () => this.getItems());
   }
 
   get errorMessage() {
@@ -25,30 +45,117 @@ export default class MessagesView implements View<Mensagem> {
 
   set errorMessage(value) {
     this._errorMessage = value;
+    this.emitError();
+  }
+
+  private emitError(): void {
+    // code
   }
 
   getItems(): void {
+    this.DOM.refreshButton.style.opacity = '0.4';
     this.http.get()
       .then(
-        messages => {
-          this.items = messages;
+        items => {
+          this.items = items;
           this.renderList();
         },
-        error => this.errorMessage = error
-      );
+        error => this.errorMessage = 'Erro ao tentar obter as mensagens!'
+      )
+      .finally(() => this.DOM.refreshButton.style.opacity = '1');
+  }
+
+  makeRead(): void {
+    this.http.patch({ lido: true }, this.selectedItem.id)
+      .then(
+        partial => {
+          for (const key in partial)
+            this.selectedItem[key] = partial[key];
+            // Update status in DOM after updating object in database
+            const element = document.getElementById(this.selectedItem.id.toString());
+            const statusText = element.querySelector('.item-status');
+            
+            if (statusText.classList.contains('unread')) {
+              statusText.classList.remove('unread');
+              statusText.classList.add('read');
+            }
+        },
+        error => this.errorMessage = 'Erro ao atualizar status da mensagem!'
+      )
+  }
+
+  selectItem(element: Element): void {
+    // Update selected item
+    this.selectedItem = this.items.find(i => i.id === +element.id);
+    // Update read status
+    if (!this.selectedItem.lido)
+      this.makeRead();
+
+    // Recreate list in DOM
+    this.renderList();
   }
 
   renderList(): void {
-    // code
+    // Order list
+    this.orderItems();
+
+    // Clear list in DOM
+    this.DOM.listSelector.innerHTML = '';
+
+    // Check correct 
+    const getClasses = (el: Mensagem) => {
+      let cls = 'list-item';
+      if (this.selectedItem && el.id === this.selectedItem.id)
+        cls += ' selected-item';
+      return cls;
+    };
+
+    // Render list
+    this.items.forEach(
+      el => this.DOM.listSelector.innerHTML += `
+        <div class="${getClasses(el)}" id="${el.id}">
+          <p class="item-description">
+            ${el.nome}, em ${el.data_envio}
+          </p>
+          <p class="item-status ${el.lido ? 'read' : 'unread'}"></p>
+        </div>
+      `
+    );
+    
+    // Update list when an item is selected
+    Array.from(this.DOM.listSelector.children).forEach(element =>
+      element.addEventListener('click', () => this.selectItem(element)));
   }
 
   orderItems(): void {
-    // Update current list order parameter
-    this.changeOrderParam().next();
+    // Change array order
+    switch(this.orderBy) {
+      case 'newer':
+        this.items.sort((a, b) => b.id - a.id);
+        break;
 
-    // code
+      case 'older':
+        this.items.sort((a, b) => a.id - b.id);
+        break;
 
-    // Finalize rendering list
+      case 'unread':
+        this.items.sort((a, b) => {
+          if (!a.lido && b.lido) return -1;
+          if (a.lido && !b.lido) return 1;
+          return 0;
+        });
+    }
+  }
+
+  private *orderParameter() {
+    while (true)
+      for (const option of ['older', 'unread', 'newer'] as OrderParam[])
+        yield this.orderBy = option;
+  }
+
+  reorderItems(): void {
+    this.iterateOrder.next();
+    this.orderItems();
     this.renderList();
   }
 
