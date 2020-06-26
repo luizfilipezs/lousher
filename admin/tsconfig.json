@@ -1,13 +1,13 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "commonjs",
     "outDir": "js",
     "allowJs": true
   },
   "include": [
-    "js/main.ts"
+    "ts/app.ts"
   ],
   "exclude": [
     "node_modules"

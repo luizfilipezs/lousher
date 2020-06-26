@@ -60,15 +60,62 @@ a
   background-color contrast-color
 
   .roll-bar-header
-    width 100%
-    height 5.5em
+    flex-parent(row, nowrap, space-between)
+    align-items center
+    width calc(100% - 6em)
+    padding 1.9em 3em 1.3em 3em
     background-color contrast-color2
+
+    .order-by
+      font-size 1.6em
+      font-weight 300
+
+    #refresh
+      flex-basis 2.3em
+      height 2.3em
+      cursor pointer
 
   .items-list
     width 100%
     height calc(100% - 5.5em)
     overflow-y auto
     background-color transparent
+
+    .list-item
+      width calc(100% - 5em)
+      padding 2.5em 2.5em 1em 2.5em
+      border-bottom 1px solid contrast-color2
+      cursor pointer
+      fadeIn(2s)
+
+      &.selected-item
+        background-color #fff
+        cursor auto
+
+      .item-description
+      .item-status
+        width 100%
+        text-overflow ellipsis
+        overflow hidden
+        white-space nowrap
+
+      .item-description
+        font-size 1.55em
+        font-weight 400
+        margin-bottom .3em
+
+      .item-status
+        font-size 1.3em
+        font-weight 700
+
+        &.read
+          font-weight 400
+          &:after
+            content 'lido'
+
+        &.unread
+          &:after
+            content 'não lido'
 
 .open-content
   flex-grow 1
