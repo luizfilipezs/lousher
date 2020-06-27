@@ -1,13 +1,14 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const messages_view_1 = require("./messages.view");
+const exceptions_1 = require("./exceptions");
 class App {
     /**
-     * Define if app will initialize automatically when DOM get loaded
+     * @param routes {Routes} Application routes
      * @param autoInit {boolean} If `true`, app will initialize automatically
      */
-    constructor(autoInit = true) {
+    constructor(routes, autoInit = true) {
+        this.routes = routes;
         if (autoInit)
             document.addEventListener('DOMContentLoaded', () => this.init());
     }
@@ -20,21 +21,35 @@ class App {
         this.view.getItems();
     }
     /**
-     * Choose view based in the current route
+     * Apply view based in the current route
      */
     defineView() {
-        switch (window.location.pathname) {
-            case '/':
-                this.view = new messages_view_1.default();
-                break;
-            case '/pedidos':
-            //this.view = new PedidosView();
-        }
+        const currentRoute = window.location.pathname;
+        const proper = this.routes.find(r => r.path === currentRoute);
+        if (proper)
+            this.view = proper.view;
+        else
+            throw exceptions_1.default.UndefinedRoute;
     }
 }
-new App();
+exports.default = App;
 
-},{"./messages.view":2}],2:[function(require,module,exports){
+},{"./exceptions":2}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Exceptions {
+}
+exports.default = Exceptions;
+Exceptions.UndefinedRoute = new Error(`Route not defined: "${window.location.pathname}"`);
+
+},{}],3:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const app_1 = require("./app");
+const routes_1 = require("./routes");
+new app_1.default(routes_1.appRoutes);
+
+},{"./app":1,"./routes":5}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const services_1 = require("./services");
@@ -160,16 +175,26 @@ class MessagesView {
 }
 exports.default = MessagesView;
 
-},{"./services":3}],3:[function(require,module,exports){
+},{"./services":6}],5:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.appRoutes = void 0;
+const messages_view_1 = require("./messages.view");
+exports.appRoutes = [
+    { path: '/', view: new messages_view_1.default() }
+];
+
+},{"./messages.view":4}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mensagemService = exports.pedidoService = void 0;
 const http_service_ts_1 = require("http-service-ts");
+const test_1 = require("./test");
 // Global configurations
 const root = 'http://localhost:8000/api';
 const config = {
     headers: new Headers({
-        Authorization: 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imx1aXoiLCJleHAiOjE1OTMzNzYyMjMsImVtYWlsIjoiZmlsaXBlbHVpei5ic0BnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU5MzIwMzQyM30.Mboclam0fyfjowIu72F2zOTw_9tJP-Z1wKXcS63fJg4',
+        Authorization: 'JWT ' + test_1.token,
         Accept: 'application/json',
         'Content-Type': 'application/json'
     }),
@@ -179,7 +204,13 @@ const config = {
 exports.pedidoService = new http_service_ts_1.Service(root + '/pedidos', config);
 exports.mensagemService = new http_service_ts_1.Service(root + '/mensagens', config);
 
-},{"http-service-ts":4}],4:[function(require,module,exports){
+},{"./test":7,"http-service-ts":8}],7:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.token = void 0;
+exports.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imx1aXoiLCJleHAiOjE1OTMzNzYyMjMsImVtYWlsIjoiZmlsaXBlbHVpei5ic0BnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU5MzIwMzQyM30.Mboclam0fyfjowIu72F2zOTw_9tJP-Z1wKXcS63fJg4';
+
+},{}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const service_1 = require("./service");
@@ -187,7 +218,7 @@ exports.Service = service_1.default;
 const request_parser_1 = require("./request.parser");
 exports.RequestParser = request_parser_1.default;
 
-},{"./request.parser":5,"./service":6}],5:[function(require,module,exports){
+},{"./request.parser":9,"./service":10}],9:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -304,7 +335,7 @@ class RequestParser {
 }
 exports.default = RequestParser;
 
-},{}],6:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const request_parser_1 = require("./request.parser");
@@ -368,4 +399,4 @@ class Service extends request_parser_1.default {
 }
 exports.default = Service;
 
-},{"./request.parser":5}]},{},[1]);
+},{"./request.parser":9}]},{},[3]);

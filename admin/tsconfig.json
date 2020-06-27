@@ -7,7 +7,7 @@
     "allowJs": true
   },
   "include": [
-    "ts/app.ts"
+    "ts/main.ts"
   ],
   "exclude": [
     "node_modules"

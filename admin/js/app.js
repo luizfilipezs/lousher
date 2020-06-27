@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const messages_view_1 = require("./messages.view");
+const exceptions_1 = require("./exceptions");
 class App {
     /**
-     * Define if app will initialize automatically when DOM get loaded
+     * @param routes {Routes} Application routes
      * @param autoInit {boolean} If `true`, app will initialize automatically
      */
-    constructor(autoInit = true) {
+    constructor(routes, autoInit = true) {
+        this.routes = routes;
         if (autoInit)
             document.addEventListener('DOMContentLoaded', () => this.init());
     }
@@ -19,16 +20,15 @@ class App {
         this.view.getItems();
     }
     /**
-     * Choose view based in the current route
+     * Apply view based in the current route
      */
     defineView() {
-        switch (window.location.pathname) {
-            case '/':
-                this.view = new messages_view_1.default();
-                break;
-            case '/pedidos':
-            //this.view = new PedidosView();
-        }
+        const currentRoute = window.location.pathname;
+        const proper = this.routes.find(r => r.path === currentRoute);
+        if (proper)
+            this.view = proper.view;
+        else
+            throw exceptions_1.default.UndefinedRoute;
     }
 }
-new App();
+exports.default = App;

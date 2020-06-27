@@ -1,17 +1,18 @@
-import MessagesView from './messages.view';
 import View from './view';
+import Routes from './routes';
+import Exceptions from './exceptions';
 
-class App {
+export default class App {
   /**
    * View that will be used to render proper content
    */
-  view: View<{}>;
+  private view: View<{}>;
 
   /**
-   * Define if app will initialize automatically when DOM get loaded
+   * @param routes {Routes} Application routes
    * @param autoInit {boolean} If `true`, app will initialize automatically
    */
-  constructor(autoInit: boolean = true) {
+  constructor(private routes: Routes, autoInit: boolean = true) {
     if (autoInit)
       document.addEventListener('DOMContentLoaded', () => this.init());
   }
@@ -26,17 +27,15 @@ class App {
   }
 
   /**
-   * Choose view based in the current route
+   * Apply view based in the current route
    */
   private defineView(): void {
-    switch(window.location.pathname) {
-      case '/':
-        this.view = new MessagesView();
-        break;
-      case '/pedidos':
-        //this.view = new PedidosView();
-    }
+    const currentRoute = window.location.pathname;
+    const proper = this.routes.find(r => r.path === currentRoute);
+
+    if (proper) 
+      this.view = proper.view;
+    else
+      throw Exceptions.UndefinedRoute;
   }
 }
-
-new App();

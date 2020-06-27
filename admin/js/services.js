@@ -2,11 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mensagemService = exports.pedidoService = void 0;
 const http_service_ts_1 = require("http-service-ts");
+const test_1 = require("./test");
 // Global configurations
 const root = 'http://localhost:8000/api';
 const config = {
     headers: new Headers({
-        Authorization: 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6Imx1aXoiLCJleHAiOjE1OTMzNzYyMjMsImVtYWlsIjoiZmlsaXBlbHVpei5ic0BnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU5MzIwMzQyM30.Mboclam0fyfjowIu72F2zOTw_9tJP-Z1wKXcS63fJg4',
+        Authorization: 'JWT ' + test_1.token,
         Accept: 'application/json',
         'Content-Type': 'application/json'
     }),
