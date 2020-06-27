@@ -1,6 +1,6 @@
 import View from './view';
 import Routes from './routes';
-import Exceptions from './exceptions';
+import * as Exceptions from './exceptions';
 
 export default class App {
   /**
@@ -36,6 +36,6 @@ export default class App {
     if (proper) 
       this.view = proper.view;
     else
-      throw Exceptions.UndefinedRoute;
+      throw new Exceptions.UndefinedRouteError();
   }
 }

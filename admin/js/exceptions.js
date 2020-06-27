@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Exceptions {
+exports.UndefinedRouteError = void 0;
+class UndefinedRouteError extends Error {
+    constructor() {
+        super(`"${window.location.pathname}" is not defined in routes`);
+        this.name = 'UndefinedRouteError';
+    }
 }
-exports.default = Exceptions;
-Exceptions.UndefinedRoute = new Error(`Route not defined: "${window.location.pathname}"`);
+exports.UndefinedRouteError = UndefinedRouteError;

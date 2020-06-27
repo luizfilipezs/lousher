@@ -14,5 +14,5 @@ const config = {
     appendSlash: true
 };
 // Exports
-exports.pedidoService = new http_service_ts_1.Service(root + '/pedidos', config);
-exports.mensagemService = new http_service_ts_1.Service(root + '/mensagens', config);
+exports.pedidoService = new http_service_ts_1.Service(root.concat('/pedidos'), config);
+exports.mensagemService = new http_service_ts_1.Service(root.concat('/mensagens'), config);

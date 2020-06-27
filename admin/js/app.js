@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const exceptions_1 = require("./exceptions");
+const Exceptions = require("./exceptions");
 class App {
     /**
      * @param routes {Routes} Application routes
@@ -28,7 +28,7 @@ class App {
         if (proper)
             this.view = proper.view;
         else
-            throw exceptions_1.default.UndefinedRoute;
+            throw new Exceptions.UndefinedRouteError();
     }
 }
 exports.default = App;

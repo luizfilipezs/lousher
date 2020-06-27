@@ -7,4 +7,4 @@ export default interface View<T> {
   getItems(): void;
   orderItems(): void;
   renderList(): void;
-}
+};

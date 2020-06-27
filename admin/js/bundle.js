@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const exceptions_1 = require("./exceptions");
+const Exceptions = require("./exceptions");
 class App {
     /**
      * @param routes {Routes} Application routes
@@ -29,7 +29,7 @@ class App {
         if (proper)
             this.view = proper.view;
         else
-            throw exceptions_1.default.UndefinedRoute;
+            throw new Exceptions.UndefinedRouteError();
     }
 }
 exports.default = App;
@@ -37,10 +37,14 @@ exports.default = App;
 },{"./exceptions":2}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Exceptions {
+exports.UndefinedRouteError = void 0;
+class UndefinedRouteError extends Error {
+    constructor() {
+        super(`"${window.location.pathname}" is not defined in routes`);
+        this.name = 'UndefinedRouteError';
+    }
 }
-exports.default = Exceptions;
-Exceptions.UndefinedRoute = new Error(`Route not defined: "${window.location.pathname}"`);
+exports.UndefinedRouteError = UndefinedRouteError;
 
 },{}],3:[function(require,module,exports){
 "use strict";
@@ -118,6 +122,7 @@ class MessagesView {
             this.makeRead();
         // Recreate list in DOM
         this.renderList();
+        this.renderSelectedOne();
     }
     renderList() {
         // Order list
@@ -172,6 +177,14 @@ class MessagesView {
         this.orderItems();
         this.renderList();
     }
+    renderSelectedOne() {
+        const bindingElements = document.querySelectorAll('[bind]');
+        bindingElements.forEach(el => {
+            const field = el.getAttribute('bind');
+            if (field && this.selectedItem[field])
+                el.textContent = this.selectedItem[field];
+        });
+    }
 }
 exports.default = MessagesView;
 
@@ -201,8 +214,8 @@ const config = {
     appendSlash: true
 };
 // Exports
-exports.pedidoService = new http_service_ts_1.Service(root + '/pedidos', config);
-exports.mensagemService = new http_service_ts_1.Service(root + '/mensagens', config);
+exports.pedidoService = new http_service_ts_1.Service(root.concat('/pedidos'), config);
+exports.mensagemService = new http_service_ts_1.Service(root.concat('/mensagens'), config);
 
 },{"./test":7,"http-service-ts":8}],7:[function(require,module,exports){
 "use strict";

@@ -16,5 +16,5 @@ const config = {
 
 // Exports
 
-export const pedidoService = new Service<Pedido>(root + '/pedidos', config);
-export const mensagemService = new Service<Mensagem>(root + '/mensagens', config);
+export const pedidoService = new Service<Pedido>(root.concat('/pedidos'), config);
+export const mensagemService = new Service<Mensagem>(root.concat('/mensagens'), config);

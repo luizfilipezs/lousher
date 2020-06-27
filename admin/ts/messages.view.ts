@@ -93,6 +93,7 @@ export default class MessagesView implements View<Mensagem> {
 
     // Recreate list in DOM
     this.renderList();
+    this.renderSelectedOne();
   }
 
   renderList(): void {
@@ -157,6 +158,19 @@ export default class MessagesView implements View<Mensagem> {
     this.iterateOrder.next();
     this.orderItems();
     this.renderList();
+  }
+
+  renderSelectedOne(): void {
+    const bindingElements = document.querySelectorAll('[bind]');
+
+    bindingElements.forEach(
+      el => {
+        const field = el.getAttribute('bind');
+        
+        if (field && this.selectedItem[field])
+          el.textContent = this.selectedItem[field];
+      }
+    )
   }
 
 }

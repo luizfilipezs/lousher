@@ -66,6 +66,7 @@ class MessagesView {
             this.makeRead();
         // Recreate list in DOM
         this.renderList();
+        this.renderSelectedOne();
     }
     renderList() {
         // Order list
@@ -119,6 +120,14 @@ class MessagesView {
         this.iterateOrder.next();
         this.orderItems();
         this.renderList();
+    }
+    renderSelectedOne() {
+        const bindingElements = document.querySelectorAll('[bind]');
+        bindingElements.forEach(el => {
+            const field = el.getAttribute('bind');
+            if (field && this.selectedItem[field])
+                el.textContent = this.selectedItem[field];
+        });
     }
 }
 exports.default = MessagesView;

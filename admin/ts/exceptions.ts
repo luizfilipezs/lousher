@@ -1,3 +1,7 @@
-export default class Exceptions {
-  public static UndefinedRoute = new Error(`Route not defined: "${window.location.pathname}"`);
+export class UndefinedRouteError extends Error {
+  name = 'UndefinedRouteError';
+  
+  constructor() {
+    super(`"${window.location.pathname}" is not defined in routes`);
+  }
 }

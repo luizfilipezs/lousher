@@ -1,6 +1,6 @@
 interface User {
   id: number;
-}
+};
 
 interface Endereco {
   id: number;
@@ -13,7 +13,7 @@ interface Endereco {
   complemento: string;
   nome_destinatario: string;
   telefone: string;
-}
+};
 
 export interface Pedido {
   id: number;
@@ -22,7 +22,7 @@ export interface Pedido {
   status: string;
   observacoes: string;
   data_pedido: string;
-}
+};
 
 export interface Mensagem {
   id: number;
@@ -32,4 +32,4 @@ export interface Mensagem {
   mensagem: string;
   data_envio: string;
   lido: boolean;
-}
+};

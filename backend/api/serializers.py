@@ -129,6 +129,7 @@ class CreateItemPedidoSerializer(serializers.ModelSerializer):
 		)
 
 class MensagemContatoSerializer(serializers.ModelSerializer):
+	data_envio = serializers.DateField(format="%d/%m/%Y")
 	class Meta:
 		model = MensagemContato
 		fields = '__all__'

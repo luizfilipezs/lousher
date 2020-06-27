@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -203,7 +203,43 @@ a.contrast-link {
   content: 'não lido';
 }
 .open-content {
-  flex-grow: 1;
-  height: 100%;
+  width: calc(100% - 45em - 12em);
+  height: calc(100% - 5em);
+  padding: 5em 6em 0 6em;
   background-color: #fff;
+}
+.open-content .content-title {
+  font-size: 2.5em;
+  font-weight: 900;
+  margin-bottom: 1.2em;
+}
+.open-content .content-subtitle {
+  font-size: 2em;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 0.4em;
+}
+.open-content .content-detail {
+  font-size: 1.5em;
+  font-weight: 400;
+}
+.open-content .content-body {
+  font-size: 1.5em;
+  font-weight: 300;
+  margin-top: 2em;
+  line-height: 1.55em;
+}
+.open-content .content-title,
+.open-content .content-subtitle,
+.open-content .content-detail,
+.open-content .content-body {
+  width: 60%;
+}
+@media (max-width: 1366px) {
+  .open-content .content-title,
+  .open-content .content-subtitle,
+  .open-content .content-detail,
+  .open-content .content-body {
+    width: 75%;
+  }
 }
