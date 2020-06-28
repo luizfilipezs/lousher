@@ -31,7 +31,7 @@ export default class App {
    */
   private defineView(): void {
     const currentRoute = window.location.pathname;
-    const proper = this.routes.find(r => r.path === currentRoute);
+    const proper = this.routes.find(r => '/' + r.path === currentRoute);
 
     if (proper) 
       this.view = proper.view;

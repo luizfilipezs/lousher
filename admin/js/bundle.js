@@ -67,9 +67,15 @@ class MessagesView {
         this.DOM = {
             listSelector: document.querySelector('.items-list'),
             orderListButton: document.getElementById('order-by'),
-            refreshButton: document.getElementById('refresh')
+            refreshButton: document.getElementById('refresh'),
+            sendEmailButton: document.getElementById('send-mail'),
+            responseMessage: document.getElementById('response-text'),
+            errorMessageMask: document.getElementById('mask')
         };
         this._errorMessage = '';
+        this.addListeners();
+    }
+    addListeners() {
         // Update list order
         this.DOM.orderListButton
             .addEventListener('click', () => {
@@ -80,16 +86,19 @@ class MessagesView {
         // Refresh list
         this.DOM.refreshButton
             .addEventListener('click', () => this.getItems());
+        // Send mail
+        this.DOM.sendEmailButton
+            .addEventListener('click', () => this.sendEmail());
+        // Close error message mask
+        this.DOM.errorMessageMask
+            .addEventListener('click', () => this.DOM.errorMessageMask.style.display = 'none');
     }
-    get errorMessage() {
-        return this._errorMessage;
-    }
-    set errorMessage(value) {
-        this._errorMessage = value;
-        this.emitError();
-    }
-    emitError() {
-        // code
+    emitError(errorMessage) {
+        const element = document.querySelector('[errorMessage]');
+        if (element) {
+            element.textContent = errorMessage;
+            this.DOM.errorMessageMask.style.display = 'flex';
+        }
     }
     getItems() {
         this.DOM.refreshButton.style.opacity = '0.4';
@@ -97,7 +106,7 @@ class MessagesView {
             .then(items => {
             this.items = items;
             this.renderList();
-        }, error => this.errorMessage = 'Erro ao tentar obter as mensagens!')
+        }, error => this.emitError('Erro ao tentar obter as mensagens!'))
             .finally(() => this.DOM.refreshButton.style.opacity = '1');
     }
     makeRead() {
@@ -112,7 +121,7 @@ class MessagesView {
                 statusText.classList.remove('unread');
                 statusText.classList.add('read');
             }
-        }, error => this.errorMessage = 'Erro ao atualizar status da mensagem!');
+        }, error => this.emitError('Erro ao tentar atualizar status da mensagem!'));
     }
     selectItem(element) {
         // Update selected item
@@ -179,11 +188,38 @@ class MessagesView {
     }
     renderSelectedOne() {
         const bindingElements = document.querySelectorAll('[bind]');
+        // Render message
         bindingElements.forEach(el => {
             const field = el.getAttribute('bind');
             if (field && this.selectedItem[field])
                 el.textContent = this.selectedItem[field];
         });
+        const hiddenElements = Array.from(document.querySelectorAll('[invisibleUntil]'));
+        // Enable hidden elements
+        hiddenElements.forEach(el => {
+            const condition = el.getAttribute('invisibleUntil');
+            if (condition === 'open-content')
+                el.style.visibility = 'visible';
+        });
+        // Clear textarea
+        this.DOM.responseMessage.value = '';
+    }
+    sendEmail() {
+        const textInput = this.DOM.responseMessage;
+        const minLength = +textInput.getAttribute('minlength');
+        if (textInput.value.length >= minLength)
+            // Send request
+            services_1.httpService.request({
+                url: 'email/response/',
+                method: 'post',
+                obj: {
+                    messageId: this.selectedItem.id,
+                    text: textInput.value
+                }
+            })
+                .then((success) => { }, (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde.'));
+        else
+            this.emitError('Verifique se a mensagem contém pelo menos 50 caracteres.');
     }
 }
 exports.default = MessagesView;
@@ -200,7 +236,7 @@ exports.appRoutes = [
 },{"./messages.view":4}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mensagemService = exports.pedidoService = void 0;
+exports.httpService = exports.mensagemService = exports.pedidoService = void 0;
 const http_service_ts_1 = require("http-service-ts");
 const test_1 = require("./test");
 // Global configurations
@@ -216,6 +252,7 @@ const config = {
 // Exports
 exports.pedidoService = new http_service_ts_1.Service(root.concat('/pedidos'), config);
 exports.mensagemService = new http_service_ts_1.Service(root.concat('/mensagens'), config);
+exports.httpService = new http_service_ts_1.RequestParser(root, config);
 
 },{"./test":7,"http-service-ts":8}],7:[function(require,module,exports){
 "use strict";

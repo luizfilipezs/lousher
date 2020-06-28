@@ -1,5 +1,5 @@
 import { Mensagem } from './models';
-import { mensagemService } from './services';
+import { mensagemService, httpService } from './services';
 import { Service } from 'http-service-ts';
 import View from './view';
 
@@ -15,16 +15,21 @@ export default class MessagesView implements View<Mensagem> {
 
   http: Service<Mensagem> = mensagemService;
 
-  private DOM: { [key: string]: HTMLElement } = {
+  DOM: { [key: string]: HTMLElement } = {
     listSelector: document.querySelector('.items-list'),
     orderListButton: document.getElementById('order-by'),
-    refreshButton: document.getElementById('refresh')
+    refreshButton: document.getElementById('refresh'),
+    sendEmailButton: document.getElementById('send-mail'),
+    responseMessage: document.getElementById('response-text'),
+    errorMessageMask: document.getElementById('mask')
   };
-
-  private _errorMessage: string = '';
 
   // Add listeners at the DOM
   constructor() {
+    this.addListeners();
+  }
+
+  addListeners(): void {
     // Update list order
     this.DOM.orderListButton
       .addEventListener('click', () => {
@@ -34,22 +39,27 @@ export default class MessagesView implements View<Mensagem> {
           ['Mais recentes', 'Mais antigas', 'Não lidas']
           [['newer', 'older', 'unread'].indexOf(this.orderBy)];
       });
+
     // Refresh list
     this.DOM.refreshButton
       .addEventListener('click', () => this.getItems());
+    
+    // Close error message mask
+    this.DOM.errorMessageMask
+      .addEventListener('click', () => this.DOM.errorMessageMask.style.display = 'none');
+
+    // Send mail
+    this.DOM.sendEmailButton
+      .addEventListener('click', () => this.sendEmail());
   }
 
-  get errorMessage() {
-    return this._errorMessage;
-  }
+  private emitError(errorMessage: string): void {
+    const element = document.querySelector('[errorMessage]');
 
-  set errorMessage(value) {
-    this._errorMessage = value;
-    this.emitError();
-  }
-
-  private emitError(): void {
-    // code
+    if (element) {
+      element.textContent = errorMessage;
+      this.DOM.errorMessageMask.style.display = 'flex';
+    }
   }
 
   getItems(): void {
@@ -60,7 +70,7 @@ export default class MessagesView implements View<Mensagem> {
           this.items = items;
           this.renderList();
         },
-        error => this.errorMessage = 'Erro ao tentar obter as mensagens!'
+        error => this.emitError('Erro ao tentar obter as mensagens!')
       )
       .finally(() => this.DOM.refreshButton.style.opacity = '1');
   }
@@ -80,8 +90,8 @@ export default class MessagesView implements View<Mensagem> {
               statusText.classList.add('read');
             }
         },
-        error => this.errorMessage = 'Erro ao atualizar status da mensagem!'
-      )
+        error => this.emitError('Erro ao tentar atualizar status da mensagem!')
+      );
   }
 
   selectItem(element: Element): void {
@@ -163,6 +173,7 @@ export default class MessagesView implements View<Mensagem> {
   renderSelectedOne(): void {
     const bindingElements = document.querySelectorAll('[bind]');
 
+    // Render message
     bindingElements.forEach(
       el => {
         const field = el.getAttribute('bind');
@@ -170,7 +181,44 @@ export default class MessagesView implements View<Mensagem> {
         if (field && this.selectedItem[field])
           el.textContent = this.selectedItem[field];
       }
-    )
+    );
+
+    const hiddenElements: HTMLElement[] = Array.from(document.querySelectorAll('[invisibleUntil]'));
+    
+    // Enable hidden elements
+    hiddenElements.forEach(
+      el => {
+        const condition = el.getAttribute('invisibleUntil');
+
+        if (condition === 'open-content')
+          el.style.visibility = 'visible';
+      }
+    );
+
+    // Clear textarea
+    (this.DOM.responseMessage as HTMLTextAreaElement).value = '';
+  }
+
+  sendEmail(): void {
+    const textInput = this.DOM.responseMessage as HTMLTextAreaElement;
+    const minLength = +textInput.getAttribute('minlength');
+
+    if (textInput.value.length >= minLength)
+      // Send request
+      httpService.request({
+        url: 'email/response/',
+        method: 'post',
+        obj: {
+          messageId: this.selectedItem.id,
+          text: textInput.value
+        }
+      })
+        .then(
+          (success) => { },
+          (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde.')
+        );
+    else
+      this.emitError('Verifique se a mensagem contém pelo menos 50 caracteres.');
   }
 
 }

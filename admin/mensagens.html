@@ -9,35 +9,49 @@
 </head>
 <body>
 
-  <!-- Menu -->
+  <main>
+    <!-- Menu -->
 
-  <div class="menu-bar">
-    <p class="site-title">Louscher</p>
-    <ul class="pages-menu">
-      <li class="page-link active-link">Mensagens</li>
-      <li class="page-link"><a href="/pedidos.html">Pedidos</a></li>
-    </ul>
-  </div>
-
-  <!-- Roll bar -->
-
-  <div class="items-bar">
-    <div class="roll-bar-header">
-      <p id="order-by">Mais recentes</p>
-      <img id="refresh" src="./icons/refresh.svg" alt="Atualizar" title="Atualizar">
+    <div class="menu-bar">
+      <p class="site-title">Louscher</p>
+      <ul class="pages-menu">
+        <li class="page-link active-link">Mensagens</li>
+        <li class="page-link"><a href="/pedidos.html">Pedidos</a></li>
+      </ul>
     </div>
-    <div class="items-list"></div>
-  </div>
 
-  <!-- Open content -->
+    <!-- Roll bar -->
 
-  <div class="open-content">
+    <div class="items-bar">
+      <div class="roll-bar-header">
+        <p id="order-by">Mais recentes</p>
+        <img id="refresh" src="./icons/refresh.svg" alt="Atualizar" title="Atualizar">
+      </div>
+      <div class="items-list"></div>
+    </div>
 
-    <h1 class="content-title" bind="nome"></h1>
-    <h2 class="content-subtitle" bind="email"></h2>
-    <h5 class="content-detail" bind="data_envio"></h5>
-    <p class="content-body" bind="mensagem"></p>
+    <!-- Open content -->
 
+    <div class="open-content" invisibleUntil="open-content">
+      <div class="content">
+
+        <h1 class="content-title" bind="nome"></h1>
+        <h2 class="content-subtitle" bind="email"></h2>
+        <h5 class="content-detail" bind="data_envio"></h5>
+        <p class="content-body" bind="mensagem"></p>
+
+        <p class="subtitle">Resposta</p>
+        <textarea id="response-text" minlength="50"></textarea><br>
+        <div class="clear"></div>
+        <a class="action-link" id="send-mail">Enviar resposta</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="mask">
+    <div class="message-box">
+      <p class="message" errorMessage></p>
+    </div>
   </div>
 
   <script type="text/javascript" src="./js/bundle.js"></script>

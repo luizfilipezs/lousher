@@ -8,6 +8,9 @@
   &:active
     outline 0
 
+  &[invisibleUntil]
+    visibility hidden
+
 html
   scroll-behavior smooth
 
@@ -17,9 +20,9 @@ body
   height 100vh
 
 body
-  flex-parent(row, nowrap, flex-start)
   font-family font
   font-size 62.5%
+  color text-color
 
 a
   color inherit
@@ -28,128 +31,187 @@ a
   &.contrast-link
     color contrast-color
 
-.menu-bar
-  flex-basis 30em - 7em
-  height calc(100% - 3em)
-  padding 3em 3.5em 0 3.5em
-  background-color theme-color
+textarea
+  font-family font
+  color text-color
+  border none
 
-  .site-title
-    font-size 2.5em
-    font-weight 700
-    color contrast-text-color
+.clear
+  clear both
 
-  .pages-menu
-    margin-top 7em
-    list-style none
+main
+  width 100%
+  height 100vh
+  flex-parent(row, nowrap, flex-start)
 
-    .page-link
-      margin-bottom .5em
-      font-size 1.7em
-      font-weight 400
-      color rgba(contrast-text-color, .5)
-      cursor pointer
+  .menu-bar
+    flex-basis 30em - 7em
+    height calc(100% - 3em)
+    padding 3em 3.5em 0 3.5em
+    background-color theme-color
 
-      &.active-link
-        color contrast-text-color
+    .site-title
+      font-size 2.5em
+      font-weight 700
+      color contrast-text-color
 
+    .pages-menu
+      margin-top 7em
+      list-style none
 
-.items-bar
-  flex-basis 42em
-  height 100%
-  background-color contrast-color
-
-  .roll-bar-header
-    flex-parent(row, nowrap, space-between)
-    align-items center
-    width calc(100% - 6em)
-    padding 1.9em 3em 1.3em 3em
-    background-color contrast-color2
-
-    #order-by
-      font-size 1.6em
-      font-weight 300
-      cursor pointer
-
-    #refresh
-      flex-basis 2.3em
-      height 2.3em
-      cursor pointer
-
-  .items-list
-    width 100%
-    height calc(100% - 5.5em)
-    overflow-y auto
-    background-color transparent
-
-    .list-item
-      width calc(100% - 5em)
-      padding 2.5em 2.5em 1em 2.5em
-      border-bottom 1px solid contrast-color2
-      cursor pointer
-      fadeIn(2s)
-
-      &.selected-item
-        background-color #fff
-        cursor auto
-
-      .item-description
-      .item-status
-        width 100%
-        text-overflow ellipsis
-        overflow hidden
-        white-space nowrap
-
-      .item-description
-        font-size 1.55em
+      .page-link
+        margin-bottom .5em
+        font-size 1.7em
         font-weight 400
-        margin-bottom .3em
+        color rgba(contrast-text-color, .5)
+        cursor pointer
 
-      .item-status
-        font-size 1.3em
-        font-weight 700
+        &.active-link
+          color contrast-text-color
 
-        &.read
+
+  .items-bar
+    flex-basis 42em
+    height 100%
+    background-color contrast-color
+
+    .roll-bar-header
+      flex-parent(row, nowrap, space-between)
+      align-items center
+      width calc(100% - 6em)
+      padding 1.9em 3em 1.3em 3em
+      background-color contrast-color2
+
+      #order-by
+        font-size 1.6em
+        font-weight 300
+        cursor pointer
+
+      #refresh
+        flex-basis 2.3em
+        height 2.3em
+        cursor pointer
+
+    .items-list
+      width 100%
+      height calc(100% - 5.5em)
+      overflow-y auto
+      background-color transparent
+
+      .list-item
+        width calc(100% - 5em)
+        padding 2.5em 2.5em 1em 2.5em
+        border-bottom 1px solid contrast-color2
+        cursor pointer
+        fadeIn(2s)
+
+        &.selected-item
+          background-color #fff
+          cursor auto
+
+        .item-description
+        .item-status
+          width 100%
+          text-overflow ellipsis
+          overflow hidden
+          white-space nowrap
+
+        .item-description
+          font-size 1.55em
           font-weight 400
-          &:after
-            content 'lido'
+          margin-bottom .3em
 
-        &.unread
-          &:after
-            content 'não lido'
+        .item-status
+          font-size 1.3em
+          font-weight 700
 
-.open-content
-  width calc(100% - 45em - 12em)
-  height calc(100% - 5em)
-  padding 5em 6em 0 6em
-  background-color #fff
+          &.read
+            font-weight 400
+            &:after
+              content 'lido'
 
-  .content-title
-    font-size 2.5em
-    font-weight 900
-    margin-bottom 1.2em
-  
-  .content-subtitle
-    font-size 2em
-    font-weight 400
-    font-style italic
-    margin-bottom .4em
+          &.unread
+            &:after
+              content 'não lido'
 
-  .content-detail
-    font-size 1.5em
-    font-weight 400
-
-  .content-body
-    font-size 1.5em
-    font-weight 300
-    margin-top 2em
-    line-height 1.55em
-  
-  .content-title
-  .content-subtitle
-  .content-detail
-  .content-body
-    width 60%
+  .open-content
+    width calc(100% - 45em - 12em)
+    height calc(100% - 5em)
+    padding 5em 6em 0 6em
+    background-color #fff
 
     @media (max-width 1366px)
       width 75%
+
+    .content
+      width 60%
+      height 100%
+      overflow-y auto
+
+      .content-title
+        font-size 2.5em
+        font-weight 900
+        margin-bottom 1.2em
+      
+      .content-subtitle
+        font-size 2em
+        font-weight 400
+        font-style italic
+        margin-bottom .4em
+
+      .content-detail
+        font-size 1.5em
+        font-weight 400
+
+      .content-body
+        font-size 1.5em
+        font-weight 300
+        margin-top 2em
+        line-height 1.55em
+
+      .subtitle
+      .action-link
+        font-size 1.5em
+        font-weight 700
+        margin 2.75em 0 2.25em 0
+
+      .action-link
+        color theme-color
+        cursor pointer
+
+      #response-text
+        width calc(100% - 3em)
+        height 10em
+        padding 1.5em
+        font-size 1.5em
+        resize vertical
+        border-radius(2em)
+        background-color contrast-color2
+        transition(.3s)
+        margin-bottom 1.6em
+
+        &:focus
+          background-color contrast-color
+
+#mask
+  width 100%
+  height 100vh
+  position fixed
+  z-index 3
+  top 0
+  left 0
+  flex-parent(row, wrap, center)
+  align-items center
+  display none
+  background-color rgba(#000, .3)
+
+  .message-box
+    width 30em
+    padding 2.5em
+    text-align center
+    border-radius(2em)
+    background-color #fff
+
+    .message
+      font-size 1.5em
+      font-weight 700

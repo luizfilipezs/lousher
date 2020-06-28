@@ -1,5 +1,6 @@
 import View from './view';
 import MessagesView from './messages.view';
+import PedidosView from './pedidos.view';
 
 interface Route {
   path: string;
@@ -7,9 +8,9 @@ interface Route {
 }
 
 type Routes = Route[];
+export default Routes;
 
 export const appRoutes: Routes = [
-  { path: '/', view: new MessagesView() }
+  { path: '', view: new MessagesView() },
+  { path: 'pedidos', view: new PedidosView() }
 ];
-
-export default Routes;

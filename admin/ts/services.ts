@@ -1,4 +1,4 @@
-import { Service } from 'http-service-ts';
+import { Service, RequestParser } from 'http-service-ts';
 import { Pedido, Mensagem } from './models';
 import { token } from './test';
 
@@ -18,3 +18,5 @@ const config = {
 
 export const pedidoService = new Service<Pedido>(root.concat('/pedidos'), config);
 export const mensagemService = new Service<Mensagem>(root.concat('/mensagens'), config);
+
+export const httpService = new RequestParser(root, config);
