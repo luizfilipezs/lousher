@@ -29,7 +29,20 @@ export default class App {
    * Apply view based in the current route
    */
   private defineView(): void {
-    const currentRoute = window.location.pathname;
+    let currentRoute = window.location.pathname;
+
+    const removeFileExtensions = (extensions: string[]) => {
+      for (const e of extensions) {
+        if (currentRoute.endsWith(e)) {
+          const i = currentRoute.indexOf(e);
+          currentRoute = currentRoute.substring(0, i);
+          break;
+        }
+      }
+    };
+
+    removeFileExtensions(['.html']);
+
     const proper = this.routes.find(r => '/' + r.path === currentRoute);
 
     if (proper) 
