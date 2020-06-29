@@ -1,7 +1,6 @@
+import { View } from './types';
 import { Mensagem } from './models';
 import { mensagemService, httpService } from './services';
-import { Service } from 'http-service-ts';
-import View from './view';
 
 type OrderParam = 'newer' | 'older' | 'unread';
 
@@ -13,7 +12,7 @@ export default class MessagesView implements View<Mensagem> {
 
   iterateOrder = this.orderParameter();
 
-  http: Service<Mensagem> = mensagemService;
+  http = mensagemService;
 
   DOM: { [key: string]: HTMLElement } = {
     listSelector: document.querySelector('.items-list'),

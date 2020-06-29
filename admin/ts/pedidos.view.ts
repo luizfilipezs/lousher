@@ -1,4 +1,4 @@
-import View from './view';
+import { View } from './types';
 import { Pedido } from './models';
 import { pedidoService } from './services';
 
@@ -107,7 +107,6 @@ export default class PedidosView implements View<Pedido> {
     bindingElements.forEach(
       el => {
         const field = el.getAttribute('bind');
-        
         if (field && this.selectedItem[field])
           el.textContent = this.selectedItem[field];
       }
@@ -122,9 +121,10 @@ export default class PedidosView implements View<Pedido> {
   }
 
   private *orderParameter() {
-    while (true)
-      for (const option of ['older', 'newer'] as OrderParam[])
-        yield this.orderBy = option;
+    while (true) {
+      yield this.orderBy = 'newer';
+      yield this.orderBy = 'older';
+    }
   }
 
   reorderItems(): void {

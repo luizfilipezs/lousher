@@ -1,12 +1,11 @@
-import View from './view';
-import Routes from './routes';
-import * as Exceptions from './exceptions';
+import { View, Routes } from './types';
+import { UndefinedRouteError } from './exceptions';
 
 export default class App {
   /**
    * View that will be used to render proper content
    */
-  private view: View<{}>;
+  private view: View<any>;
 
   /**
    * @param routes {Routes} Application routes
@@ -34,8 +33,8 @@ export default class App {
     const proper = this.routes.find(r => '/' + r.path === currentRoute);
 
     if (proper) 
-      this.view = proper.view;
+      this.view = new proper.view();
     else
-      throw new Exceptions.UndefinedRouteError();
+      throw new UndefinedRouteError();
   }
 }
