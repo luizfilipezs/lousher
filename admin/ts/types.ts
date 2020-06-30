@@ -33,7 +33,7 @@ export interface View<T> {
 // Routing
 
 /**
- * Route object configutarion
+ * Route object configuration
  */
 export interface Route {
   path: string;

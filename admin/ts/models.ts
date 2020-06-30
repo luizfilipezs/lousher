@@ -1,9 +1,10 @@
-interface User {
-  id: number;
-};
+/**
+ * Default type for model's ID
+ */
+type id = number;
 
 interface Endereco {
-  id: number;
+  id: id;
   uf: string;
   cidade: string;
   rua: string;
@@ -16,8 +17,8 @@ interface Endereco {
 };
 
 export interface Pedido {
-  id: number;
-  usuario: User;
+  id: id;
+  usuario: id;
   endereco: Endereco;
   status: string;
   observacoes: string;
@@ -25,7 +26,7 @@ export interface Pedido {
 };
 
 export interface Mensagem {
-  id: number;
+  id: id;
   nome: string;
   email: string;
   assunto: string;

@@ -1,3 +1,7 @@
+/**
+ * Error throwed when current route is not defined in
+ * app routes
+ */
 export class UndefinedRouteError extends Error {
   name = 'UndefinedRouteError';
   
