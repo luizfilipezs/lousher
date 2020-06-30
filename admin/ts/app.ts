@@ -1,5 +1,6 @@
-import { View, Routes } from './types';
+import { View, Route } from './types';
 import { UndefinedRouteError } from './exceptions';
+import { removeFileExtension } from './utils';
 
 export default class App {
   /**
@@ -8,10 +9,10 @@ export default class App {
   private view: View<any>;
 
   /**
-   * @param routes {Routes} Application routes
+   * @param routes {Route[]} Application routes
    * @param autoInit {boolean} If `true`, app will initialize automatically
    */
-  constructor(private routes: Routes, autoInit: boolean = true) {
+  constructor(private routes: Route[], autoInit: boolean = true) {
     if (autoInit)
       document.addEventListener('DOMContentLoaded', () => this.init());
   }
@@ -29,20 +30,7 @@ export default class App {
    * Apply view based in the current route
    */
   private defineView(): void {
-    let currentRoute = window.location.pathname;
-
-    const removeFileExtensions = (extensions: string[]) => {
-      for (const e of extensions) {
-        if (currentRoute.endsWith(e)) {
-          const i = currentRoute.indexOf(e);
-          currentRoute = currentRoute.substring(0, i);
-          break;
-        }
-      }
-    };
-
-    removeFileExtensions(['.html']);
-
+    const currentRoute = removeFileExtension(window.location.pathname, ['.html']);
     const proper = this.routes.find(r => '/' + r.path === currentRoute);
 
     if (proper) 

@@ -88,27 +88,58 @@ export default class PedidosView implements View<Pedido> {
           <p class="item-description">
             ${el.endereco.nome_destinatario}, em ${el.data_pedido}
           </p>
-          <p class="item-status"></p>
+          <p class="item-status">${el.status}</p>
         </div>
       `
     );
     
     // Update list when an item is selected
-    Array.from(this.DOM.listSelector.children).forEach(element =>
-      element.addEventListener('click', () => this.selectItem(element)));
+    [...this.DOM.listSelector.children].forEach(el =>
+      el.addEventListener('click', () => this.selectItem(el)));
   }
 
-  selectItem(element: Element): void { }
+  selectItem(element: Element): void {
+    // Update selected item
+    this.selectedItem = this.items.find(i => i.id === +element.id);
+    // Recreate list in DOM
+    this.renderSelectedOne();
+  }
 
   renderSelectedOne(): void {
-    const bindingElements = document.querySelectorAll('[bind]');
+    // Inforations about the order / DOM elements
+    const
+      item = this.selectedItem,
+      address = item.endereco,
+      model = {
+        id: item.id,
+        nome: address.nome_destinatario,
+        data_pedido: item.data_pedido,
+        mensagem: item.observacoes
+      },
+      bindingElements = document.querySelectorAll('[bind]'),
+      listItems = document.querySelectorAll('.list-item');
 
     // Render message
     bindingElements.forEach(
       el => {
         const field = el.getAttribute('bind');
-        if (field && this.selectedItem[field])
-          el.textContent = this.selectedItem[field];
+
+        if (field && model[field])
+          el.textContent = model[field];
+      }
+    );
+    
+    // Update classes for selecting an item from list
+    listItems.forEach(
+      el => {
+        if (el.id === this.selectedItem.id.toString()) {
+          if (!el.classList.contains('selected-item'))
+            el.classList.add('selected-item');
+        }
+        else {
+          if (el.classList.contains('selected-item'))
+            el.classList.remove('selected-item');
+        }
       }
     );
   }
@@ -122,8 +153,8 @@ export default class PedidosView implements View<Pedido> {
 
   private *orderParameter() {
     while (true) {
-      yield this.orderBy = 'newer';
       yield this.orderBy = 'older';
+      yield this.orderBy = 'newer';
     }
   }
 

@@ -182,7 +182,7 @@ export default class MessagesView implements View<Mensagem> {
       }
     );
 
-    const hiddenElements: HTMLElement[] = Array.from(document.querySelectorAll('[invisibleUntil]'));
+    const hiddenElements = document.querySelectorAll('[invisibleUntil]') as NodeListOf<HTMLElement>;
     
     // Enable hidden elements
     hiddenElements.forEach(

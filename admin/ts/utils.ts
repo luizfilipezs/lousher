@@ -26,3 +26,19 @@ export const getRandomDate = () => {
 
   return randomDate('06/25/2020', '08/16/2020');
 };
+
+/**
+ * Removes extension from filename or URL
+ * @param fullName {string} Filename or URL
+ * @param extensions {string[]} List of extensions that must be removed
+ */
+export const removeFileExtension = (fullName: string, extensions: string[]) => {
+  for (const e of extensions) {
+    if (fullName.endsWith(e)) {
+      const i = fullName.indexOf(e);
+      fullName = fullName.substring(0, i);
+      break;
+    }
+  }
+  return fullName;
+};
