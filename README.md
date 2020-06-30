@@ -6,9 +6,7 @@ Wine e-commerce. Backend written in Python 3, with Django REST Framework. Fronte
 
 Install `virtualenv` using pip:
 
-```bash
-pip3 install virtualenv
-```
+`pip3 install virtualenv`
 
 Create virtual environment and install packages:
 
@@ -27,19 +25,22 @@ python manage.py migrate
 
 Then:
 
-```bash
-python manage.py runserver
-```
+`python manage.py runserver`
 
 ## `lousher` (frontend) folder
 
 Install packages:
 
-```bash
-npm install
-```
+`npm install`
 
 Then:
-```bash
-ng serve --open
-```
+
+`ng serve --open`
+
+## `admin` folder
+
+For generating `js` and `css` files, run:
+
+`npm run build`
+
+after installing npm packages.
