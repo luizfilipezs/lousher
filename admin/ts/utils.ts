@@ -7,24 +7,26 @@
 export const getRandomValueFromArray = (arr: any[]) => arr[~~(Math.random() * arr.length)];
 
 /**
+ * Returns a random number between the two given parameters
+ * @param min {number}
+ * @param max {number}
+ * @returns {number} Random number between min and max
+ */
+export const randomValueBetween = (min: number, max: number) => Math.random() * (max - min) + min;
+
+/**
  * Returns random date between two
  */
-export const getRandomDate = () => {
-  const randomDate = (date1: string | number, date2: string | number) => {
-    const randomValueBetween = (min: number, max: number) => Math.random() * (max - min) + min;
-    
-    var date1 = date1 || '01-01-1970';
-    var date2 = date2 || new Date().toLocaleDateString();
+export const randomDate = (date1: string | number, date2: string | number) => {
+  var date1 = date1 || '01-01-1970';
+  var date2 = date2 || new Date().toLocaleDateString();
   
-    date1 = new Date(date1).getTime();
-    date2 = new Date(date2).getTime();
+  date1 = new Date(date1).getTime();
+  date2 = new Date(date2).getTime();
   
-    return date1 > date2 ?
-      new Date(randomValueBetween(date2, date1)).toLocaleDateString() :
-      new Date(randomValueBetween(date1, date2)).toLocaleDateString();
-  };
-
-  return randomDate('06/25/2020', '08/16/2020');
+  return date1 > date2 ?
+    new Date(randomValueBetween(date2, date1)).toLocaleDateString() :
+    new Date(randomValueBetween(date1, date2)).toLocaleDateString();
 };
 
 /**
@@ -55,3 +57,10 @@ export const removeFileExtension = (fullName: string, extensions: string | strin
   // Return fullName after checking and removing the extension
   return fullName;
 };
+
+/**
+ * Returns the given string without special chars
+ * @param str {string} Initial string
+ * @returns {string} The given string without special chars
+ */
+export const removeSpecialChars = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');

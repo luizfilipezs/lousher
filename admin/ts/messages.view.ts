@@ -133,8 +133,8 @@ export default class MessagesView implements View<Mensagem> {
     );
     
     // Update list when an item is selected
-    Array.from(this.DOM.listSelector.children).forEach(element =>
-      element.addEventListener('click', () => this.selectItem(element)));
+    [...this.DOM.listSelector.children].forEach(el =>
+      el.addEventListener('click', () => this.selectItem(el)));
   }
 
   orderItems(): void {

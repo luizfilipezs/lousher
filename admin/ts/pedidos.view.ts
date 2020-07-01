@@ -118,6 +118,14 @@ export default class PedidosView implements View<Pedido> {
       },
       bindingElements = document.querySelectorAll('[bind]'),
       listItems = document.querySelectorAll('.list-item');
+    
+    // Display content parent
+    const
+      contentSelector = document.querySelector('.open-content') as HTMLElement,
+      hasInvisibleAttr = contentSelector.getAttribute('invisibleUntil') === 'open-content';
+
+    if (hasInvisibleAttr)
+      contentSelector.style.visibility = 'visible';
 
     // Render message
     bindingElements.forEach(

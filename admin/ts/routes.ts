@@ -1,4 +1,5 @@
 import { Route } from './types';
+
 import MessagesView from './messages.view';
 import PedidosView from './pedidos.view';
 
