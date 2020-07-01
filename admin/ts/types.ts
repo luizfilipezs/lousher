@@ -3,14 +3,14 @@ import { Service } from 'http-service-ts';
 // Constructors
 
 /**
- * Class of `T` type
+ * Function constructor
  */
-export type ClassConstructor<T> = { new (...args: any[]): T };
+export type Type<T> = { new (...args: any[]): T };
 
 /**
- * Any class that extends or implements `T`
+ * Any `Type` that extends or implements `T`
  */
-export type ChildClass<T> = ClassConstructor<any> & ClassConstructor<T>;
+export type ExtendedType<T> = Type<any> & Type<T>;
 
 // View
 
@@ -37,5 +37,5 @@ export interface View<T> {
  */
 export interface Route {
   path: string;
-  view: ClassConstructor<View<any>>
+  view: ExtendedType<View<any>>
 };
