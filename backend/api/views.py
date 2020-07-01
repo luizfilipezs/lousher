@@ -10,7 +10,16 @@ from datetime import date
 from api.permission_classes import IsAdminOrReadOnly
 
 from .models import (
-	User, Grupo, Produto, Endereco, ItemCarrinho, Pedido, ItemPedido, MensagemContato)
+	User,
+	Grupo,
+	Produto, 
+	Endereco, 
+	ItemCarrinho, 
+	Pedido, 
+	ItemPedido, 
+	MensagemContato
+)
+
 from .serializers import (
 	UserSerializer,
 	GrupoSerializer,
@@ -21,7 +30,8 @@ from .serializers import (
 	CreatePedidoSerializer,
 	ItemPedidoSerializer,
 	CreateItemPedidoSerializer,
-	MensagemContatoSerializer)
+	MensagemContatoSerializer
+)
 
 from django.db.models import Transform, CharField, Q
 
@@ -213,6 +223,11 @@ class EnderecoViewSet(viewsets.ModelViewSet):
 # PEDIDO
 
 class PedidoViewSet(viewsets.ModelViewSet):
+	queryset = Pedido.objects.all().order_by('-id')
+	serializer_class = PedidoSerializer
+	permission_classes = [permissions.IsAdminUser]
+
+class ClientePedidoViewSet(viewsets.ModelViewSet):
 	queryset = Pedido.objects.all().order_by('-id')
 	serializer_class = PedidoSerializer
 	permission_classes = [permissions.IsAuthenticated]

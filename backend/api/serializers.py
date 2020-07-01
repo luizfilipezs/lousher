@@ -83,6 +83,7 @@ class ItemCarrinhoSerializer(serializers.ModelSerializer):
 class PedidoSerializer(serializers.ModelSerializer):
 	endereco = EnderecoSerializer(read_only=True)
 	status = serializers.SerializerMethodField()
+	data_pedido = serializers.DateField(format="%d/%m/%Y")
 
 	def get_status(self, obj):
 		return obj.get_status_display()
