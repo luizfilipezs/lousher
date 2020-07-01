@@ -227,12 +227,15 @@ main
           font-size 1.5em
           font-weight 400
           border-radius(.8em)
+          transition(.75s)
           background-color contrast-color2
           cursor pointer
 
+          &:hover
+            box-shadow(8px 8px 10px 0px rgba(36,36,36,0.15))
+
           &.selected-status
             color contrast-text-color
-            cursor auto
 
           &:nth-child(1)
             &.selected-status
