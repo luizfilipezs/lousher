@@ -214,6 +214,49 @@ main
 
         &:focus
           background-color contrast-color
+      
+      .status-boxes-wrapper
+        width 80%
+        flex-parent(row, wrap, flex-start)
+        margin-bottom 1.6em
+
+        .status-box
+          margin-right 1em
+          margin-bottom 1em
+          padding .5em 2em .6em 2em
+          font-size 1.5em
+          font-weight 400
+          border-radius(.8em)
+          background-color contrast-color2
+          cursor pointer
+
+          &.selected-status
+            color contrast-text-color
+            cursor auto
+
+          &:nth-child(1)
+            &.selected-status
+              background-color theme-color
+
+          &:nth-child(2)
+            &.selected-status
+              background-color #0055cc
+
+          &:nth-child(3)
+            &.selected-status
+              background-color #cc0069
+
+          &:nth-child(4)
+            &.selected-status
+              background-color good-color
+
+          &:nth-child(5)
+            &.selected-status
+              background-color warning-color
+
+          &:nth-child(6)
+            &.selected-status
+              background-color bad-color
 
 #mask
   width 100%

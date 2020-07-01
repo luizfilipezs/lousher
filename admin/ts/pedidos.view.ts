@@ -121,7 +121,8 @@ export default class PedidosView implements View<Pedido> {
         ...this.formatAddress(item.endereco)
       },
       bindingElements = document.querySelectorAll('[bind]'),
-      listItems = document.querySelectorAll('.list-item');
+      listItems = document.querySelectorAll('.list-item'),
+      statusBoxes = document.querySelectorAll('.status-box');
     
     // Display content parent
     const
@@ -140,6 +141,25 @@ export default class PedidosView implements View<Pedido> {
           el.textContent = model[field];
       }
     );
+
+    // Select status
+    const updateStatusBoxes = () => statusBoxes.forEach(
+      el => {
+        const cls = 'selected-status';
+
+        if (el.textContent === this.selectedItem.status)
+          el.classList.add(cls);
+        else if (el.classList.contains(cls))
+          el.classList.remove(cls);
+      }
+    );
+
+    updateStatusBoxes();
+
+    statusBoxes.forEach(el => el.addEventListener('click', () => {
+      this.selectedItem.status = el.textContent;
+      updateStatusBoxes();
+    }));
     
     // Update classes for selecting an item from list
     listItems.forEach(
