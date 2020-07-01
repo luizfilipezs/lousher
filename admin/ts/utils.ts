@@ -32,13 +32,26 @@ export const getRandomDate = () => {
  * @param fullName {string} Filename or URL
  * @param extensions {string[]} List of extensions that must be removed
  */
-export const removeFileExtension = (fullName: string, extensions: string[]) => {
-  for (const e of extensions) {
-    if (fullName.endsWith(e)) {
+export const removeFileExtension = (fullName: string, extensions: string | string[]) => {
+  // Remover
+  const removeExtension = (e: string) => {
+    const endsWith = fullName.endsWith(e);
+
+    if (endsWith) {
       const i = fullName.indexOf(e);
       fullName = fullName.substring(0, i);
-      break;
     }
+    return endsWith;
   }
+  
+  // Remove extension if it exists on fullName
+  if (Array.isArray(extensions)) {
+    for (const e of extensions) {
+      const removed = removeExtension(e);
+      if (removed) break;
+    }
+  } else removeExtension(extensions);
+
+  // Return fullName after checking and removing the extension
   return fullName;
 };

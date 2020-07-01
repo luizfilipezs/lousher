@@ -30,7 +30,7 @@ export default class App {
    * Apply view based in the current route
    */
   private defineView(): void {
-    const currentRoute = removeFileExtension(window.location.pathname, ['.html']);
+    const currentRoute = removeFileExtension(window.location.pathname, '.html');
     const proper = this.routes.find(r => '/' + r.path === currentRoute);
 
     if (proper) 
