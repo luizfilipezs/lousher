@@ -3,7 +3,7 @@
  */
 type id = number;
 
-interface Endereco {
+export interface Endereco {
   id: id;
   uf: string;
   cidade: string;

@@ -1,6 +1,7 @@
 import { View } from './types';
-import { Pedido } from './models';
+import { Pedido, Endereco } from './models';
 import { pedidoService } from './services';
+import { removeSpecialChars } from './utils';
 
 type OrderParam = 'newer' | 'older';
 
@@ -81,6 +82,8 @@ export default class PedidosView implements View<Pedido> {
       return cls;
     };
 
+    const getStatusClass = (status: string) => removeSpecialChars(status).replace(/ /g, '-');
+
     // Render list
     this.items.forEach(
       el => this.DOM.listSelector.innerHTML += `
@@ -88,7 +91,7 @@ export default class PedidosView implements View<Pedido> {
           <p class="item-description">
             ${el.endereco.nome_destinatario}, em ${el.data_pedido}
           </p>
-          <p class="item-status">${el.status}</p>
+          <p class="item-status ${getStatusClass(el.status)}">${el.status}</p>
         </div>
       `
     );
@@ -114,7 +117,8 @@ export default class PedidosView implements View<Pedido> {
         id: item.id,
         nome: address.nome_destinatario,
         data_pedido: item.data_pedido,
-        mensagem: item.observacoes
+        mensagem: item.observacoes,
+        ...this.formatAddress(item.endereco)
       },
       bindingElements = document.querySelectorAll('[bind]'),
       listItems = document.querySelectorAll('.list-item');
@@ -150,6 +154,15 @@ export default class PedidosView implements View<Pedido> {
         }
       }
     );
+  }
+
+  private formatAddress(address: Endereco): object {
+    return {
+      cidade: address.cidade + ' - ' + address.uf,
+      rua: address.rua + ', ' + address.numero + (address.complemento ? ', ' + address.complemento : ''),
+      bairro: 'Bairro ' + address.bairro + ', ' + address.cep,
+      destinatario: 'Entregar a ' + address.nome_destinatario
+    };
   }
 
   orderItems(): void {
