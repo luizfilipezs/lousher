@@ -53,7 +53,7 @@
     <p class="informative-text" *ngIf="orders.length">Em caso de dúvidas, envie-nos um email (lousher@gmail.com) com o ID do seu pedido no assunto. Se for necessário trocar o endereço, informe-nos imediatamente, antes que o pedido seja despachado.</p>
 
     <!-- MENSAGEM DE ERRO -->
-    <p class="informative-text" *ngIf="errorGettingOrders">Não foi possível verificar se você realizou pedidos recentemente. Se tiver feito e não conseguir visualizá-los aqui, entre em contato conosco pelo email louscher@gmail.com. Se puder informar o ID do seu pedido no assunto será mais fácil ajudar você ;)</p>
+    <p class="informative-text" *ngIf="errorGettingOrders">Não foi possível verificar se você realizou pedidos recentemente. Se tiver feito e não conseguir visualizá-los aqui, entre em contato conosco pelo email <i>vinhoslouscher@hotmail.com</i>. Se puder informar o ID do seu pedido no assunto será mais fácil ajudar você ;)</p>
 
     <!-- NOTA INFORMATIVA (SEM PEDIDOS) -->
     <p class="informative-text" *ngIf="!orders.length && !errorGettingOrders">Quando você fizer um pedido ele aparecerá aqui.</p>

@@ -1,4 +1,5 @@
 @import '../resources.styl'
+@import 'fonts'
 
 .main-header
   position fixed
@@ -33,22 +34,22 @@
     height 100%
     flex-parent(row, nowrap, center)
 
+    /*
     .logo-img
       flex-basis 3em
       height 3em
       align-self center
       margin-left -.5em
       cursor pointer
-
+    */
     .site-title
       flex-basis auto
       align-self center
-      margin-top .15em
-      margin-left 1em
+      margin-top .05em
       // text
-      font-size 1.6em
-      font-style italic
-      font-weight 800
+      font-family 'Fnord'
+      font-size 2.1em
+      font-weight normal
       color theme-color
       text-transform uppercase
 
@@ -101,7 +102,7 @@
         list-style none
 
         .menu-item
-          margin 0 2em 0 2em
+          margin .2em 2em 0 2em
           font-size 1.6em
           text-align center
 
@@ -143,6 +144,7 @@
 
       .access-name
         align-self center
+        margin-top .2em
         margin-left 1.4em
         font-size 1.6em
         font-weight normal
@@ -154,6 +156,7 @@
         flex-grow 1
         align-self center
         padding .35em 0 .25em 0
+        margin-top .2em
         margin-right 1.5em
         font-size 1.6em
         border-bottom 1px solid transparent

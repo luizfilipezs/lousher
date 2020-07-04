@@ -63,10 +63,12 @@ export class AuthService extends ToggleView {
       return this.http.post(
         this.apiRoot.concat('refresh-token/'),
         { token: this.token }
-      ).pipe(
+      )
+      .pipe(
         tap(response => this.setSession(response)),
         shareReplay(),
-      ).subscribe();
+      )
+      .subscribe();
     }
   }
 

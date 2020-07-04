@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    if (this.authService.isLoggedIn) this.authService.refreshToken();
   }
 
   applyParallaxEffect() {

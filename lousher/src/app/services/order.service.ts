@@ -4,7 +4,7 @@ import { Order, OrderItem } from '../order';
 import { APIRoot } from '../api.root';
 
 class ServiceRoot {
-  orders = APIRoot.api.concat('pedidos/');
+  orders = APIRoot.api.concat('pedidosCliente/');
   orderItems = APIRoot.api.concat('itensPedidos/');
   order = (id: number) => this.orders + id;
   item = (id: number) => this.orderItems + id;

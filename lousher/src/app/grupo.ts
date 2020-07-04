@@ -4,6 +4,7 @@ export interface Grupo {
   pais: string;
   regiao: string;
   mililitros: number;
+  vol_alcoolico: number;
   tipo?: string;
   cor?: string;
   docura?: string;
