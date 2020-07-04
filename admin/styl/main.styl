@@ -1,5 +1,7 @@
 @import 'resources'
 
+// Global
+
 *
   margin 0
   padding 0
@@ -39,10 +41,14 @@ textarea
 .clear
   clear both
 
+// Content
+
 main
   width 100%
   height 100vh
   flex-parent(row, nowrap, flex-start)
+
+  // Box 1
 
   .menu-bar
     flex-basis 30em - 7em
@@ -69,6 +75,7 @@ main
         &.active-link
           color contrast-text-color
 
+  // Box 2
 
   .items-bar
     flex-basis 42em
@@ -151,6 +158,8 @@ main
           
           &.despachado
             color #cc0069
+
+  // Box 3
 
   .open-content
     width calc(100% - 45em - 12em)
@@ -263,6 +272,8 @@ main
             &.selected-status
               background-color bad-color
 
+// Error messages and warnings
+
 #mask
   width 100%
   height 100vh
@@ -285,3 +296,17 @@ main
     .message
       font-size 1.5em
       font-weight 700
+
+// Media queries
+
+@media (max-width 1600px)
+  body
+    font-size 60%
+
+@media (max-width 1366px)
+  body
+    font-size 57.5%
+
+@media (max-width 1280px)
+  body
+    font-size 55%

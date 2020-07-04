@@ -4,7 +4,7 @@
   "description": "Administration platform for Louscher (wine e-commerce)",
   "main": "index.js",
   "scripts": {
-    "styl": "stylus -w styl/main.styl -o css/main.css",
+    "styl": "stylus -w styl/main.styl -o css/main.css -c",
     "ts": "tsc --watch",
     "browserify": "watchify js/main.js -o js/bundle.js",
     "build": "concurrently --kill-others \"npm run ts\" \"npm run browserify\" \"npm run styl\"",
