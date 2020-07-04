@@ -61,4 +61,12 @@ export class FooterComponent implements OnInit {
     }
   }
 
+  redirectToFacebookPage() {
+    window.location.href = 'https://www.facebook.com/louschervinhos.com.br/';
+  }
+
+  redirectToInstagramProfile() {
+    window.location.href = 'https://www.instagram.com/';
+  }
+
 }
