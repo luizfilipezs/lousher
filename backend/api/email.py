@@ -4,8 +4,9 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from decouple import config
+from .models import Pedido, User
 
-class Email(object):
+class _Email(object):
     __remetente = 'vinhoslouscher@hotmail.com'
     __password = config('EMAIL_PASSWORD')
 
@@ -14,7 +15,11 @@ class Email(object):
         self.assunto = assunto
         # Conteúdo HTML
         self.corpo = """
-        <html></html>
+        <html>
+            <body>
+                """ + mensagem + """
+            </body>
+        </html>
         """
 
     def __enviar(self) -> None:
@@ -32,3 +37,24 @@ class Email(object):
 
     def __del__(self):
         self.__enviar()
+
+class EnviarEmail(object):
+
+    @staticmethod
+    def atualizacao_status_pedido(usuario_id: int, pedido_id: int, mensagem_adicional="") -> None:
+        usuario = User.objects.get(pk=usuario_id)
+        pedido = Pedido.objects.get(pk=pedido_id)
+
+        mensagem = f"""
+        <p>Olá, ${usuario.username}!</p>
+        <p>O status do seu pedido foi atualizado. Veja:</p>
+        <p>
+            ID do pedido: ${pedido.id}<br>
+            Status do pedido: ${pedido.status}
+        </p>
+        <p>${mensagem_adicional}</p>
+        <p>Se tiver qualquer dúvida, responda este email e entraremos em contato com você o quanto antes ;)</p>
+        <p>Atenciosamente, Equipe Louscher</p>
+        """
+
+        _Email(usuario.email, 'O status do seu pedido foi atualizado', mensagem)

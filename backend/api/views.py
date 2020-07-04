@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from datetime import date
+from .email import EnviarEmail
+import json
 
 from api.permission_classes import IsAdminOrReadOnly
 
@@ -41,6 +43,31 @@ class LowerCase(Transform):
 	bilateral = True
 
 CharField.register_lookup(LowerCase)
+
+# EMAIL
+
+@api_view(['POST'])
+def notificar_atualizacao_status_pedido(request):
+	data = request.data
+
+	if "usuario_id" in data and "pedido_id" in data:
+		usuario_id = data['usuario_id']
+		pedido_id = data['pedido_id']
+		mensagem_adicional = ""
+
+		if "mensagem_adicional" in data:
+			mensagem_adicional = data["mensagem_adicional"]
+
+		try:
+			usuario_id = int(usuario_id)
+			pedido_id = int(usuario_id)
+		except ValueError:
+			return Response(f"Os valores dos campos 'usuario_id' e 'pedido_id' devem ser números inteiros, mas os valores recebidos foram ${usuario_id} e ${pedido_id}", status=400)
+
+		EnviarEmail.atualizacao_status_pedido(usuario_id, pedido_id)
+		return Response(status=200)
+	else:
+		return Response('Um ou mais campos faltando! Esperado: "usuario_id" e "pedido_id". Recebido: ' + json.dumps(data), status=400)
 
 # USER
 
