@@ -18,7 +18,8 @@ export default class PedidosView implements View<Pedido> {
     listSelector: document.querySelector('.items-list'),
     orderListButton: document.getElementById('order-by'),
     refreshButton: document.getElementById('refresh'),
-    errorMessageMask: document.getElementById('mask')
+    errorMessageMask: document.getElementById('mask'),
+    updateStatusButton: document.getElementById('update-status-btn')
   };
 
   constructor() {
@@ -39,6 +40,10 @@ export default class PedidosView implements View<Pedido> {
     // Refresh list
     this.DOM.refreshButton
       .addEventListener('click', () => this.getItems());
+
+    // Update order status
+    this.DOM.updateStatusButton
+      .addEventListener('click', () => this.updateStatus());
     
     // Close error message mask
     this.DOM.errorMessageMask
@@ -65,6 +70,61 @@ export default class PedidosView implements View<Pedido> {
         error => this.emitError('Erro ao tentar obter os pedidos!')
       )
       .finally(() => this.DOM.refreshButton.style.opacity = '1');
+  }
+
+  private updateStatus(): void {
+    const id = this.selectedItem.id;
+    let status = removeSpecialChars(this.selectedItem.status);
+
+    if (status === 'em analise')
+      status = 'analise';
+    else if (status === 'preparando envio')
+      status = 'preparando';
+
+    this.http.patch({ status }, id)
+      .then(
+        (partial) => {
+          // DOM selectors and available CSS classes
+          const
+            parentElement = document.getElementById(id.toString()),
+            statusSelector = document.createElement('p'),
+            classes = [
+              'em-analise',
+              'preparando-envio',
+              'despachado',
+              'suspenso',
+              'cancelado',
+              'entregue'
+            ];
+          
+          // Remove old status text
+          parentElement.querySelector('.item-status').remove();
+
+          // Update text
+          status = partial.status;
+
+          // Add status style
+          statusSelector.classList.add('item-status');
+
+          switch(status) {
+            case 'analise':
+              statusSelector.classList.add(classes[0]);
+              statusSelector.innerHTML = 'em análise';
+              break;
+            case 'preparando':
+              statusSelector.classList.add(classes[1]);
+              statusSelector.innerHTML = 'preparando envio';
+              break;
+            default:
+              statusSelector.classList.add(classes.find(cls => cls === status));
+              statusSelector.innerHTML = status;
+          }
+
+          // Add status text to the DOM
+          parentElement.appendChild(statusSelector);
+        },
+        (error) => this.emitError(`Erro ao tentar atualizar o status do pedido #${id}!`)
+      );
   }
 
   renderList(): void {

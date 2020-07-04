@@ -231,8 +231,10 @@ main
           background-color contrast-color2
           cursor pointer
 
-          &:hover
-            box-shadow(8px 8px 10px 0px rgba(36,36,36,0.15))
+          &:not(.selected-status):hover
+            color contrast-color
+            background-color #252525
+            //box-shadow(8px 8px 10px 0px rgba(36,36,36,0.15))
 
           &.selected-status
             color contrast-text-color
