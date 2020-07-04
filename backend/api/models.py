@@ -34,6 +34,7 @@ class Oferta(models.Model):
 class Grupo(models.Model):
     TIPOS = [
         ('merlot', 'Merlot'),
+        ('bordo', 'Bordô'),
         ('cabernet_suavignon', 'Cabernet Suavignon'),
         ('carmenere', 'Carménère'),
         ('tannat', 'Tannat'),
@@ -49,8 +50,7 @@ class Grupo(models.Model):
 
     DOCURA = [
         ('seco', 'Seco'),
-        ('meio-seco', 'Meio seco'),
-        ('doce', 'Doce')
+        ('suave', 'Suave')
     ]
 
     brasil = 'brasil'
@@ -58,9 +58,9 @@ class Grupo(models.Model):
         (brasil, 'Brasil')
     ]
 
-    oeste_gaucho = 'oeste_gaucho'
+    norte_gaucho = 'norte_gaucho'
     REGIAO = [
-        (oeste_gaucho, 'Oeste Gaúcho'),
+        (norte_gaucho, 'Norte Gaúcho'),
         ('serra_gaucha', 'Serra Gaúcha')
     ]
 
@@ -85,7 +85,7 @@ class Grupo(models.Model):
 
     descricao = models.CharField(max_length=220, default='Sem descrição disponível.')
     pais = models.CharField(max_length=20, choices=PAIS, default=brasil)
-    regiao = models.CharField(max_length=30, choices=REGIAO, default=oeste_gaucho)
+    regiao = models.CharField(max_length=30, choices=REGIAO, default=norte_gaucho)
     mililitros = models.PositiveIntegerField(verbose_name='Conteúdo em mililitros (ml)', default=750)
     vol_alcoolico = models.FloatField(verbose_name='Vol. Alcoólico', null=True, blank=True, default=None)
     # informações para vinhos

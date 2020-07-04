@@ -93,11 +93,22 @@ class PedidoSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class CreatePedidoSerializer(serializers.ModelSerializer):
+
+	STATUS = [
+		('analise', 'em análise'),
+		('preparando', 'preparando envio'),
+		('despachado', 'despachado'),
+		('entregue', 'entregue'),
+		('suspenso', 'suspenso'),
+		('cancelado', 'cancelado')
+    ]
+
 	endereco_id = serializers.PrimaryKeyRelatedField(queryset=Endereco.objects.all())
+	status = serializers.ChoiceField(choices=STATUS)
 
 	class Meta:
 		model = Pedido
-		fields = ['usuario', 'endereco_id', 'observacoes']
+		fields = ['usuario', 'endereco_id', 'observacoes', 'status']
 	
 	def create(self, validated_data):
 		return Pedido.objects.create(

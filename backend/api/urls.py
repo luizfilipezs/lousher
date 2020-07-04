@@ -21,6 +21,6 @@ urlpatterns = [
 	path('carrinho/produto/<int:produto_id>/', views.ItemCarrinhoViewSet.as_view({'get': 'check_product'})),
 	path('carrinho/produto/<int:produto_id>/qntd/<int:qntd>/', views.ItemCarrinhoViewSet.as_view({'post': 'change_cart'})),
 	path('enderecos/meu_endereco', views.EnderecoViewSet.as_view({'get': 'get_endereco_usuario'})),
-	path('enderecos/meu_endereco/alterar', views.EnderecoViewSet.as_view({'post': 'alterar_endereco_usuario'})),
+	path('enderecos/meu_endereco/alterar/', views.EnderecoViewSet.as_view({'post': 'alterar_endereco_usuario'})),
 	path('', include(router.urls)),
 ]

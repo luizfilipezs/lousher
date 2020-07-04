@@ -226,11 +226,33 @@ class PedidoViewSet(viewsets.ModelViewSet):
 	queryset = Pedido.objects.all().order_by('-id')
 	serializer_class = PedidoSerializer
 	permission_classes = [permissions.IsAdminUser]
+	
+	def partial_update(self, request, pk=None):
+		obj = self.get_object()
+		serializer = CreatePedidoSerializer(obj, request.data, partial=True)
+		
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		return Response(status=400)
+
 
 class ClientePedidoViewSet(viewsets.ModelViewSet):
 	queryset = Pedido.objects.all().order_by('-id')
 	serializer_class = PedidoSerializer
 	permission_classes = [permissions.IsAuthenticated]
+
+	def create(self, request):
+		serializer = CreatePedidoSerializer(data=request.data)
+		if serializer.is_valid():
+			model = serializer.save()
+			response_serializer = PedidoSerializer(model)
+
+			# limpa carrinho do usuário
+			ItemCarrinho.objects.filter(usuario=request.user).delete()
+
+			return Response(response_serializer.data)
+		return Response(status=400)
 
 	def list(self, request):
 		queryset = Pedido.objects.filter(usuario=request.user)
@@ -274,6 +296,6 @@ class MensagemContatoCreateView(viewsets.mixins.CreateModelMixin, viewsets.Gener
 	permission_classes = [permissions.AllowAny]
 
 class MensagemContatoView(viewsets.ModelViewSet):
-	queryset = MensagemContato.objects.all().order_by('-id');
+	queryset = MensagemContato.objects.all().order_by('-id')
 	serializer_class = MensagemContatoSerializer
 	permission_classes = [permissions.IsAdminUser]

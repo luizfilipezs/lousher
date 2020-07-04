@@ -7,12 +7,12 @@ admin.site.register(Endereco)
 
 @admin.register(Grupo)
 class GrupoAdmin(admin.ModelAdmin):
-	list_display = ('id', 'tipo', 'classe', 'docura',)
+	list_display = ('tipo', 'classe', 'docura',)
 	search_fields = ['tipo']
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-	list_display = ('id', 'grupo', 'ano', 'preco', 'oferta',)
+	list_display = ('grupo', 'ano', 'preco', 'oferta',)
 	search_fields = ['grupo', 'ano']
 
 @admin.register(Oferta)
@@ -22,7 +22,7 @@ class OfertaAdmin(admin.ModelAdmin):
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-	list_display = ('__str__', 'status',)
+	list_display = ('__str__', 'status', 'id',)
 	search_fields = ['__str__', 'status']
 
 @admin.register(MensagemContato)
