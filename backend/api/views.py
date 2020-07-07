@@ -263,6 +263,13 @@ class PedidoViewSet(viewsets.ModelViewSet):
 			return Response(serializer.data)
 		return Response(status=400)
 
+	@action(methods=['GET'], detail=True)
+	def itens(self, request, pk):
+		pedido = self.get_object()
+		itens_pedido = ItemPedido.objects.filter(pedido=pedido)
+
+		serializer = ItemPedidoSerializer(itens_pedido, many=True)
+		return Response(serializer.data)
 
 class ClientePedidoViewSet(viewsets.ModelViewSet):
 	queryset = Pedido.objects.all().order_by('-id')
@@ -290,18 +297,6 @@ class ClientePedidoViewSet(viewsets.ModelViewSet):
 		pedido = get_object_or_404(Pedido, pk=pk)
 		serializer = PedidoSerializer(pedido)
 		return Response(serializer.data)
-
-	def create(self, request):
-		serializer = CreatePedidoSerializer(data=request.data)
-		if serializer.is_valid():
-			model = serializer.save()
-			response_serializer = PedidoSerializer(model)
-
-			# limpa carrinho do usuário
-			ItemCarrinho.objects.filter(usuario=request.user).delete()
-
-			return Response(response_serializer.data)
-		return Response(status=400)
 
 class ItemPedidoViewSet(viewsets.ModelViewSet):
 	queryset = ItemPedido.objects.all()
