@@ -1,5 +1,5 @@
 import { View } from './types';
-import { Pedido, Endereco } from './models';
+import { Pedido, Endereco, ItemPedido } from './models';
 import { pedidoService } from './services';
 import { removeSpecialChars } from './utils';
 
@@ -19,7 +19,8 @@ export default class PedidosView implements View<Pedido> {
     orderListButton: document.getElementById('order-by'),
     refreshButton: document.getElementById('refresh'),
     errorMessageMask: document.getElementById('mask'),
-    updateStatusButton: document.getElementById('update-status-btn')
+    updateStatusButton: document.getElementById('update-status-btn'),
+    productsList: document.getElementById('products-list-wrapper')
   };
 
   constructor() {
@@ -166,6 +167,7 @@ export default class PedidosView implements View<Pedido> {
     this.selectedItem = this.items.find(i => i.id === +element.id);
     // Recreate list in DOM
     this.renderSelectedOne();
+    this.getOrderProducts();
   }
 
   renderSelectedOne(): void {
@@ -243,6 +245,33 @@ export default class PedidosView implements View<Pedido> {
       bairro: 'Bairro ' + address.bairro + ', ' + address.cep,
       destinatario: 'Entregar a ' + address.nome_destinatario
     };
+  }
+
+  private getOrderProducts(): void {
+    this.DOM.productsList.innerHTML = '';
+    // Request list of products
+    const orderId = this.selectedItem.id;
+
+    this.http.request<ItemPedido[]>({
+      url: orderId + '/itens',
+      method: 'get'
+    })
+      .then(
+        orderedItems => {
+          if (orderedItems.length) {
+            // Check if the loaded list is relative to the current selected order
+            if (orderedItems[0] && orderedItems[0].pedido === orderId)
+              // Append product info into the list selector
+              orderedItems.forEach(item => {
+                const price = item.produto.preco_oferta || item.produto.preco;
+                const text = item.produto.nome + ' x ' + item.qntd + ', R$' + price + '/unidade';
+
+                this.DOM.productsList.innerHTML += '<p class="products-list-item">' + text + '</p>'
+              });
+          }
+        },
+        error => this.emitError(`Erro ao tentar obter lista de produtos referentes ao pedido número ${orderId}!`)
+      );
   }
 
   orderItems(): void {

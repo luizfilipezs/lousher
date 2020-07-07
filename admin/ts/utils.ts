@@ -15,7 +15,8 @@ export const getRandomValueFromArray = (arr: any[]) => arr[~~(Math.random() * ar
 export const randomValueBetween = (min: number, max: number) => Math.random() * (max - min) + min;
 
 /**
- * Returns random date between two
+ * Returns random date between two other dates
+ * @returns {string} Random date
  */
 export const randomDate = (date1: string | number, date2: string | number) => {
   var date1 = date1 || '01-01-1970';
@@ -33,6 +34,7 @@ export const randomDate = (date1: string | number, date2: string | number) => {
  * Removes extension from filename or URL
  * @param fullName {string} Filename or URL
  * @param extensions {string[]} List of extensions that must be removed
+ * @returns {string} Initial string without specified extension(s)
  */
 export const removeFileExtension = (fullName: string, extensions: string | string[]) => {
   // Remover

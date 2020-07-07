@@ -16,6 +16,38 @@ export interface Endereco {
   telefone: string;
 };
 
+export interface Grupo {
+  id: number;
+  descricao: string;
+  pais: string;
+  regiao: string;
+  mililitros: number;
+  vol_alcoolico: number;
+  tipo?: string;
+  cor?: string;
+  docura?: string;
+  classe?: string;
+  sabor?: string;
+}
+
+export interface Oferta {
+  id: number;
+  porcentagem: number;
+  vencimento: string;
+};
+
+export interface Produto {
+  id: number;
+  grupo: Grupo;
+  nome: string;
+  preco: number;
+  ano: number;
+  qntd_estoque: number;
+  qntd_disponivel: number;
+  oferta?: Oferta;
+  preco_oferta?: number;
+};
+
 export interface Pedido {
   id: id;
   usuario: id;
@@ -23,6 +55,13 @@ export interface Pedido {
   status: string;
   observacoes: string;
   data_pedido: string;
+};
+
+export interface ItemPedido {
+  id: id;
+  pedido: id;
+  produto: Produto;
+  qntd: number;
 };
 
 export interface Mensagem {
