@@ -48,10 +48,10 @@ class EnviarEmail(object):
         mensagem = f"""
         <p>Olá, ${usuario.username}!</p>
         <p>O status do seu pedido foi atualizado. Veja:</p>
-        <p>
-            ID do pedido: ${pedido.id}<br>
-            Status do pedido: ${pedido.status}
-        </p>
+        <div style="margin: 20px">
+            <p><strong>ID:</strong> ${pedido.id}</p>
+            <p><strong>Status do pedido:</strong> ${pedido.status}</p>
+        </div>
         <p>${mensagem_adicional}</p>
         <p>Se tiver qualquer dúvida, responda este email e entraremos em contato com você o quanto antes ;)</p>
         <p>Atenciosamente, Equipe Louscher</p>
