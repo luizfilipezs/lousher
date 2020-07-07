@@ -1,5 +1,5 @@
 import { View } from './types';
-import { Pedido, Endereco, ItemPedido } from './models';
+import { Pedido, Endereco } from './models';
 import { pedidoService } from './services';
 import { removeSpecialChars } from './utils';
 
@@ -252,26 +252,22 @@ export default class PedidosView implements View<Pedido> {
     // Request list of products
     const orderId = this.selectedItem.id;
 
-    this.http.request<ItemPedido[]>({
-      url: orderId + '/itens',
-      method: 'get'
-    })
-      .then(
-        orderedItems => {
-          if (orderedItems.length) {
-            // Check if the loaded list is relative to the current selected order
-            if (orderedItems[0] && orderedItems[0].pedido === orderId)
-              // Append product info into the list selector
-              orderedItems.forEach(item => {
-                const price = item.produto.preco_oferta || item.produto.preco;
-                const text = item.produto.nome + ' x ' + item.qntd + ', R$' + price + '/unidade';
+    this.http.getItems(orderId).then(
+      orderedItems => {
+        if (orderedItems.length) {
+          // Check if the loaded list is relative to the current selected order
+          if (orderedItems[0] && orderedItems[0].pedido === orderId)
+            // Append product info into the list selector
+            orderedItems.forEach(item => {
+              const price = item.produto.preco_oferta || item.produto.preco;
+              const text = item.produto.nome + ' x ' + item.qntd + ', R$' + price + '/unidade';
 
-                this.DOM.productsList.innerHTML += '<p class="products-list-item">' + text + '</p>'
-              });
-          }
-        },
-        error => this.emitError(`Erro ao tentar obter lista de produtos referentes ao pedido número ${orderId}!`)
-      );
+              this.DOM.productsList.innerHTML += '<p class="products-list-item">' + text + '</p>'
+            });
+        }
+      },
+      error => this.emitError(`Erro ao tentar obter lista de produtos referentes ao pedido número ${orderId}!`)
+    );
   }
 
   orderItems(): void {

@@ -1,5 +1,5 @@
 import { Service, RequestParser } from 'http-service-ts';
-import { Pedido, Mensagem } from './models';
+import { Pedido, Mensagem, ItemPedido } from './models';
 import { token } from './test';
 
 // Global configurations
@@ -16,7 +16,17 @@ const config = {
 
 // Exports
 
-export const pedidoService = new Service<Pedido>(root.concat('/pedidos'), config);
+class PedidoService extends Service<Pedido> {
+  constructor() {
+    super(root.concat('/pedidos'), config);
+  }
+
+  getItems(id: number) {
+    return this.request<ItemPedido[]>({ url: id + '/itens', method: 'get' });
+  }
+}
+
+export const pedidoService = new PedidoService();
 export const mensagemService = new Service<Mensagem>(root.concat('/mensagens'), config);
 
 export const httpService = new RequestParser(root, config);
