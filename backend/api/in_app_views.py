@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 
 # Início
@@ -9,10 +9,10 @@ def index(request):
 
 # Painel de controle personalizado
 
-@login_required(login_url='/admin/')
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/')
 def gerenciar_mensagens(request):
     return render(request, 'mensagens.html')
 
-@login_required(login_url='/admin/')
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/')
 def gerenciar_pedidos(request):
     return render(request, 'pedidos.html')
