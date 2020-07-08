@@ -26,17 +26,13 @@ from django.conf.urls import url
 
 from api import in_app_views
 
-class HomePageView(TemplateView):
-    def get(self, request, **kwargs):
-        return render(request, 'index.html', context=None)
-
 urlpatterns = [
-    url(r'^$', HomePageView.as_view()), # For using Angular
+    path('', in_app_views.index, name='index'),
+	path('pedidos', in_app_views.gerenciar_pedidos, name='gerenciar_pedidos'),
+	path('mensagens', in_app_views.gerenciar_mensagens, name='gerenciar_mensagens'),
     path('admin/', admin.site.urls),
     path('auth/login/', obtain_jwt_token),
     path('auth/signup/', include('rest_auth.registration.urls')),
     path('auth/refresh-token/', refresh_jwt_token),
     path('api/', include('api.urls')),
-	path('pedidos', in_app_views.gerenciar_pedidos, name='gerenciar_pedidos'),
-	path('mensagens', in_app_views.gerenciar_mensagens, name='gerenciar_mensagens'),
 ]

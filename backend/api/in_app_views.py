@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
+# Início
+
+def index(request):
+    return render(request, 'index.html')
+
 # Painel de controle personalizado
 
 @login_required(login_url='/admin/')

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Louscher</title>
+    <style type="text/css">
+      * {
+        margin: 0 auto;
+        padding: 0;
+        position: relative;
+      }
+      h1 {
+        margin-top: 40px;
+      }
+      ul {
+        margin-top: 20px;
+      }
+      ul li:not(last-child) {
+        margin-bottom: 6px;
+      }
+      a {
+        text-decoration: none;
+        color: dodgerblue;
+      }
+    </style>
+  </head>
+
+  <body style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
+    <h1>Louscher</h1>
+    <ul style="list-style-type: none;">
+      <li><a href="{% url 'gerenciar_pedidos' %}">Pedidos</a></li>
+      <li><a href="{% url 'gerenciar_mensagens' %}">Mensagens</a></li>
+      <li><a href="/admin">Administração</a></li>
+    </ul>
+  </body>
+</html>
