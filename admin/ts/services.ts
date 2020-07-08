@@ -14,7 +14,7 @@ const config = {
   appendSlash: true
 };
 
-// Exports
+// Customizations
 
 class PedidoService extends Service<Pedido> {
   constructor() {
@@ -25,6 +25,8 @@ class PedidoService extends Service<Pedido> {
     return this.request<ItemPedido[]>({ url: id + '/itens', method: 'get' });
   }
 }
+
+// Exports
 
 export const pedidoService = new PedidoService();
 export const mensagemService = new Service<Mensagem>(root.concat('/mensagens'), config);

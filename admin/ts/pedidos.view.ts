@@ -256,7 +256,7 @@ export default class PedidosView implements View<Pedido> {
       orderedItems => {
         if (orderedItems.length) {
           // Check if the loaded list is relative to the current selected order
-          if (orderedItems[0] && orderedItems[0].pedido === orderId)
+          if (orderedItems[0].pedido === orderId)
             // Append product info into the list selector
             orderedItems.forEach(item => {
               const price = item.produto.preco_oferta || item.produto.preco;

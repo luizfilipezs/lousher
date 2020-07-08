@@ -78,16 +78,18 @@ export default class MessagesView implements View<Mensagem> {
     this.http.patch({ lido: true }, this.selectedItem.id)
       .then(
         partial => {
+          // Update local item
           for (const key in partial)
             this.selectedItem[key] = partial[key];
-            // Update status in DOM after updating object in database
-            const element = document.getElementById(this.selectedItem.id.toString());
-            const statusText = element.querySelector('.item-status');
+
+          // Update status in DOM after updating object in database
+          const element = document.getElementById(this.selectedItem.id.toString()),
+                statusText = element.querySelector('.item-status');
             
-            if (statusText.classList.contains('unread')) {
-              statusText.classList.remove('unread');
-              statusText.classList.add('read');
-            }
+          if (statusText.classList.contains('unread')) {
+            statusText.classList.remove('unread');
+            statusText.classList.add('read');
+          }
         },
         error => this.emitError('Erro ao tentar atualizar status da mensagem!')
       );
@@ -213,7 +215,10 @@ export default class MessagesView implements View<Mensagem> {
         }
       })
         .then(
-          (success) => { },
+          (success) => {
+            this.emitError('Resposta enviada com sucesso!');
+            textInput.value = '';
+          },
           (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde.')
         );
     else
