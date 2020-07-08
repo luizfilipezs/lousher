@@ -93,6 +93,20 @@ class PedidoSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class CreatePedidoSerializer(serializers.ModelSerializer):
+	endereco_id = serializers.PrimaryKeyRelatedField(queryset=Endereco.objects.all())
+
+	class Meta:
+		model = Pedido
+		fields = ['usuario', 'endereco_id', 'observacoes']
+	
+	def create(self, validated_data):
+		return Pedido.objects.create(
+			usuario=validated_data.get('usuario'),
+			endereco=validated_data.get('endereco_id'),
+			observacoes=validated_data.get('observacoes')
+		)
+
+class AdminCreatePedidoSerializer(serializers.ModelSerializer):
 
 	STATUS = [
 		('analise', 'em análise'),

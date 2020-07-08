@@ -30,10 +30,22 @@ class _Email(object):
         # Add body to email
         mensagem.attach(MIMEText(self.corpo, 'html')) # plain for text, html for html
         # Log in to server using secure context and send email
+        self.__usar_tls(mensagem)
+
+    def __usar_ssl(self, mensagem) -> None:
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL('email-ssl.com.br', 465, context=context) as server:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
             server.login(self.__remetente, self.__password)
             server.sendmail(self.__remetente, self.destinatario, mensagem.as_string())
+
+    def __usar_tls(self, mensagem) -> None:
+        mailserver = smtplib.SMTP('smtp-mail.outlook.com', 587)
+        mailserver.ehlo()
+        mailserver.starttls()
+        mailserver.ehlo()
+        mailserver.login(self.__remetente, self.__password)
+        mailserver.sendmail(self.__remetente, self.destinatario, mensagem.as_string())
+        mailserver.quit()
 
     def __del__(self):
         self.__enviar()
@@ -46,15 +58,15 @@ class EnviarEmail(object):
         pedido = Pedido.objects.get(pk=pedido_id)
 
         mensagem = f"""
-        <p>Olá, ${usuario.username}!</p>
+        <p>Olá, {usuario.username}!</p>
         <p>O status do seu pedido foi atualizado. Veja:</p>
         <div style="margin: 20px">
-            <p><strong>ID:</strong> ${pedido.id}</p>
-            <p><strong>Status do pedido:</strong> ${pedido.status}</p>
+            <p><strong>ID:</strong> {pedido.id}</p>
+            <p><strong>Status do pedido:</strong> {pedido.status}</p>
         </div>
-        <p>${mensagem_adicional}</p>
+        <p>{mensagem_adicional}</p>
         <p>Se tiver qualquer dúvida, responda este email e entraremos em contato com você o quanto antes ;)</p>
-        <p>Atenciosamente, Equipe Louscher</p>
+        <p>Atenciosamente,<br>Equipe Louscher</p>
         """
 
         _Email(usuario.email, 'O status do seu pedido foi atualizado', mensagem)

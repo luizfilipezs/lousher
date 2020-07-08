@@ -256,7 +256,7 @@ class PedidoViewSet(viewsets.ModelViewSet):
 	
 	def partial_update(self, request, pk=None):
 		obj = self.get_object()
-		serializer = CreatePedidoSerializer(obj, request.data, partial=True)
+		serializer = AdminCreatePedidoSerializer(obj, request.data, partial=True)
 		
 		if serializer.is_valid():
 			serializer.save()
