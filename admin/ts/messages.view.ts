@@ -204,14 +204,17 @@ export default class MessagesView implements View<Mensagem> {
     const textInput = this.DOM.responseMessage as HTMLTextAreaElement;
     const minLength = +textInput.getAttribute('minlength');
 
-    if (textInput.value.length >= minLength)
+    if (textInput.value.length >= minLength) {
+      const originalButtonText = this.DOM.sendEmailButton.innerHTML;
+      this.DOM.sendEmailButton.innerHTML = 'Processando...';
+
       // Send request
       httpService.request({
-        url: 'email/response/',
+        url: 'email/resposta/',
         method: 'post',
         obj: {
-          messageId: this.selectedItem.id,
-          text: textInput.value
+          mensagem_id: this.selectedItem.id,
+          resposta: textInput.value
         }
       })
         .then(
@@ -220,9 +223,10 @@ export default class MessagesView implements View<Mensagem> {
             textInput.value = '';
           },
           (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde.')
-        );
-    else
-      this.emitError('Verifique se a mensagem contém pelo menos 50 caracteres.');
+        )
+        .finally(() => this.DOM.sendEmailButton.innerHTML = originalButtonText)
+    }
+    else this.emitError('Verifique se a mensagem contém pelo menos 50 caracteres.');
   }
 
 }

@@ -16,6 +16,7 @@ router.register(r'mensagens', views.MensagemContatoView, basename='mensagens')
 router.register(r'enviarMensagem', views.MensagemContatoCreateView, basename='enviarMensagem')
 
 urlpatterns = [
+	path('email/resposta/', views.responder_mensagem, name='responder_mensagem'),
 	path('email/atualizar_status_pedido/', views.notificar_atualizacao_status_pedido),
 	path('produtos/ofertas', views.ProdutoViewSet.as_view({'get': 'get_ofertas'})),
 	path('produtos/tipo/<str:tipo>', views.ProdutoViewSet.as_view({'get': 'get_by_type'})),

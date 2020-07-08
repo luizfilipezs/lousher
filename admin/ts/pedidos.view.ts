@@ -74,6 +74,9 @@ export default class PedidosView implements View<Pedido> {
   }
 
   private updateStatus(): void {
+    const originalButtonText = this.DOM.updateStatusButton.innerHTML;
+    this.DOM.updateStatusButton.innerHTML = 'Processando...';
+
     const id = this.selectedItem.id;
     let status = removeSpecialChars(this.selectedItem.status);
 
@@ -125,7 +128,8 @@ export default class PedidosView implements View<Pedido> {
           parentElement.appendChild(statusSelector);
         },
         (error) => this.emitError(`Erro ao tentar atualizar o status do pedido #${id}!`)
-      );
+      )
+      .finally(() => this.DOM.updateStatusButton.innerHTML = originalButtonText)
   }
 
   renderList(): void {

@@ -4,7 +4,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from decouple import config
-from .models import Pedido, User
+from .models import Pedido, User, MensagemContato
 
 class _Email(object):
     __remetente = 'vinhoslouscher@hotmail.com'
@@ -70,3 +70,19 @@ class EnviarEmail(object):
         """
 
         _Email(usuario.email, 'O status do seu pedido foi atualizado', mensagem)
+
+    @staticmethod
+    def responder_mensagem(mensagem_id: int, resposta: str):
+        mensagem_contato = MensagemContato.objects.get(pk=mensagem_id)
+
+        mensagem = f"""
+        <p>Olá, {mensagem_contato.nome}!</p>
+        <p>Recebemos sua mensagem:</p>
+        <p style="margin: 20px; font-style: italic;">{mensagem_contato.mensagem}</p>
+        <p>Nos esforçamos para responder todas as mensagens que recebemos o mais breve possível. Por isso, não poderíamos deixar de responder a sua também:</p>
+        <p style="margin: 20px; font-style: italic;">{resposta}</p>
+        <p>Podemos te ajudar mais? Agora você já sabe o nosso email, então não hesite em falar conosco ;)</p>
+        <p>Atenciosamente,<br>Equipe Louscher</p>
+        """
+
+        _Email(mensagem_contato.email, f"Recebemos sua mensagem, {mensagem_contato.nome} :)", mensagem)

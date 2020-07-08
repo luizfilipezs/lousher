@@ -29,6 +29,7 @@ from .serializers import (
 	EnderecoSerializer,
 	ItemCarrinhoSerializer,
 	PedidoSerializer,
+	AdminCreatePedidoSerializer,
 	CreatePedidoSerializer,
 	ItemPedidoSerializer,
 	CreateItemPedidoSerializer,
@@ -68,6 +69,18 @@ def notificar_atualizacao_status_pedido(request):
 		return Response(status=200)
 	else:
 		return Response('Um ou mais campos faltando! Esperado: "usuario_id" e "pedido_id". Recebido: ' + json.dumps(data), status=400)
+
+@api_view(['POST'])
+def responder_mensagem(request):
+	data = request.data
+	required_fields = ['mensagem_id', 'resposta']
+
+	for field in required_fields:
+		if not field in data.keys():
+			return Response(status=400)
+
+	EnviarEmail.responder_mensagem(int(data['mensagem_id']), data['resposta'])
+	return Response(status=200)
 
 # USER
 
@@ -260,6 +273,9 @@ class PedidoViewSet(viewsets.ModelViewSet):
 		
 		if serializer.is_valid():
 			serializer.save()
+			# envia email
+			EnviarEmail.atualizacao_status_pedido(request.user.id, obj.id)
+
 			return Response(serializer.data)
 		return Response(status=400)
 
