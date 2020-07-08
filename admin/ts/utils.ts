@@ -66,3 +66,43 @@ export const removeFileExtension = (fullName: string, extensions: string | strin
  * @returns {string} The given string without special chars
  */
 export const removeSpecialChars = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+/**
+ * Basic cookie handler for setting and reading cookies
+ */
+export class Cookies {
+
+  /**
+   * Allows to set a cookie
+   * @param cname {string} Cookie name
+   * @param cvalue {string} Cookie value
+   * @param exdays {string} Cookie duration in days
+   */
+  public static set(cname: string, cvalue: string, exdays: number) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  /**
+   * Returns cookie value
+   * @param cname {string} Cookie name
+   * @returns {string} Value for the given cookie name
+   */
+  public static get(cname: string) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Louscher | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+  </head>
+
+  <body>
+    <main>
+      <!-- Menu -->
+      <div class="menu-bar">
+        <p class="site-title">Louscher</p>
+        <ul class="pages-menu">
+          {% block menu %}
+          {% endblock %}
+        </ul>
+      </div>
+
+      <!-- Roll bar -->
+      <div class="items-bar">
+        <div class="roll-bar-header">
+          <p id="order-by">Mais recentes</p>
+          <img id="refresh" src="{% static "icons/refresh.svg" %}" alt="Atualizar" title="Atualizar">
+        </div>
+        <div class="items-list"></div>
+      </div>
+
+      <!-- Open content -->
+      <div class="open-content" invisibleUntil="open-content">
+        {% block core %}
+        {% endblock %}
+      </div>
+    </main>
+
+    <!-- Error display -->
+    <div id="mask">
+      <div class="message-box">
+        <p class="message" errorMessage></p>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="{% static "js/bundle.min.js" %}"></script>
+  </body>
+</html>

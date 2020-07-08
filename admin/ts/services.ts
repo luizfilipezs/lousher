@@ -1,15 +1,15 @@
 import { Service, RequestParser } from 'http-service-ts';
 import { Pedido, Mensagem, ItemPedido } from './models';
-import { token } from './test';
+import { Cookies } from './utils';
 
 // Global configurations
 
-const root = 'http://localhost:8000/api';
+const root = '/api/';
 const config = {
   headers: new Headers({
-    Authorization: 'JWT ' + token,
     Accept: 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-CSRFToken': Cookies.get('csrftoken')
   }),
   appendSlash: true
 };
@@ -18,7 +18,7 @@ const config = {
 
 class PedidoService extends Service<Pedido> {
   constructor() {
-    super(root.concat('/pedidos'), config);
+    super(root.concat('pedidos'), config);
   }
 
   getItems(id: number) {
@@ -29,6 +29,6 @@ class PedidoService extends Service<Pedido> {
 // Exports
 
 export const pedidoService = new PedidoService();
-export const mensagemService = new Service<Mensagem>(root.concat('/mensagens'), config);
+export const mensagemService = new Service<Mensagem>(root.concat('mensagens'), config);
 
 export const httpService = new RequestParser(root, config);
