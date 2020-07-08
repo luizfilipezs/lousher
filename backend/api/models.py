@@ -159,13 +159,3 @@ class MensagemContato(models.Model):
     class Meta:
         verbose_name = _('Mensagem')
         verbose_name_plural = _('Mensagens')
-
-class ContaEmail(models.Model):
-    SERVICOS = [
-        ('gmail', 'Gmail',),
-        ('hotmail', 'Hotmail',),
-        ('outlook', 'Outlook',)
-    ]
-    servico = models.CharField(max_length=25, choices=SERVICOS, default='outlook')
-    email = models.CharField(max_length=60, null=True, blank=True)
-    password = models.CharField(max_length=50, null=True, blank=True)

@@ -285,6 +285,9 @@ class ClientePedidoViewSet(viewsets.ModelViewSet):
 			# limpa carrinho do usuário
 			ItemCarrinho.objects.filter(usuario=request.user).delete()
 
+			# envia email
+			EnviarEmail.atualizacao_status_pedido(request.user.id, model.id)
+
 			return Response(response_serializer.data)
 		return Response(status=400)
 
