@@ -1,6 +1,6 @@
 import { View } from './types';
 import { Pedido, Endereco } from './models';
-import { pedidoService } from './services';
+import { pedidoService, httpService } from './services';
 import { removeSpecialChars } from './utils';
 
 type OrderParam = 'newer' | 'older';
@@ -20,7 +20,8 @@ export default class PedidosView implements View<Pedido> {
     refreshButton: document.getElementById('refresh'),
     errorMessageMask: document.getElementById('mask'),
     updateStatusButton: document.getElementById('update-status-btn'),
-    productsList: document.getElementById('products-list-wrapper')
+    productsList: document.getElementById('products-list-wrapper'),
+    additionalCommentsInput: document.getElementById('response-text')
   };
 
   constructor() {
@@ -84,8 +85,18 @@ export default class PedidosView implements View<Pedido> {
       status = 'analise';
     else if (status === 'preparando envio')
       status = 'preparando';
+    else if (status === 'aguardando pag.')
+      status = 'aguardando';
 
-    this.http.patch({ status }, id)
+    //this.http.patch({ status }, id)
+    httpService.request<any>({
+      url: `pedidos/${id}/`,
+      method: 'patch',
+      obj: {
+        pedido: { status },
+        mensagem_adicional: (this.DOM.additionalCommentsInput as HTMLTextAreaElement).value
+      }
+    })
       .then(
         (partial) => {
           // DOM selectors and available CSS classes
@@ -94,6 +105,7 @@ export default class PedidosView implements View<Pedido> {
             statusSelector = document.createElement('p'),
             classes = [
               'em-analise',
+              'aguardando-pag',
               'preparando-envio',
               'despachado',
               'suspenso',
@@ -115,8 +127,12 @@ export default class PedidosView implements View<Pedido> {
               statusSelector.classList.add(classes[0]);
               statusSelector.innerHTML = 'em análise';
               break;
-            case 'preparando':
+            case 'aguardando':
               statusSelector.classList.add(classes[1]);
+              statusSelector.innerHTML = 'aguardando pag.';
+              break;
+            case 'preparando':
+              statusSelector.classList.add(classes[2]);
               statusSelector.innerHTML = 'preparando envio';
               break;
             default:
@@ -127,9 +143,12 @@ export default class PedidosView implements View<Pedido> {
           // Add status text to the DOM
           parentElement.appendChild(statusSelector);
         },
-        (error) => this.emitError(`Erro ao tentar atualizar o status do pedido #${id}!`)
+        (error) => this.emitError(`Erro ao tentar atualizar o status do pedido #${id}! Mais detalhes: ${error}`)
       )
-      .finally(() => this.DOM.updateStatusButton.innerHTML = originalButtonText)
+      .finally(() => {
+        this.DOM.updateStatusButton.innerHTML = originalButtonText;
+        (this.DOM.additionalCommentsInput as HTMLTextAreaElement).value = '';
+      });
   }
 
   renderList(): void {
@@ -147,7 +166,7 @@ export default class PedidosView implements View<Pedido> {
       return cls;
     };
 
-    const getStatusClass = (status: string) => removeSpecialChars(status).replace(/ /g, '-');
+    const getStatusClass = (status: string) => removeSpecialChars(status).replace(/ /g, '-').replace('.', '');
 
     // Render list
     this.items.forEach(
@@ -189,6 +208,9 @@ export default class PedidosView implements View<Pedido> {
       bindingElements = document.querySelectorAll('[bind]'),
       listItems = document.querySelectorAll('.list-item'),
       statusBoxes = document.querySelectorAll('.status-box');
+
+    // Clear response input
+    (this.DOM.additionalCommentsInput as HTMLTextAreaElement).value = '';
     
     // Display content parent
     const

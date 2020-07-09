@@ -28,12 +28,17 @@
 
     <div class="status-boxes-wrapper">
       <div class="status-box" bind="status">em análise</div>
+      <div class="status-box" bind="status">aguardando pag.</div>
       <div class="status-box" bind="status">preparando envio</div>
       <div class="status-box" bind="status">despachado</div>
       <div class="status-box" bind="status">entregue</div>
       <div class="status-box" bind="status">suspenso</div>
       <div class="status-box" bind="status">cancelado</div>
     </div>
+
+    <p class="subtitle">Comentários adicionais</p>
+    <textarea id="response-text" minlength="50" placeholder='Ao atualizar o pedido de "em análise" para "aguardando pagamento", certifique-se de colocar o(s) link(s) de pagamento dentro desta caixa!'></textarea><br>
+    <div class="clear"></div>
 
     <a class="action-link" id="update-status-btn">Salvar novo status</a>
   </div>

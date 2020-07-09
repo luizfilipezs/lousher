@@ -12,6 +12,13 @@ export type Type<T> = { new (...args: any[]): T };
  */
 export type ExtendedType<T> = Type<any> & Type<T>;
 
+/**
+ * Partial type
+ */
+export type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
 // View
 
 /**

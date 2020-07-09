@@ -269,15 +269,25 @@ class PedidoViewSet(viewsets.ModelViewSet):
 	
 	def partial_update(self, request, pk=None):
 		obj = self.get_object()
-		serializer = AdminCreatePedidoSerializer(obj, request.data, partial=True)
+
+		partial_data = {}
+		mensagem_adicional = ''
+
+		if 'pedido' in request.data:
+			partial_data = request.data['pedido']
+			mensagem_adicional = request.data['mensagem_adicional']
+		else:
+			partial_data = request.data
+		
+		serializer = AdminCreatePedidoSerializer(obj, partial_data, partial=True)
 		
 		if serializer.is_valid():
 			serializer.save()
 			# envia email
-			EnviarEmail.atualizacao_status_pedido(request.user.id, obj.id)
+			EnviarEmail.atualizacao_status_pedido(request.user.id, obj.id, mensagem_adicional)
 
 			return Response(serializer.data)
-		return Response(status=400)
+		return Response(serializer.errors, status=400)
 
 	@action(methods=['GET'], detail=True)
 	def itens(self, request, pk):

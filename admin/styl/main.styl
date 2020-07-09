@@ -144,6 +144,9 @@ main
           &.em-analise
             color theme-color
 
+          &.aguardando-pag
+            color #5800cc
+
           &.cancelado
             color bad-color
 
@@ -163,8 +166,9 @@ main
 
   .open-content
     width calc(100% - 45em - 12em)
-    height calc(100% - 5em)
-    padding 5em 6em 0 6em
+    height calc(100% - 8em)
+    padding 5em 6em 3em 6em
+    overflow-y auto
     background-color #fff
 
     @media (max-width 1366px)
@@ -172,8 +176,7 @@ main
 
     .content
       width 60%
-      height 100%
-      overflow-y auto
+      height auto
 
       .content-title
         font-size 2.5em
@@ -262,21 +265,25 @@ main
 
           &:nth-child(2)
             &.selected-status
-              background-color #0055cc
+              background-color #5800cc
 
           &:nth-child(3)
             &.selected-status
-              background-color #cc0069
+              background-color #0055cc
 
           &:nth-child(4)
             &.selected-status
-              background-color good-color
+              background-color #cc0069
 
           &:nth-child(5)
             &.selected-status
-              background-color warning-color
+              background-color good-color
 
           &:nth-child(6)
+            &.selected-status
+              background-color warning-color
+
+          &:nth-child(7)
             &.selected-status
               background-color bad-color
 

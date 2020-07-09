@@ -62,7 +62,7 @@ class EnviarEmail(object):
         <p>O status do seu pedido foi atualizado. Veja:</p>
         <div style="margin: 20px">
             <p><strong>ID:</strong> {pedido.id}</p>
-            <p><strong>Status do pedido:</strong> {pedido.status}</p>
+            <p><strong>Status do pedido:</strong> {pedido.get_status_display()}</p>
         </div>
         <p>{mensagem_adicional}</p>
         <p>Se tiver qualquer dúvida, responda este email e entraremos em contato com você o quanto antes ;)</p>

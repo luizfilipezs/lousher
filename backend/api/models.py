@@ -120,12 +120,13 @@ class ItemCarrinho(models.Model):
 class Pedido(models.Model):
     primeiro_status = 'analise'
     STATUS = [
-        (primeiro_status, 'em análise'),
-        ('preparando', 'preparando envio'),
-        ('despachado', 'despachado'),
-        ('entregue', 'entregue'),
-        ('suspenso', 'suspenso'),
-        ('cancelado', 'cancelado')
+        (primeiro_status, 'em análise',),
+        ('aguardando', 'aguardando pag.',),
+        ('preparando', 'preparando envio',),
+        ('despachado', 'despachado',),
+        ('entregue', 'entregue',),
+        ('suspenso', 'suspenso',),
+        ('cancelado', 'cancelado',)
     ]
 
     usuario = models.ForeignKey(User, on_delete=models.PROTECT)

@@ -110,6 +110,7 @@ class AdminCreatePedidoSerializer(serializers.ModelSerializer):
 
 	STATUS = [
 		('analise', 'em análise'),
+		('aguardando', 'aguardando pag.'),
 		('preparando', 'preparando envio'),
 		('despachado', 'despachado'),
 		('entregue', 'entregue'),
