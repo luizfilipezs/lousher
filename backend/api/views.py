@@ -33,7 +33,8 @@ from .serializers import (
 	CreatePedidoSerializer,
 	ItemPedidoSerializer,
 	CreateItemPedidoSerializer,
-	MensagemContatoSerializer
+	MensagemContatoSerializer,
+	CreateMensagemContatoSerializer
 )
 
 from django.db.models import Transform, CharField, Q
@@ -343,7 +344,7 @@ class ItemPedidoViewSet(viewsets.ModelViewSet):
 # CONTATO
 
 class MensagemContatoCreateView(viewsets.mixins.CreateModelMixin, viewsets.GenericViewSet):
-	serializer_class = MensagemContatoSerializer
+	serializer_class = CreateMensagemContatoSerializer
 	permission_classes = [permissions.AllowAny]
 
 class MensagemContatoView(viewsets.ModelViewSet):

@@ -160,3 +160,8 @@ class MensagemContatoSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MensagemContato
 		fields = '__all__'
+
+class CreateMensagemContatoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = MensagemContato
+		fields = ['nome', 'email', 'assunto', 'mensagem']

@@ -1,3 +1,4 @@
+{% spaceless %}
 <!DOCTYPE html>
 <html lang="pt-br">
   {% load static %}
@@ -15,8 +16,7 @@
       <div class="menu-bar">
         <p class="site-title">Louscher</p>
         <ul class="pages-menu">
-          {% block menu %}
-          {% endblock %}
+          {% block menu %}{% endblock %}
         </ul>
       </div>
 
@@ -31,8 +31,7 @@
 
       <!-- Open content -->
       <div class="open-content" invisibleUntil="open-content">
-        {% block core %}
-        {% endblock %}
+        {% block core %}{% endblock %}
       </div>
     </main>
 
@@ -46,3 +45,4 @@
     <script type="text/javascript" src="{% static "js/bundle.min.js" %}"></script>
   </body>
 </html>
+{% endspaceless %}
