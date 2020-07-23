@@ -69,7 +69,7 @@ export default class MessagesView implements View<Mensagem> {
           this.items = items;
           this.renderList();
         },
-        error => this.emitError('Erro ao tentar obter as mensagens!')
+        error => this.emitError('Erro ao tentar obter as mensagens! Detalhes: ' + error)
       )
       .finally(() => this.DOM.refreshButton.style.opacity = '1');
   }
@@ -91,7 +91,7 @@ export default class MessagesView implements View<Mensagem> {
             statusText.classList.add('read');
           }
         },
-        error => this.emitError('Erro ao tentar atualizar status da mensagem!')
+        error => this.emitError('Erro ao tentar atualizar status da mensagem! Detalhes: ' + error)
       );
   }
 
@@ -222,7 +222,7 @@ export default class MessagesView implements View<Mensagem> {
             this.emitError('Resposta enviada com sucesso!');
             textInput.value = '';
           },
-          (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde.')
+          (error) => this.emitError('Falha ao enviar o email. Tente novamente mais tarde. Detalhes: ' + error)
         )
         .finally(() => this.DOM.sendEmailButton.innerHTML = originalButtonText)
     }

@@ -9,10 +9,10 @@ def index(request):
 
 # Painel de controle personalizado
 
-@user_passes_test(lambda u: u.is_superuser, login_url='/admin/')
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/?next=/mensagens')
 def gerenciar_mensagens(request):
     return render(request, 'mensagens.html')
 
-@user_passes_test(lambda u: u.is_superuser, login_url='/admin/')
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/?next=/pedidos')
 def gerenciar_pedidos(request):
     return render(request, 'pedidos.html')

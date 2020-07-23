@@ -18,6 +18,11 @@ export class AuthService extends ToggleView {
 
   constructor(private http: HttpClient) {
     super();
+    this.checkAndRefresh();
+  }
+
+  private checkAndRefresh() {
+    if (this.isLoggedOut()) this.refreshToken();
   }
 
   private setSession(authResult) {

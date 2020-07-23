@@ -4,7 +4,7 @@ import { Cookies } from './utils';
 
 // Global configurations
 
-const root = '/api/';
+const root = 'https://louscherback.life/api/';
 const config = {
   headers: new Headers({
     Accept: 'application/json',

@@ -18,7 +18,7 @@
   "author": "Luiz Filipe da Silva",
   "license": "MIT",
   "dependencies": {
-    "http-service-ts": "^1.0.9"
+    "http-service-ts": "^1.0.10"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",

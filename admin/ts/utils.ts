@@ -1,10 +1,11 @@
 // Utilities
 
 /**
- * Returns an index from the given array
- * @param arr {any[]} Any type of array
+ * Returns an index value from the given array
+ * @param arr {T[]} Any type of array
+ * @returns {T} Random index value from the given array
  */
-export const getRandomValueFromArray = (arr: any[]) => arr[~~(Math.random() * arr.length)];
+export const getRandomValueFromArray = <T>(arr: T[]) => arr[~~(Math.random() * arr.length)];
 
 /**
  * Returns a random number between the two given parameters
