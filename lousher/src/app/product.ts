@@ -8,6 +8,7 @@ export interface Offer {
 
 export interface Product {
   id: number;
+  imagem: string;
   grupo: Grupo;
   nome: string;
   preco: number;

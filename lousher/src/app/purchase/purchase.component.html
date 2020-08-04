@@ -68,7 +68,7 @@
           <p class="label">Ótimo! Se seu pedido for este mesmo, podemos seguir em frente:</p>
           <div class="cart-items-list">
             <div class="cart-item" *ngFor="let item of cartItems">
-              <img class="product-img" src="/assets/img/wine-bottle.png" alt="{{ item.produto.nome }}">
+              <img class="product-img" src="{{ item.produto.imagem ? item.produto.imagem : '/assets/img/wine-bottle.png' }}" alt="{{ item.produto.nome }}">
 
               <div class="about-cart-item">
                 <p class="product-name">{{ item.produto.nome }}</p>
@@ -122,7 +122,7 @@
       </div>
 
       <div class="bottle-and-quantity">
-        <img src="/assets/img/wine-bottle.png" alt="Nome produto" class="bottle-img" title="{{ currentItem.produto.nome }}">
+        <img src="{{ currentItem.produto.imagem ? currentItem.produto.imagem : '/assets/img/wine-bottle.png' }}" alt="Nome produto" class="bottle-img" title="{{ currentItem.produto.nome }}">
         <p class="quantity-in-cart"><span class="info-content">X {{ currentItem.qntd }}</span></p>
       </div>
 

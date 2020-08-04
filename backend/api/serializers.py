@@ -55,10 +55,17 @@ class GrupoSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class ProdutoSerializer(serializers.ModelSerializer):
+	imagem = serializers.SerializerMethodField()
 	nome = serializers.SerializerMethodField()
 	grupo = GrupoSerializer()
 	oferta = OfertaSerializer()
 	preco_oferta = serializers.SerializerMethodField()
+
+	def get_imagem(self, obj):
+		if obj.imagem:
+			return f"https://louscherback.life/api/media/{obj.imagem}"
+		else:
+			return None
 
 	def get_preco_oferta(self, obj):
 		if not obj.oferta is None:
