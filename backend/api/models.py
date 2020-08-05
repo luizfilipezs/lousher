@@ -99,7 +99,7 @@ class Grupo(models.Model):
         return self.get_tipo_display()
 
 class Produto(models.Model):
-    imagem = models.CharField(max_length=300, blank=True, null=True)
+    imagem = models.CharField(max_length=300, blank=True, null=True, default='https://louscher.s3-sa-east-1.amazonaws.com/Garrafa+de+vinho+ilustrativa.png')
     grupo = models.ForeignKey(Grupo, null=True, on_delete=models.PROTECT)
     preco = models.PositiveIntegerField()
     ano = models.PositiveIntegerField(default=date.today().year, verbose_name='Ano (safra)')

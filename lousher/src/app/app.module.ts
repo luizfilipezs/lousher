@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
 import { CartService } from './services/cart.service';
-import { ImageService } from './services/image.service';
 import { EnderecoService } from './services/endereco.service';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -50,7 +49,6 @@ import { PurchaseComponent } from './purchase/purchase.component';
     ProductService,
     CartService,
     OrderService,
-    ImageService,
     EnderecoService,
     AuthService,
     AuthGuard,
