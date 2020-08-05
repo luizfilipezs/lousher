@@ -3,9 +3,6 @@ from rest_framework import routers
 from api import views
 from api import in_app_views
 
-from django.conf import settings
-from django.conf.urls.static import static
-
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'grupos', views.GrupoViewSet)
@@ -30,6 +27,3 @@ urlpatterns = [
 	path('enderecos/meu_endereco/alterar/', views.EnderecoViewSet.as_view({'post': 'alterar_endereco_usuario'})),
 	path('', include(router.urls)),
 ]
-
-if settings.DEBUG:
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
