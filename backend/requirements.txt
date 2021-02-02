@@ -3,7 +3,7 @@ asgiref==3.2.7
 astroid==2.2.5
 backports.csv==1.0.7
 billiard==3.6.0.0
-bleach==3.1.5
+bleach==3.3.0
 celery==4.3.0
 certifi==2019.9.11
 cffi==1.14.0
