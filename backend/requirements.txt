@@ -22,7 +22,7 @@ django-postgres-extensions==0.9.3
 django-rest-auth==0.9.5
 django-secure==1.0.1
 django-sslserver==0.21
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 docutils==0.16
 et-xmlfile==1.0.1
