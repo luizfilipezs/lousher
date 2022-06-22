@@ -41,7 +41,7 @@ lets-debug==0.0.1
 localflavor==1.8
 Markdown==3.2.1
 mccabe==0.6.1
-numpy==1.17.2
+numpy==1.22.0
 oauthlib==3.1.0
 odfpy==1.4.0
 openpyxl==2.6.2
