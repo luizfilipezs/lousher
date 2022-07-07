@@ -24,7 +24,7 @@
     "core-js": "^2.5.4",
     "http-service-ts": "^1.0.8",
     "jwt-decode": "^2.2.0",
-    "moment": ">=2.19.3",
+    "moment": ">=2.29.4",
     "rellax": "^1.12.1",
     "rxjs": "~6.3.3",
     "simple-parallax-js": "^5.4.0",
